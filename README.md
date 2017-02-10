@@ -5,11 +5,13 @@
 
 **On Windows**
 
-`mklink $HOME\_vimrc .\vimrc`
+From `$HOME`:
+
+`mklink .\_vimrc .\projects\dotfiles\vimrc`
 
 **On Mac**
 
-`ln -s ./vimrc ~/.vimrc`
+`ln -s ~/projects/dotfiles/vimrc ~/.vimrc`
 
 # List of files
 

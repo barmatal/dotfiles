@@ -58,6 +58,9 @@ set lazyredraw
 " Editor options {{{
 " autocmd filetype taskpaper let g:auto_save = 1
 " autocmd filetype taskpaper :WatchForChanges!
+
+" Change working directory to current file 
+set autochdir
 let g:auto_save = 0
 set shortmess=aoOtI
 set rnu        " Display relative line number

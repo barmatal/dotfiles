@@ -13,6 +13,7 @@ From `$HOME`:
 
 `ln -s ~/projects/dotfiles/vimrc ~/.vimrc`
 
-# List of files
+# List of files 
 
 - **vimrc**: vim dot file. Rename/link using `.vimrc` for Mac/Linux and `_vimrc` for windows
+- **vsvimrc**: VsVim (Visual Studi Vim extension) dot file. Rename/link using `_vimrc`.

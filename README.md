@@ -1,11 +1,16 @@
 # Instalation
 
-On windows:
-- Go to your user dir
-- Git clone
-- run the command 
-  on windows
-  mklink .\_vimrc .\Dropbox\dotfiles\vimrc
-  on mac
-  ln -s ./Dropbox/dotfiles/vimrc ./.vimrc
+- Clone repo
+- Create simlinks for each file
 
+**On Windows**
+
+`mklink $HOME\_vimrc .\vimrc`
+
+**On Mac**
+
+`ln -s ./vimrc ~/.vimrc`
+
+# List of files
+
+- **vimrc**: vim dot file. Rename/link using `.vimrc` for Mac/Linux and `_vimrc` for windows

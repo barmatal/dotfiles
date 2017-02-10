@@ -58,10 +58,12 @@ set lazyredraw
 " Editor options {{{
 " autocmd filetype taskpaper let g:auto_save = 1
 " autocmd filetype taskpaper :WatchForChanges!
+let g:auto_save_in_insert_mode = 0
+let g:auto_save = 1
+let g:auto_save = 1
 
 " Change working directory to current file 
 set autochdir
-let g:auto_save = 0
 set shortmess=aoOtI
 set rnu        " Display relative line number
 set number        " Display line number
@@ -261,6 +263,9 @@ let g:syntastic_js_checkers = ['syntastic-javascript-jshint']
 
 " Json formatter
 com! FormatJSON %!python -m json.tool
+
+" Refresh Airline when reloading
+autocmd VimEnter * AirlineRefresh
 
 " modeline to keep items folded
 set modelines=1

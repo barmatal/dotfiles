@@ -70,6 +70,7 @@ let g:ledger_default_commodity = "€"
 let g:ledger_commodity_before = 0
 let g:ledger_commodity_sep = " "
 let g:ledger_decimal_sep = ","
+let g:ledger_winpos = 'R'
 inoremap <C-d> <C-R>=strftime("%Y-%m-%d")<CR>
 
 let g:auto_save_in_insert_mode = 0

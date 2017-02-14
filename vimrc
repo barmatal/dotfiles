@@ -71,10 +71,10 @@ autocmd FileType ledger inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomple
 autocmd FileType ledger vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>
 
 " Taskpaper mappings
-au FileType taskpaper noremap <buffer> <leader>d <leader>td
-au FileType taskpaper noremap <buffer> <leader>a <leader>tD
-au FileType taskpaper noremap <buffer> <leader>m <leader>tm
-au FileType taskpaper noremap <buffer> <leader>s <leader>ts
+autocmd filetype taskpaper nmap <buffer> <leader>d <leader>td
+autocmd filetype taskpaper nmap <buffer> <leader>a <leader>tD
+autocmd filetype taskpaper nmap <buffer> <leader>m <leader>tm
+autocmd filetype taskpaper nmap <buffer> <leader>s <leader>ts
 
 let g:ledger_default_commodity = "€"
 let g:ledger_commodity_before = 0
@@ -281,3 +281,5 @@ let g:syntastic_js_checkers = ['syntastic-javascript-jshint']
 
 " Json formatter
 com! FormatJSON %!python -m json.tool
+
+set modelines=1

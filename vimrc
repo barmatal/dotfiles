@@ -62,12 +62,20 @@ set lazyredraw
 let mapleader=" "
 
 " Ledger mappings
-noremap <Leader>la :LedgerAlign<CR>
-noremap <Leader>lb :Ledger bal 
-noremap <Leader>lr :Ledger register 
-noremap <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' !')<CR>
-autocmd FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
-autocmd FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
+autocmd FileType ledger noremap <buffer> <Leader>la :LedgerAlign<CR>
+autocmd FileType ledger noremap <buffer> <Leader>lb :Ledger bal 
+autocmd FileType ledger noremap <buffer> <Leader>lr :Ledger register 
+autocmd FileType ledger noremap <buffer> <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' !')<CR>
+
+autocmd FileType ledger inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
+autocmd FileType ledger vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>
+
+" Taskpaper mappings
+au FileType taskpaper noremap <buffer> <leader>d <leader>td
+au FileType taskpaper noremap <buffer> <leader>a <leader>tD
+au FileType taskpaper noremap <buffer> <leader>m <leader>tm
+au FileType taskpaper noremap <buffer> <leader>s <leader>ts
+
 let g:ledger_default_commodity = "€"
 let g:ledger_commodity_before = 0
 let g:ledger_commodity_sep = " "
@@ -78,8 +86,8 @@ let g:auto_save_in_insert_mode = 0
 let g:auto_save = 1
 let g:auto_save = 1
 
-" Change working directory to current file 
 set shortmess=aoOtI
+set autochdir
 set rnu        " Display relative line number
 set number        " Display line number
 set ai            " Smart indent for lists
@@ -143,11 +151,7 @@ inoremap jj <Esc>
 nmap <leader>j :bn<cr>
 nmap <leader>x :bd<cr>
 nmap <leader>X :bd!<cr>
-" Quick task
-nmap <leader>d <leader>td
-nmap <leader>a <leader>tD
-nmap <leader>m <leader>tm
-nmap <leader>s <leader>ts
+
 " Fix wrong accented words
 inoremap 'á á
 inoremap 'é é
@@ -260,6 +264,7 @@ if(g:os == "windows")
         endif
     endif
 endif
+
 " Syntax highlighting
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -276,10 +281,3 @@ let g:syntastic_js_checkers = ['syntastic-javascript-jshint']
 
 " Json formatter
 com! FormatJSON %!python -m json.tool
-
-" Refresh Airline when reloading
-autocmd VimEnter * AirlineRefresh
-
-" modeline to keep items folded
-set modelines=1
-" vim: foldmethod=marker:set foldlevel=0

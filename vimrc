@@ -57,28 +57,28 @@ filetype plugin indent on    " required
 set lazyredraw
 
 " Editor options {{{
-" autocmd filetype taskpaper let g:auto_save = 1
-" autocmd filetype taskpaper :WatchForChanges!
+
+" Space is leader
+let mapleader=" "
 
 " Ledger mappings
 noremap <Leader>la :LedgerAlign<CR>
-noremap <Leader>lb :Ledger bal<CR>
-noremap <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' *?!')<CR>
-au FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
-au FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
+noremap <Leader>lb :Ledger bal 
+noremap <Leader>lr :Ledger register 
+noremap <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' !')<CR>
+autocmd FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
+autocmd FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
 let g:ledger_default_commodity = "€"
 let g:ledger_commodity_before = 0
 let g:ledger_commodity_sep = " "
 let g:ledger_decimal_sep = ","
-let g:ledger_winpos = 'R'
-inoremap <C-d> <C-R>=strftime("%Y-%m-%d")<CR>
+let g:ledger_winpos = 'B'
 
 let g:auto_save_in_insert_mode = 0
 let g:auto_save = 1
 let g:auto_save = 1
 
 " Change working directory to current file 
-set autochdir
 set shortmess=aoOtI
 set rnu        " Display relative line number
 set number        " Display line number
@@ -137,8 +137,6 @@ set noeol
 
 " Hotkey Remapping {{{
 
-" Space is leader
-let mapleader=" "
 " jj switches mode
 inoremap jj <Esc>
 " browse tabs

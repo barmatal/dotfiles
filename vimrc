@@ -1,7 +1,7 @@
+" Detect system {{{
 set nocompatible        " be iMproved, required
 filetype off            " required
- 
-" Detect system
+
 " TODO: Detect when SSH
 if !exists("g:os")
     if has("win64") || has("win32") || has("win16")
@@ -11,6 +11,8 @@ if !exists("g:os")
     endif
 endif
 
+" }}}
+
 " Vundle configuration {{{
 if(g:os == "windows")
     set rtp+=$HOME\vimfiles\bundle\Vundle.vim
@@ -19,7 +21,6 @@ else
     set rtp+=~/.vim/bundle/Vundle.vim
     call vundle#begin()
 endif
-
 " Basic plugins
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'davidoc/taskpaper.vim'
@@ -48,6 +49,7 @@ Plugin 'tpope/vim-commentary'
 Plugin 'ervandew/supertab'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-fugitive'
+Plugin 'pangloss/vim-javascript'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -124,8 +126,9 @@ set noswapfile    " no swap file
 set wildmenu    " better autocomplete of commands
 set wildmode=longest:list,full
 set lazyredraw    " redraw only when we need to.
-set nofoldenable    " enable folding
-set foldmethod=indent " enable folding in code
+set foldenable    " enable folding
+set foldmethod=syntax " enable folding in code
+set foldlevel=3   " Start with 3 level folding
 set laststatus=2  " To make airline work
 set ttimeoutlen=50
 runtime macros\matchit.vim
@@ -282,4 +285,40 @@ let g:syntastic_js_checkers = ['syntastic-javascript-jshint']
 " Json formatter
 com! FormatJSON %!python -m json.tool
 
-set modelines=1
+set foldtext=MyFoldText()
+function! MyFoldText()
+  let line = getline(v:foldstart)
+  if match( line, '^[ \t]*\(\/\*\|\/\/\)[*/\\]*[ \t]*$' ) == 0
+    let initial = substitute( line, '^\([ \t]\)*\(\/\*\|\/\/\)\(.*\)', '\1\2', '' )
+    let linenum = v:foldstart + 1
+    while linenum < v:foldend
+      let line = getline( linenum )
+      let comment_content = substitute( line, '^\([ \t\/\*]*\)\(.*\)$', '\2', 'g' )
+      if comment_content != ''
+        break
+      endif
+      let linenum = linenum + 1
+    endwhile
+    let sub = initial . ' ' . comment_content
+  else
+    let sub = line
+    let startbrace = substitute( line, '^.*{[ \t]*$', '{', 'g')
+    if startbrace == '{'
+      let line = getline(v:foldend)
+      let endbrace = substitute( line, '^[ \t]*}\(.*\)$', '}', 'g')
+      if endbrace == '}'
+        let sub = sub.substitute( line, '^[ \t]*}\(.*\)$', '...}\1', 'g')
+      endif
+    endif
+  endif
+  let n = v:foldend - v:foldstart + 1
+  let info = " " . n . " lines"
+  let sub = sub . "                                                                                                                  "
+  let num_w = getwinvar( 0, '&number' ) * getwinvar( 0, '&numberwidth' )
+  let fold_w = getwinvar( 0, '&foldcolumn' )
+  let sub = strpart( sub, 0, winwidth(0) - strlen( info ) - num_w - fold_w - 1 )
+  return sub . info
+endfunction
+
+set modelines=2
+" vim:foldmethod=marker:foldlevel=0

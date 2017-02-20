@@ -36,6 +36,7 @@ Plugin 'godlygeek/tabular'              " Required for markdown tabulation
 " Visual improvements {{{
 Plugin 'vim-airline/vim-airline'        " Bottom line information
 Plugin 'nanotech/jellybeans.vim'        " Theme
+Plugin 'morhetz/gruvbox'        " Theme
 " }}}
 
 " File and projects management {{{
@@ -54,6 +55,7 @@ Plugin 'ervandew/supertab'              " Better tab autocompletion
 Plugin 'tpope/vim-fugitive'             " Git wrapper
 Plugin 'pangloss/vim-javascript'        " Javascript syntax improvements
 "Plugin 'scrooloose/syntastic'           " Linter
+"Plugin 'craigemery/vim-autotag'           " Autotag refresh
 " }}}
 
 call vundle#end()            " required
@@ -196,9 +198,9 @@ set copyindent    " copy the previous indentation on autoindenting
 set expandtab
 
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
 " }}}
 
 " Folding {{{
@@ -243,7 +245,7 @@ endfunction
 
 " Files, windows, buffers and splits {{{
 set modelines=2
-set autochdir
+" set autochdir
 set encoding=UTF-8
 set hidden        " Improve buffer management
 " set diffopt+=vertical
@@ -282,9 +284,9 @@ let g:task_paper_follow_move = 0
 
 " Ledger {{{
 autocmd FileType ledger noremap <buffer> <Leader>la :LedgerAlign<CR>
-autocmd FileType ledger noremap <buffer> <Leader>lb :Ledger bal 
-autocmd FileType ledger noremap <buffer> <Leader>lr :Ledger register 
-autocmd FileType ledger noremap <buffer> <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' !')<CR>
+autocmd FileType ledger noremap <buffer> <Leader>lb :Ledger bal -U
+autocmd FileType ledger noremap <buffer> <Leader>lr :Ledger register -U
+autocmd FileType ledger noremap <buffer> <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' *')<CR>
 autocmd FileType ledger inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
 autocmd FileType ledger vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>
 
@@ -292,7 +294,7 @@ let g:ledger_default_commodity = "€"
 let g:ledger_commodity_before = 0
 let g:ledger_commodity_sep = " "
 let g:ledger_decimal_sep = ","
-let g:ledger_winpos = 'B'
+let g:ledger_winpos = 'r'
 " }}}
 
 " Markdown {{{
@@ -319,6 +321,8 @@ let g:syntastic_js_checkers = ['syntastic-javascript-jshint']
 
 " Jellybeans {{{
 colorscheme jellybeans
+" colorscheme gruvbox
+" let g:gruvbox_contrast_dark="hard"
 " }}}
 
 " Ctrlp {{{

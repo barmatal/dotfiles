@@ -17,5 +17,3 @@ From `$HOME`:
 
 - **vimrc**: vim dot file. Rename/link using `.vimrc` for Mac/Linux and `_vimrc` for windows
 - **vsvimrc**: VsVim (Visual Studio Vim extension) dot file. Rename/link using `_vimrc`.
-
-

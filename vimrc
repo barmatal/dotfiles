@@ -46,6 +46,7 @@ Plugin 'ctrlpvim/ctrlp.vim'             " Fast file switching
 Plugin 'kshenoy/vim-signature'          " Better marks management in files
 Plugin 'vim-scripts/vim-auto-save'      " Autosave files
 Plugin 'djoshea/vim-autoread'           " Autoread files
+Plugin 'dkprice/vim-easygrep'           " Easy Grep files
 " }}}
 
 " Programming plugins {{{
@@ -74,6 +75,7 @@ inoremap jj <Esc>
 
 " Browse tabs
 nmap <leader>j :bn<cr>
+nmap <leader>k :bp<cr>
 nmap <leader>x :bd<cr>
 nmap <leader>X :bd!<cr>
 
@@ -258,6 +260,10 @@ set noswapfile    " no swap file
 set splitbelow
 set splitright
 
+" Autoread file
+set autoread
+au CursorHold * checktime
+
 " Do not add end of line to documents
 set noeol
 " }}}
@@ -299,6 +305,7 @@ let g:ledger_winpos = 'r'
 
 " Markdown {{{
 let g:markdown_enable_spell_checking = 0     " markdown disable spellchecking
+autocmd BufEnter *.md noremap <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%"<CR>
 " }}}
 
 " Autosave {{{
@@ -341,6 +348,15 @@ map <leader>sd :DeleteSession
 let g:session_autoload='no'
 let g:session_autosave='no'
 " }}}
+
+" Fugitive {{{
+nnoremap <Leader>gw :Gwrite<CR>
+nnoremap <Leader>gc :Gcommit<CR>
+nnoremap <Leader>gl :Gpull<CR>
+nnoremap <Leader>gh :Gpush<CR>
+nnoremap <Leader>gs :Gstatus<CR>
+" }}}
+
 " }}}
 
 " Format vimrc file with folds

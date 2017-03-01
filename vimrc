@@ -31,6 +31,8 @@ Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
 Plugin 'barmatal/vim-ledger'            " Ledger files plugin
 Plugin 'gabrielelana/vim-markdown'      " Markdown files plugin
 Plugin 'godlygeek/tabular'              " Required for markdown tabulation
+Plugin 'gabesoft/vim-ags'                " ack/ag text search
+
 " }}}
 
 " Visual improvements {{{
@@ -46,7 +48,7 @@ Plugin 'ctrlpvim/ctrlp.vim'             " Fast file switching
 Plugin 'kshenoy/vim-signature'          " Better marks management in files
 Plugin 'vim-scripts/vim-auto-save'      " Autosave files
 Plugin 'djoshea/vim-autoread'           " Autoread files
-Plugin 'dkprice/vim-easygrep'           " Easy Grep files
+Plugin 'mtth/scratch.vim'               " Easy scratch buffer creation
 " }}}
 
 " Programming plugins {{{
@@ -55,8 +57,6 @@ Plugin 'tpope/vim-commentary'           " Easily add/remove comments
 Plugin 'ervandew/supertab'              " Better tab autocompletion
 Plugin 'tpope/vim-fugitive'             " Git wrapper
 Plugin 'pangloss/vim-javascript'        " Javascript syntax improvements
-"Plugin 'scrooloose/syntastic'           " Linter
-"Plugin 'craigemery/vim-autotag'           " Autotag refresh
 " }}}
 
 call vundle#end()            " required
@@ -189,7 +189,7 @@ autocmd InsertLeave * set nocul
 
 set rnu        " Display relative line number
 set number        " Display line number
-set wrap        " enable line wrap
+set nowrap        " enable line wrap
 set linebreak     " wrap only whole words
 
 " }}}
@@ -334,6 +334,9 @@ colorscheme jellybeans
 
 " Ctrlp {{{
 let g:ctrlp_map = '<c-p>'
+let g:ctrlp_root_markers = ['*.sln']
+let g:ctrlp_by_filename = 1
+let g:ctrlp_working_path_mode = 'rw'
 " }}}
 
 " Airline {{{
@@ -350,13 +353,31 @@ let g:session_autosave='no'
 " }}}
 
 " Fugitive {{{
+nnoremap <Leader>gr :Gread
+nnoremap <Leader>gpl :Gpull
+nnoremap <Leader>gps :Gpush
 nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>gc :Gcommit<CR>
-nnoremap <Leader>gl :Gpull<CR>
-nnoremap <Leader>gh :Gpush<CR>
 nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gl :silent! Glog<CR>:bot copen<CR>
 " }}}
 
+" Scratch {{{
+let g:scratch_height = 50
+let g:scratch_horizontal = 0
+let g:scratch_top = 0
+let g:scratch_insert_autohide = 0
+let g:scratch_persistence_file = 'scratch.vim'
+
+" }}}
+
+" Ags {{{
+nnoremap <Leader>vv :Ags <cword><CR>
+vnoremap <Leader>vv y:Ags <c-r>0<CR>
+let ags_agcontext = 0
+
+" }}}
 " }}}
 
 " Format vimrc file with folds

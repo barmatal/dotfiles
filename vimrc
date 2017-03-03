@@ -32,7 +32,6 @@ Plugin 'barmatal/vim-ledger'            " Ledger files plugin
 Plugin 'gabrielelana/vim-markdown'      " Markdown files plugin
 Plugin 'godlygeek/tabular'              " Required for markdown tabulation
 Plugin 'gabesoft/vim-ags'                " ack/ag text search
-
 " }}}
 
 " Visual improvements {{{
@@ -48,7 +47,7 @@ Plugin 'ctrlpvim/ctrlp.vim'             " Fast file switching
 Plugin 'kshenoy/vim-signature'          " Better marks management in files
 Plugin 'vim-scripts/vim-auto-save'      " Autosave files
 Plugin 'djoshea/vim-autoread'           " Autoread files
-Plugin 'mtth/scratch.vim'               " Easy scratch buffer creation
+Plugin 'mtth/scratch.vim'               " Scratch file easy creation
 " }}}
 
 " Programming plugins {{{
@@ -150,8 +149,8 @@ vnoremap <C-X> "+x
 vnoremap <C-C> "+y
 
 " CTRL-V Paste
-imap <C-V>       <ESC>"+gPa
-map <C-V>       "+gP
+imap <C-V>       <ESC>"+gpa
+map <C-V>       "+gp
 " }}}
 
 " }}}
@@ -284,6 +283,7 @@ autocmd filetype taskpaper nmap <buffer> <leader>d <leader>td
 autocmd filetype taskpaper nmap <buffer> <leader>a <leader>tD
 autocmd filetype taskpaper nmap <buffer> <leader>m <leader>tm
 autocmd filetype taskpaper nmap <buffer> <leader>s <leader>ts
+autocmd FileType taskpaper let g:auto_save = 1    " Enable autosave for taskpaper
 
 let g:task_paper_follow_move = 0
 " }}}
@@ -292,9 +292,11 @@ let g:task_paper_follow_move = 0
 autocmd FileType ledger noremap <buffer> <Leader>la :LedgerAlign<CR>
 autocmd FileType ledger noremap <buffer> <Leader>lb :Ledger bal -U
 autocmd FileType ledger noremap <buffer> <Leader>lr :Ledger register -U
+autocmd FileType ledger noremap <buffer> <Leader>lx :r !ledger -f % --date-format "\%Y-\%m-\%d" xact 
 autocmd FileType ledger noremap <buffer> <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' *')<CR>
 autocmd FileType ledger inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
 autocmd FileType ledger vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>
+autocmd FileType ledger let g:auto_save = 1    " Enable autosave for ledger
 
 let g:ledger_default_commodity = "€"
 let g:ledger_commodity_before = 0
@@ -306,10 +308,11 @@ let g:ledger_winpos = 'r'
 " Markdown {{{
 let g:markdown_enable_spell_checking = 0     " markdown disable spellchecking
 autocmd BufEnter *.md noremap <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%"<CR>
+autocmd BufEnter *.md let g:auto_save = 1    " Enable autosave for markdown
 " }}}
 
 " Autosave {{{
-let g:auto_save = 1                         " Enable autosave
+let g:auto_save = 0                         " Enable autosave
 let g:auto_save_in_insert_mode = 0          " Do not autosave in insert mode
 " }}}
 
@@ -368,7 +371,7 @@ let g:scratch_height = 50
 let g:scratch_horizontal = 0
 let g:scratch_top = 0
 let g:scratch_insert_autohide = 0
-let g:scratch_persistence_file = 'scratch.vim'
+let g:scratch_persistence_file = 'scratch.tmp'
 
 " }}}
 

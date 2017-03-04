@@ -45,7 +45,7 @@ Plugin 'xolox/vim-misc'                 " Required for vim-session
 Plugin 'xolox/vim-session'              " Session management
 Plugin 'ctrlpvim/ctrlp.vim'             " Fast file switching
 Plugin 'kshenoy/vim-signature'          " Better marks management in files
-Plugin 'vim-scripts/vim-auto-save'      " Autosave files
+Plugin '907th/vim-auto-save'            " Autosave files
 Plugin 'djoshea/vim-autoread'           " Autoread files
 Plugin 'mtth/scratch.vim'               " Scratch file easy creation
 " }}}
@@ -109,6 +109,12 @@ vnoremap <A-k> :m '<-2<CR>gv
 " Clear search
 nmap <silent> <leader>/ :nohlsearch<CR>
 
+" Quick folding
+nnoremap <CR> za
+
+" Quick macro execute
+nnoremap Q @q
+
 " }}}
 
 " Additional functionality {{{
@@ -142,15 +148,13 @@ inoremap "Ü Ü
 nnoremap <silent> <C-s> :w<CR>
 inoremap <silent> <C-s> <ESC>:w<CR>a
 
-" CTRL-X Cut
-vnoremap <C-X> "+x
-
 " CTRL-C Copy
 vnoremap <C-C> "+y
 
 " CTRL-V Paste
-imap <C-V>       <ESC>"+gpa
-map <C-V>       "+gp
+inoremap <C-V>       <ESC>"+gpa
+nnoremap <C-V>       "+gp
+cnoremap <C-V> <C-r>"
 " }}}
 
 " }}}
@@ -159,6 +163,7 @@ map <C-V>       "+gp
 
 " User Interface {{{
 set shortmess=aoOtI
+set lazyredraw
 syntax enable
 au GUIEnter * simalt ~x
 set guifont=Consolas:h11:cANSI
@@ -188,7 +193,7 @@ autocmd InsertLeave * set nocul
 
 set rnu        " Display relative line number
 set number        " Display line number
-set nowrap        " enable line wrap
+set nowrap        " disable line wrap
 set linebreak     " wrap only whole words
 
 " }}}
@@ -277,26 +282,38 @@ set incsearch     " show search matches as you type
 " }}}
 
 " Plugin specific configuration {{{
-" TODO: Find a better way to handle this
+
 " Taskpaper {{{
-autocmd filetype taskpaper nmap <buffer> <leader>d <leader>td
-autocmd filetype taskpaper nmap <buffer> <leader>a <leader>tD
-autocmd filetype taskpaper nmap <buffer> <leader>m <leader>tm
-autocmd filetype taskpaper nmap <buffer> <leader>s <leader>ts
-autocmd FileType taskpaper let g:auto_save = 1    " Enable autosave for taskpaper
+augroup TaskPaperGroup
+    autocmd!
+    autocmd filetype taskpaper
+        \ nmap <buffer> <leader>d <leader>td |
+        \ nmap <buffer> <leader>a <leader>tD |
+        \ nmap <buffer> <leader>m <leader>tm |
+        \ nmap <buffer> <leader>s <leader>ts |
+        \ setlocal shiftwidth=2 |
+        \ setlocal softtabstop=2 |
+        \ setlocal tabstop=2
+augroup END
 
 let g:task_paper_follow_move = 0
 " }}}
 
 " Ledger {{{
-autocmd FileType ledger noremap <buffer> <Leader>la :LedgerAlign<CR>
-autocmd FileType ledger noremap <buffer> <Leader>lb :Ledger bal -U
-autocmd FileType ledger noremap <buffer> <Leader>lr :Ledger register -U
-autocmd FileType ledger noremap <buffer> <Leader>lx :r !ledger -f % --date-format "\%Y-\%m-\%d" xact 
-autocmd FileType ledger noremap <buffer> <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' *')<CR>
-autocmd FileType ledger inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
-autocmd FileType ledger vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>
-autocmd FileType ledger let g:auto_save = 1    " Enable autosave for ledger
+augroup LedgerGroup
+    autocmd!
+    autocmd FileType ledger 
+                \ noremap <buffer> <Leader>la :LedgerAlign<CR> |
+                \ noremap <buffer> <Leader>lb :let g:ledger_winpos = 'R'<CR>:Ledger bal -U |
+                \ noremap <buffer> <Leader>lr :let g:ledger_winpos = 'B'<CR>:Ledger register -U |
+                \ noremap <buffer> <Leader>lx :r !ledger -f % --date-format "\%Y-\%m-\%d" xact  |
+                \ noremap <buffer> <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' *')<CR> |
+                \ inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR> |
+                \ vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR> |
+                \ setlocal shiftwidth=2 |
+                \ setlocal softtabstop=2 |
+                \ setlocal tabstop=2 |
+augroup END
 
 let g:ledger_default_commodity = "€"
 let g:ledger_commodity_before = 0
@@ -306,14 +323,26 @@ let g:ledger_winpos = 'r'
 " }}}
 
 " Markdown {{{
+augroup MarkdownGroup
+    autocmd!
+    autocmd FileType markdown 
+                \ noremap <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%:p"<CR>
+augroup END
+
 let g:markdown_enable_spell_checking = 0     " markdown disable spellchecking
-autocmd BufEnter *.md noremap <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%"<CR>
-autocmd BufEnter *.md let g:auto_save = 1    " Enable autosave for markdown
 " }}}
 
 " Autosave {{{
-let g:auto_save = 0                         " Enable autosave
+
+function! AutoSaveByFiletype()
+    if &filetype != "ledger" && &filetype != "markdown" && &filetype != "taskpaper"
+        let g:auto_save_abort = 1
+    endif
+endfunction
+
 let g:auto_save_in_insert_mode = 0          " Do not autosave in insert mode
+let g:auto_save = 1
+let g:auto_save_presave_hook = 'call AutoSaveByFiletype()'
 " }}}
 
 " Syntastic {{{
@@ -340,6 +369,7 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_root_markers = ['*.sln']
 let g:ctrlp_by_filename = 1
 let g:ctrlp_working_path_mode = 'rw'
+let g:ctrlp_user_command = 'ag -i --nocolor -g "" %s'
 " }}}
 
 " Airline {{{
@@ -371,7 +401,8 @@ let g:scratch_height = 50
 let g:scratch_horizontal = 0
 let g:scratch_top = 0
 let g:scratch_insert_autohide = 0
-let g:scratch_persistence_file = 'scratch.tmp'
+nnoremap gs :Scratch<CR>
+nnoremap gp :ScratchPreview<CR>
 
 " }}}
 

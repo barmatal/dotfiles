@@ -55,6 +55,7 @@ Plugin 'tpope/vim-surround'             " Surround with brackets, parenthesis, e
 Plugin 'tpope/vim-commentary'           " Easily add/remove comments
 Plugin 'ervandew/supertab'              " Better tab autocompletion
 Plugin 'tpope/vim-fugitive'             " Git wrapper
+Plugin 'airblade/vim-gitgutter'             " Git wrapper
 Plugin 'pangloss/vim-javascript'        " Javascript syntax improvements
 " }}}
 
@@ -73,8 +74,8 @@ let mapleader=" "
 inoremap jj <Esc>
 
 " Browse tabs
-nmap <leader>j :bn<cr>
-nmap <leader>k :bp<cr>
+nmap <leader>k :bn<cr>
+nmap <leader>j :bp<cr>
 nmap <leader>x :bd<cr>
 nmap <leader>X :bd!<cr>
 
@@ -84,27 +85,28 @@ nnoremap mN ['
 
 " Easy window navigation
 map <leader>w <C-w>
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
-map <C-n> <C-w>v
 
 " Smart wrap line navigation
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
-"
+
+" Smart line join
+nnoremap J gJ
+
+" Better g; logic
+nnoremap g, g;
+
 " Easy copy paste to clipboard
 noremap <Leader>p "*p
 noremap <Leader>y "*y
 
 " Move lines using alt
-nnoremap <A-j> :m .+1<CR>
-nnoremap <A-k> :m .-2<CR>
-nnoremap <A-l> >>
-nnoremap <A-h> <<
-vnoremap <A-j> :m '>+1<CR>gv
-vnoremap <A-k> :m '<-2<CR>gv
+nnoremap <M-j> :m .+1<CR>
+nnoremap <M-k> :m .-2<CR>
+nnoremap <M-l> >>
+nnoremap <M-h> <<
+vnoremap <M-j> :m '>+1<CR>gv
+vnoremap <M-k> :m '<-2<CR>gv
 
 " Clear search
 nmap <silent> <leader>/ :nohlsearch<CR>
@@ -115,13 +117,20 @@ nnoremap <CR> za
 " Quick macro execute
 nnoremap Q @q
 
+" Helper function to remap command mode aliases
+fun! SetupCommandAlias(from, to)
+  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfun
+
 " }}}
 
 " Additional functionality {{{
 
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>re :e $MYVIMRC<CR>
-nmap <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
+nmap <silent> <leader>rr :w<CR>:source $MYVIMRC<CR>
 
 " Format Json files quickly
 com! JSONFormat %!python -m json.tool
@@ -157,10 +166,27 @@ nnoremap <C-V>       "+gp
 cnoremap <C-V> <C-r>"
 " }}}
 
+" crazy tests {{{
+nnoremap ñ :
+inoremap ñ (
+inoremap ññ {
+inoremap ñññ [
+inoremap ññññ ñ
+inoremap Ñ )
+inoremap ÑÑ }
+inoremap ÑÑÑ ]
+nnoremap viñ vi(
+nnoremap ciñ ci(
+nnoremap yiñ yi(
+nnoremap diñ di(
+nnoremap viññ vi{
+nnoremap ciññ ci{
+nnoremap yiññ yi{
+nnoremap diññ di{
+" }}}
 " }}}
 
 " Vim options {{{
-
 " User Interface {{{
 set shortmess=aoOtI
 set lazyredraw
@@ -291,12 +317,13 @@ augroup TaskPaperGroup
         \ nmap <buffer> <leader>a <leader>tD |
         \ nmap <buffer> <leader>m <leader>tm |
         \ nmap <buffer> <leader>s <leader>ts |
+        \ inoremap <buffer> ñ ñ|
         \ setlocal shiftwidth=2 |
         \ setlocal softtabstop=2 |
         \ setlocal tabstop=2
 augroup END
-
 let g:task_paper_follow_move = 0
+nnoremap gt :vsplit C:\Users\alfredo.barroso\Dropbox\Documentos\Tareas\Trabajo\Trabajo.taskpaper<CR>
 " }}}
 
 " Ledger {{{
@@ -308,6 +335,7 @@ augroup LedgerGroup
                 \ noremap <buffer> <Leader>lr :let g:ledger_winpos = 'B'<CR>:Ledger register -U |
                 \ noremap <buffer> <Leader>lx :r !ledger -f % --date-format "\%Y-\%m-\%d" xact  |
                 \ noremap <buffer> <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' *')<CR> |
+                \ inoremap <buffer> ñ ñ|
                 \ inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR> |
                 \ vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR> |
                 \ setlocal shiftwidth=2 |
@@ -326,7 +354,8 @@ let g:ledger_winpos = 'r'
 augroup MarkdownGroup
     autocmd!
     autocmd FileType markdown 
-                \ noremap <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%:p"<CR>
+                \ inoremap <buffer> ñ ñ|
+                \ noremap <F5> :!start C:\Program Files(x86)\Google\Chrome\Application\chrome.exe "%:p"<CR>
 augroup END
 
 let g:markdown_enable_spell_checking = 0     " markdown disable spellchecking
@@ -366,10 +395,11 @@ colorscheme jellybeans
 
 " Ctrlp {{{
 let g:ctrlp_map = '<c-p>'
-let g:ctrlp_root_markers = ['*.sln']
+let g:ctrlp_root_markers = ['web.config','*.sln']
 let g:ctrlp_by_filename = 1
 let g:ctrlp_working_path_mode = 'rw'
-let g:ctrlp_user_command = 'ag -i --nocolor -g "" %s'
+set grepprg=ag\ --nogroup\ --nocolor
+let g:ctrlp_user_command = 'ag -l --nocolor --hidden -g "" %s'
 " }}}
 
 " Airline {{{
@@ -378,22 +408,29 @@ let g:airline#extensions#tabline#enabled=1
 " }}}
 
 " Session {{{
-map <leader>ss :SaveSession 
-map <leader>so :OpenSession 
-map <leader>sd :DeleteSession 
+call SetupCommandAlias("ss", "SaveSession")
+call SetupCommandAlias("so", "OpenSession")
+call SetupCommandAlias("sd", "DeleteSession")
 let g:session_autoload='no'
 let g:session_autosave='no'
 " }}}
 
-" Fugitive {{{
-nnoremap <Leader>gr :Gread
-nnoremap <Leader>gpl :Gpull
-nnoremap <Leader>gps :Gpush
-nnoremap <Leader>gw :Gwrite<CR>
-nnoremap <Leader>gc :Gcommit<CR>
-nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gd :Gdiff<CR>
-nnoremap <Leader>gl :silent! Glog<CR>:bot copen<CR>
+" Fugitive and gitgutter {{{
+call SetupCommandAlias("git", "Git")
+call SetupCommandAlias("gs", "Gstatus")
+call SetupCommandAlias("gpl", "Gpull")
+call SetupCommandAlias("gps", "Gpush")
+call SetupCommandAlias("gl", "Git! log")
+call SetupCommandAlias("gi", "Git! show")
+call SetupCommandAlias("gc", "Git! checkout")
+call SetupCommandAlias("gd", "Gdiff")
+nnoremap <Leader>gn :GitGutterNextHunk<CR>
+nnoremap <Leader>gN :GitGutterPrevHunk<CR>
+nnoremap <Leader>gu :GitGutterUndoHunk<CR>
+nnoremap <Leader>gdl :diffget //2<CR>
+nnoremap <Leader>gdr :diffget //3<CR>
+nnoremap <Leader>gdu :diffupdate<CR>
+set diffopt+=vertical
 " }}}
 
 " Scratch {{{
@@ -407,6 +444,7 @@ nnoremap gp :ScratchPreview<CR>
 " }}}
 
 " Ags {{{
+call SetupCommandAlias("ag", "Ags")
 nnoremap <Leader>vv :Ags <cword><CR>
 vnoremap <Leader>vv y:Ags <c-r>0<CR>
 let ags_agcontext = 0

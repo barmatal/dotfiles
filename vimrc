@@ -15,7 +15,7 @@ endif
 
 " Vundle configuration {{{
 if(g:os == "windows")
-    set rtp+=$HOME\vimfiles\bundle\Vundle.vim
+    set rtp+=$HOME\.vim\bundle\Vundle.vim
     call vundle#begin('$HOME\vimfiles\bundle')
 else
     set rtp+=~/.vim/bundle/Vundle.vim
@@ -31,32 +31,34 @@ Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
 Plugin 'barmatal/vim-ledger'            " Ledger files plugin
 Plugin 'gabrielelana/vim-markdown'      " Markdown files plugin
 Plugin 'godlygeek/tabular'              " Required for markdown tabulation
-Plugin 'gabesoft/vim-ags'                " ack/ag text search
+Plugin 'jremmen/vim-ripgrep'            " ripgrep text search
 " }}}
 
 " Visual improvements {{{
 Plugin 'vim-airline/vim-airline'        " Bottom line information
 Plugin 'nanotech/jellybeans.vim'        " Theme
-Plugin 'morhetz/gruvbox'        " Theme
 " }}}
 
 " File and projects management {{{
-Plugin 'xolox/vim-misc'                 " Required for vim-session
-Plugin 'xolox/vim-session'              " Session management
-Plugin 'ctrlpvim/ctrlp.vim'             " Fast file switching
-Plugin 'kshenoy/vim-signature'          " Better marks management in files
-Plugin '907th/vim-auto-save'            " Autosave files
-Plugin 'djoshea/vim-autoread'           " Autoread files
-Plugin 'mtth/scratch.vim'               " Scratch file easy creation
+Plugin 'xolox/vim-misc'        " Required for vim-session
+Plugin 'xolox/vim-session'     " Session management
+Plugin 'ctrlpvim/ctrlp.vim'    " Fast file switching
+Plugin 'kshenoy/vim-signature' " Better marks management in files
+Plugin '907th/vim-auto-save'   " Autosave files
+Plugin 'djoshea/vim-autoread'  " Autoread files
+Plugin 'mtth/scratch.vim'      " Scratch file easy creation
+Plugin 'yssl/QFEnter'          " Quick Fix window better management
+Plugin 'qpkorr/vim-bufkill'    " Better buffer/split management
+Plugin 'airblade/vim-rooter'   " Better pwd management
 " }}}
 
 " Programming plugins {{{
-Plugin 'tpope/vim-surround'             " Surround with brackets, parenthesis, etc
-Plugin 'tpope/vim-commentary'           " Easily add/remove comments
-Plugin 'ervandew/supertab'              " Better tab autocompletion
-Plugin 'tpope/vim-fugitive'             " Git wrapper
-Plugin 'airblade/vim-gitgutter'             " Git wrapper
-Plugin 'pangloss/vim-javascript'        " Javascript syntax improvements
+Plugin 'tpope/vim-surround'      " Surround with brackets, parenthesis, etc
+Plugin 'tpope/vim-commentary'    " Easily add/remove comments
+Plugin 'ervandew/supertab'       " Better tab autocompletion
+Plugin 'tpope/vim-fugitive'      " Git wrapper
+Plugin 'airblade/vim-gitgutter'  " Git wrapper
+Plugin 'pangloss/vim-javascript' " Javascript syntax improvements
 " }}}
 
 call vundle#end()            " required
@@ -76,7 +78,7 @@ inoremap jj <Esc>
 " Browse tabs
 nmap <leader>k :bn<cr>
 nmap <leader>j :bp<cr>
-nmap <leader>x :bd<cr>
+nmap <leader>x :BD<cr>
 nmap <leader>X :bd!<cr>
 
 " Mark management
@@ -111,9 +113,6 @@ vnoremap <M-k> :m '<-2<CR>gv
 " Clear search
 nmap <silent> <leader>/ :nohlsearch<CR>
 
-" Quick folding
-nnoremap <CR> za
-
 " Quick macro execute
 nnoremap Q @q
 
@@ -124,6 +123,9 @@ fun! SetupCommandAlias(from, to)
         \ .'? ("'.a:to.'") : ("'.a:from.'"))'
 endfun
 
+call SetupCommandAlias("vi", "VundleInstall")
+call SetupCommandAlias("vc", "VundleClean")
+call SetupCommandAlias("vu", "VundleUpdate")
 " }}}
 
 " Additional functionality {{{
@@ -166,23 +168,22 @@ nnoremap <C-V>       "+gp
 cnoremap <C-V> <C-r>"
 " }}}
 
-" crazy tests {{{
+" Additional functionality {{{
 nnoremap ñ :
-inoremap ñ (
-inoremap ññ {
-inoremap ñññ [
-inoremap ññññ ñ
-inoremap Ñ )
-inoremap ÑÑ }
-inoremap ÑÑÑ ]
-nnoremap viñ vi(
-nnoremap ciñ ci(
-nnoremap yiñ yi(
-nnoremap diñ di(
-nnoremap viññ vi{
-nnoremap ciññ ci{
-nnoremap yiññ yi{
-nnoremap diññ di{
+inoremap ñ {
+inoremap Ñ [
+inoremap ç }
+inoremap Ç ]
+
+nnoremap viñ vi{
+nnoremap ciñ ci{
+nnoremap yiñ yi{
+nnoremap diñ di{
+
+nnoremap viÑ vi[
+nnoremap ciÑ ci[
+nnoremap yiÑ yi[
+nnoremap diÑ di[
 " }}}
 " }}}
 
@@ -323,7 +324,9 @@ augroup TaskPaperGroup
         \ setlocal tabstop=2
 augroup END
 let g:task_paper_follow_move = 0
-nnoremap gt :vsplit C:\Users\alfredo.barroso\Dropbox\Documentos\Tareas\Trabajo\Trabajo.taskpaper<CR>
+
+" Go to special file (marked with T)
+nnoremap gt :vsplit<CR>'T
 " }}}
 
 " Ledger {{{
@@ -336,8 +339,8 @@ augroup LedgerGroup
                 \ noremap <buffer> <Leader>lx :r !ledger -f % --date-format "\%Y-\%m-\%d" xact  |
                 \ noremap <buffer> <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' *')<CR> |
                 \ inoremap <buffer> ñ ñ|
-                \ inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR> |
-                \ vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR> |
+                \ inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>|
+                \ vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>|
                 \ setlocal shiftwidth=2 |
                 \ setlocal softtabstop=2 |
                 \ setlocal tabstop=2 |
@@ -389,8 +392,6 @@ let g:syntastic_js_checkers = ['syntastic-javascript-jshint']
 
 " Jellybeans {{{
 colorscheme jellybeans
-" colorscheme gruvbox
-" let g:gruvbox_contrast_dark="hard"
 " }}}
 
 " Ctrlp {{{
@@ -398,8 +399,8 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_root_markers = ['web.config','*.sln']
 let g:ctrlp_by_filename = 1
 let g:ctrlp_working_path_mode = 'rw'
-set grepprg=ag\ --nogroup\ --nocolor
-let g:ctrlp_user_command = 'ag -l --nocolor --hidden -g "" %s'
+set grepprg=rg\ --color=never
+let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
 " }}}
 
 " Airline {{{
@@ -443,12 +444,15 @@ nnoremap gp :ScratchPreview<CR>
 
 " }}}
 
-" Ags {{{
-call SetupCommandAlias("ag", "Ags")
-nnoremap <Leader>vv :Ags <cword><CR>
-vnoremap <Leader>vv y:Ags <c-r>0<CR>
-let ags_agcontext = 0
+" Ripgrep {{{
+call SetupCommandAlias("rg", "Rg")
+nnoremap <Leader>vv :Rg <cword><CR>
+vnoremap <Leader>vv y:Rg <c-r>0<CR>
 
+" }}}
+
+" Vim Rooter {{{
+let g:rooter_patterns = ['Rakefile', 'Web.config', '*.sln', '.git/']
 " }}}
 " }}}
 

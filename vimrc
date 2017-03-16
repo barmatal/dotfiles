@@ -112,6 +112,7 @@ vnoremap <M-k> :m '<-2<CR>gv
 
 " Clear search
 nmap <silent> <leader>/ :nohlsearch<CR>
+nmap <silent> <leader>Ñ :nohlsearch<CR>
 
 " Quick macro execute
 nnoremap Q @q
@@ -170,6 +171,9 @@ cnoremap <C-V> <C-r>"
 
 " Additional functionality {{{
 nnoremap ñ :
+vnoremap ñ :
+nnoremap Ñ /\v
+vnoremap Ñ /\v
 inoremap ñ {
 inoremap Ñ [
 inoremap ç }
@@ -201,6 +205,10 @@ set novisualbell    " don't beep
 set noerrorbells  " don't beep
 set wildmenu    " better autocomplete of commands
 set wildmode=longest:list,full
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right-hand scroll bar
+set guioptions-=L  "remove left-hand scroll bar
 " }}}
 
 " Text edition {{{
@@ -218,10 +226,11 @@ autocmd InsertLeave * set nocul
 
 " Line display configuration {{{
 
-set rnu        " Display relative line number
-set number        " Display line number
-set nowrap        " disable line wrap
-set linebreak     " wrap only whole words
+set rnu         " Display relative line number
+set number      " Display line number
+set nowrap      " disable line wrap
+set linebreak   " wrap only whole words
+set scrolloff=3 " Sets the scroll a little before so you have context
 
 " }}}
 
@@ -297,13 +306,19 @@ au CursorHold * checktime
 
 " Do not add end of line to documents
 set noeol
+set nofixeol
 " }}}
 
 " Search {{{
-set ignorecase    " ignore case when searching
-set smartcase     " ignore case if search pattern is all lowercase, case-sensitive otherwise
-set hlsearch      " highlight search terms
-set incsearch     " show search matches as you type
+
+nnoremap / /\v
+vnoremap / /\v
+set ignorecase " ignore case when searching
+set smartcase  " ignore case if search pattern is all lowercase, case-sensitive otherwise
+set hlsearch   " highlight search terms
+set incsearch  " show search matches as you type
+set gdefault   " Default global in searches
+
 " }}}
 
 " }}}
@@ -314,10 +329,10 @@ set incsearch     " show search matches as you type
 augroup TaskPaperGroup
     autocmd!
     autocmd filetype taskpaper
-        \ nmap <buffer> <leader>d <leader>td |
-        \ nmap <buffer> <leader>a <leader>tD |
-        \ nmap <buffer> <leader>m <leader>tm |
-        \ nmap <buffer> <leader>s <leader>ts |
+        \ nmap <buffer> <leader>d <leader>td|
+        \ nmap <buffer> <leader>a <leader>tD|
+        \ nmap <buffer> <leader>m <leader>tm|
+        \ nmap <buffer> <leader>s <leader>ts|
         \ inoremap <buffer> ñ ñ|
         \ setlocal shiftwidth=2 |
         \ setlocal softtabstop=2 |
@@ -333,11 +348,11 @@ nnoremap gt :vsplit<CR>'T
 augroup LedgerGroup
     autocmd!
     autocmd FileType ledger 
-                \ noremap <buffer> <Leader>la :LedgerAlign<CR> |
+                \ noremap <buffer> <Leader>la :LedgerAlign<CR>|
                 \ noremap <buffer> <Leader>lb :let g:ledger_winpos = 'R'<CR>:Ledger bal -U |
                 \ noremap <buffer> <Leader>lr :let g:ledger_winpos = 'B'<CR>:Ledger register -U |
                 \ noremap <buffer> <Leader>lx :r !ledger -f % --date-format "\%Y-\%m-\%d" xact  |
-                \ noremap <buffer> <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' *')<CR> |
+                \ noremap <buffer> <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' *')<CR>|
                 \ inoremap <buffer> ñ ñ|
                 \ inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>|
                 \ vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>|
@@ -358,7 +373,7 @@ augroup MarkdownGroup
     autocmd!
     autocmd FileType markdown 
                 \ inoremap <buffer> ñ ñ|
-                \ noremap <F5> :!start C:\Program Files(x86)\Google\Chrome\Application\chrome.exe "%:p"<CR>
+                \ noremap <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%:p"<CR>
 augroup END
 
 let g:markdown_enable_spell_checking = 0     " markdown disable spellchecking
@@ -425,6 +440,7 @@ call SetupCommandAlias("gl", "Git! log")
 call SetupCommandAlias("gi", "Git! show")
 call SetupCommandAlias("gc", "Git! checkout")
 call SetupCommandAlias("gd", "Gdiff")
+call SetupCommandAlias("gb", "Gblame")
 nnoremap <Leader>gn :GitGutterNextHunk<CR>
 nnoremap <Leader>gN :GitGutterPrevHunk<CR>
 nnoremap <Leader>gu :GitGutterUndoHunk<CR>

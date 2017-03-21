@@ -50,6 +50,8 @@ Plugin 'mtth/scratch.vim'      " Scratch file easy creation
 Plugin 'yssl/QFEnter'          " Quick Fix window better management
 Plugin 'qpkorr/vim-bufkill'    " Better buffer/split management
 Plugin 'airblade/vim-rooter'   " Better pwd management
+Plugin 'itchyny/calendar.vim'  " Calendar functionality
+
 " }}}
 
 " Programming plugins {{{
@@ -453,6 +455,7 @@ call SetupCommandAlias("gi", "Git! show")
 call SetupCommandAlias("gc", "Git! checkout")
 call SetupCommandAlias("gd", "Gdiff")
 call SetupCommandAlias("gb", "Gblame")
+call SetupCommandAlias("gr", "Gread")
 nnoremap <Leader>gn :GitGutterNextHunk<CR>
 nnoremap <Leader>gN :GitGutterPrevHunk<CR>
 nnoremap <Leader>gu :GitGutterUndoHunk<CR>
@@ -481,6 +484,14 @@ vnoremap <Leader>vv y:Rg <c-r>0<CR>
 
 " Vim Rooter {{{
 let g:rooter_patterns = ['Rakefile', 'Web.config', '*.sln', '.git/']
+" }}}
+
+" Calendar {{{
+let g:calendar_google_calendar = 1
+let g:calendar_views = ['year', 'month', 'week', 'day_4', 'day', 'weekday', 'event', 'agenda']
+let g:calendar_view = "agenda"
+let g:calendar_time_zone = "+0100"
+nnoremap <Leader>c :Calendar<CR>
 " }}}
 " }}}
 

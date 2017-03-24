@@ -6,8 +6,10 @@ filetype off            " required
 if !exists("g:os")
     if has("win64") || has("win32") || has("win16")
         let g:os = "windows"
-    else 
-        let g:os = "unix"
+    elsif has("gui_macvim")
+        let g:os = "mac"
+    else
+        let g:os = "terminal"
     endif
 endif
 
@@ -144,20 +146,6 @@ com! JSONFormat %!python -m json.tool
 
 " Compatibility {{{
 
-" Fix wrong accented words in terminal
-inoremap 'á á
-inoremap 'é é
-inoremap 'í í
-inoremap 'ó ó
-inoremap 'ú ú
-inoremap 'Á Á
-inoremap 'É É
-inoremap 'Í Í
-inoremap 'Ó Ó
-inoremap 'Ú Ú
-inoremap "ü ü
-inoremap "Ü Ü
-
 "Control-S Save
 nnoremap <silent> <C-s> :w<CR>
 inoremap <silent> <C-s> <ESC>:w<CR>a
@@ -194,23 +182,51 @@ nnoremap diÑ di[
 " }}}
 
 " Vim options {{{
+
+" OS Specific configuration {{{
+if(g:os == "windows")
+    " Full screen
+    au GUIEnter * simalt ~x
+    " Font settings
+    set guifont=Consolas:h11:cANSI
+    " remove gui options
+    set guioptions-=m
+    set guioptions-=M
+    set guioptions-=T  "remove toolbar
+    set guioptions-=r  "remove right-hand scroll bar
+    set guioptions-=L  "remove left-hand scroll bar
+elsif(g:os == "mac")
+    " Full screen
+    set fu
+    " Font settings
+    set guifont=Menlo\ Regular:h18
+elsif (g:os == "terminal")
+    " Fix wrong accented words in terminal
+    inoremap 'á á
+    inoremap 'é é
+    inoremap 'í í
+    inoremap 'ó ó
+    inoremap 'ú ú
+    inoremap 'Á Á
+    inoremap 'É É
+    inoremap 'Í Í
+    inoremap 'Ó Ó
+    inoremap 'Ú Ú
+    inoremap "ü ü
+    inoremap "Ü Ü
+endif
+" }}}
+
 " User Interface {{{
 set shortmess=aoOtI
 set lazyredraw
 syntax enable
-au GUIEnter * simalt ~x
-set guifont=Consolas:h11:cANSI
-set guioptions-=m              " remove gui options
-set guioptions-=M
 let base16colorspace=256 " Access colors present in 256 colorspace
 set novisualbell    " don't beep
 set noerrorbells  " don't beep
 set wildmenu    " better autocomplete of commands
 set wildmode=longest:list,full
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
-set guioptions-=r  "remove right-hand scroll bar
-set guioptions-=L  "remove left-hand scroll bar
+
 " }}}
 
 " Text edition {{{
@@ -490,7 +506,7 @@ let g:rooter_patterns = ['Rakefile', 'Web.config', '*.sln', '.git/']
 let g:calendar_google_calendar = 1
 let g:calendar_views = ['year', 'month', 'week', 'day_4', 'day', 'weekday', 'event', 'agenda']
 let g:calendar_view = "agenda"
-let g:calendar_time_zone = "+0100"
+let g:calendar_time_zone = "+0200"
 nnoremap <Leader>c :Calendar<CR>
 " }}}
 " }}}

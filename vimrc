@@ -375,13 +375,12 @@ nnoremap gt :vsplit<CR>'T
 " }}}
 
 " Ledger {{{
+call SetupCommandAlias("lb", "let g:ledger_winpos = 'R'<CR>:Ledger bal -U")
+call SetupCommandAlias("lr", "let g:ledger_winpos = 'B'<CR>:Ledger register -U")
+call SetupCommandAlias("lx", "r !ledger -f % xact")
 augroup LedgerGroup
     autocmd!
     autocmd FileType ledger 
-                \ noremap <buffer> <Leader>la :LedgerAlign<CR>|
-                \ noremap <buffer> <Leader>lb :let g:ledger_winpos = 'R'<CR>:Ledger bal -U |
-                \ noremap <buffer> <Leader>lr :let g:ledger_winpos = 'B'<CR>:Ledger register -U |
-                \ noremap <buffer> <Leader>lx :r !ledger -f % --date-format "\%Y-\%m-\%d" xact  |
                 \ noremap <buffer> <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' *')<CR>|
                 \ inoremap <buffer> ñ ñ|
                 \ inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>|

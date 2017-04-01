@@ -2,6 +2,7 @@
 
 - Clone repo
 - Create simlinks for each file
+- Config files should start with `.` in Linux/OS and with `_` in Windows
 
 **On Windows**
 
@@ -15,5 +16,6 @@ From `$HOME`:
 
 # List of files 
 
-- **vimrc**: vim dot file. Rename/link using `.vimrc` for Mac/Linux and `_vimrc` for windows
-- **vsvimrc**: VsVim (Visual Studio Vim extension) dot file. Rename/link using `_vimrc`.
+- **vimrc**: vim dot file. 
+- **vsvimrc**: VsVim (Visual Studio Vim extension) dot file.
+- **ledgerrc**: Ledger config file

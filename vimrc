@@ -348,6 +348,8 @@ set smartcase  " ignore case if search pattern is all lowercase, case-sensitive 
 set hlsearch   " highlight search terms
 set incsearch  " show search matches as you type
 set gdefault   " Default global in searches
+"Automatically unfold when searching inside fold
+set foldopen=search
 
 " }}}
 

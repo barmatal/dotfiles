@@ -6,7 +6,7 @@ filetype off            " required
 if !exists("g:os")
     if has("win64") || has("win32") || has("win16")
         let g:os = "windows"
-    elsif has("gui_macvim")
+    elseif has("gui_running")
         let g:os = "mac"
     else
         let g:os = "terminal"
@@ -195,12 +195,12 @@ if(g:os == "windows")
     set guioptions-=T  "remove toolbar
     set guioptions-=r  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
-elsif(g:os == "mac")
+elseif(g:os == "mac")
     " Full screen
     set fu
     " Font settings
     set guifont=Menlo\ Regular:h18
-elsif (g:os == "terminal")
+elseif (g:os == "terminal")
     " Fix wrong accented words in terminal
     inoremap 'á á
     inoremap 'é é

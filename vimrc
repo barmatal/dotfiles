@@ -79,6 +79,9 @@ let mapleader=" "
 " jj switches mode
 inoremap jj <Esc>
 
+" Fast save mode (Save and close from insert mode)
+inoremap ZZ <Esc>ZZ
+
 " Browse tabs
 nmap <leader>k :bn<cr>
 nmap <leader>j :bp<cr>
@@ -473,8 +476,8 @@ call SetupCommandAlias("gc", "Git! checkout")
 call SetupCommandAlias("gd", "Gdiff")
 call SetupCommandAlias("gb", "Gblame")
 call SetupCommandAlias("gr", "Gread")
-nnoremap <Leader>gn :GitGutterNextHunk<CR>
-nnoremap <Leader>gN :GitGutterPrevHunk<CR>
+nnoremap <Leader>gn :GitGutterNextHunk<CR>zO
+nnoremap <Leader>gN :GitGutterPrevHunk<CR>zO
 nnoremap <Leader>gu :GitGutterUndoHunk<CR>
 nnoremap <Leader>gdl :diffget //2<CR>
 nnoremap <Leader>gdr :diffget //3<CR>

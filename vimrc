@@ -63,6 +63,9 @@ Plugin 'ervandew/supertab'       " Better tab autocompletion
 Plugin 'tpope/vim-fugitive'      " Git wrapper
 Plugin 'airblade/vim-gitgutter'  " Git wrapper
 Plugin 'pangloss/vim-javascript' " Javascript syntax improvements
+Plugin 'leafgarland/typescript-vim' " Typeascript syntax improvements
+Plugin 'Quramy/vim-js-pretty-template' " templates syntax improvements
+Plugin 'Quramy/tsuquyomi' " TS syntax improvements
 " }}}
 
 call vundle#end()            " required
@@ -123,6 +126,9 @@ nmap <silent> <leader>Ñ :nohlsearch<CR>
 
 " Quick macro execute
 nnoremap Q @q
+
+" Easy undo
+nnoremap U <C-r>
 
 " Helper function to remap command mode aliases
 fun! SetupCommandAlias(from, to)
@@ -269,7 +275,7 @@ set tabstop=4
 " Folding {{{
 set foldenable    " enable folding
 set foldmethod=syntax " enable folding in code
-set foldlevel=3   " Start with 3 level folding
+set foldlevel=1   " Start with 3 level folding
 set foldtext=MyFoldText()
 function! MyFoldText()
   let line = getline(v:foldstart)
@@ -411,6 +417,8 @@ augroup MarkdownGroup
 augroup END
 
 let g:markdown_enable_spell_checking = 0     " markdown disable spellchecking
+let g:markdown_enable_folding = 1
+
 " }}}
 
 " Autosave {{{
@@ -496,7 +504,8 @@ nnoremap gp :ScratchPreview<CR>
 " }}}
 
 " Ripgrep {{{
-call SetupCommandAlias("rg", "Rg")
+call SetupCommandAlias("rg", "Rg -S")
+nnoremap <C-S-f> :Rg -S 
 nnoremap <Leader>vv :Rg <cword><CR>
 vnoremap <Leader>vv y:Rg <c-r>0<CR>
 
@@ -513,6 +522,17 @@ let g:calendar_view = "agenda"
 let g:calendar_time_zone = "+0200"
 nnoremap <Leader>c :Calendar<CR>
 " }}}
+
+" Typescript {{{
+let g:typescript_compiler_binary = 'tsc'
+let g:typescript_compiler_options = ''
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+
+autocmd FileType typescript JsPreTmpl html
+autocmd FileType typescript syn clear foldBraces
+" }}}
+
 " }}}
 
 " Format vimrc file with folds

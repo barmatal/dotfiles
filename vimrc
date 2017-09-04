@@ -200,6 +200,8 @@ elseif(g:os == "mac")
     set fu
     " Font settings
     set guifont=Menlo\ Regular:h18
+    set guioptions-=r  "remove right-hand scroll bar
+    set guioptions-=L  "remove left-hand scroll bar
 elseif (g:os == "terminal")
     " Fix wrong accented words in terminal
     inoremap 'á á
@@ -493,14 +495,14 @@ nnoremap gp :ScratchPreview<CR>
 " }}}
 
 " Ripgrep {{{
-call SetupCommandAlias("rg", "Rg")
-nnoremap <Leader>vv :Rg <cword><CR>
-vnoremap <Leader>vv y:Rg <c-r>0<CR>
+call SetupCommandAlias("rg", "Rg -S")
+nnoremap <Leader>vv :Rg -S <cword><CR>
+vnoremap <Leader>vv y:Rg -S <c-r>0<CR>
 
 " }}}
 
 " Vim Rooter {{{
-let g:rooter_patterns = ['Rakefile', 'Web.config', '*.sln', '.git/']
+let g:rooter_patterns = ['Rakefile', 'Web.config', '*.sln', '.git/', '.root']
 " }}}
 
 " Calendar {{{

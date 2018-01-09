@@ -31,7 +31,8 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle plugin (to keep it updated)
 " Text files plugins {{{
 Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
 Plugin 'barmatal/vim-ledger'            " Ledger files plugin
-Plugin 'gabrielelana/vim-markdown'      " Markdown files plugin
+" Plugin 'gabrielelana/vim-markdown'      " Markdown files plugin
+Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
 Plugin 'godlygeek/tabular'              " Required for markdown tabulation
 Plugin 'jremmen/vim-ripgrep'            " ripgrep text search
 " }}}
@@ -53,6 +54,7 @@ Plugin 'yssl/QFEnter'          " Quick Fix window better management
 Plugin 'qpkorr/vim-bufkill'    " Better buffer/split management
 Plugin 'airblade/vim-rooter'   " Better pwd management
 Plugin 'itchyny/calendar.vim'  " Calendar functionality
+Plugin 'scrooloose/nerdtree'  " Calendar functionality
 
 " }}}
 
@@ -66,6 +68,7 @@ Plugin 'pangloss/vim-javascript' " Javascript syntax improvements
 Plugin 'leafgarland/typescript-vim' " Typeascript syntax improvements
 Plugin 'Quramy/vim-js-pretty-template' " templates syntax improvements
 Plugin 'Quramy/tsuquyomi' " TS syntax improvements
+Plugin 'vim-syntastic/syntastic' " TS syntax improvements
 " }}}
 
 call vundle#end()            " required
@@ -213,18 +216,18 @@ elseif(g:os == "mac")
     set guioptions-=L  "remove left-hand scroll bar
 elseif (g:os == "terminal")
     " Fix wrong accented words in terminal
-    inoremap 'á á
-    inoremap 'é é
-    inoremap 'í í
-    inoremap 'ó ó
-    inoremap 'ú ú
-    inoremap 'Á Á
-    inoremap 'É É
-    inoremap 'Í Í
-    inoremap 'Ó Ó
-    inoremap 'Ú Ú
-    inoremap "ü ü
-    inoremap "Ü Ü
+    " inoremap 'á á
+    " inoremap 'é é
+    " inoremap 'í í
+    " inoremap 'ó ó
+    " inoremap 'ú ú
+    " inoremap 'Á Á
+    " inoremap 'É É
+    " inoremap 'Í Í
+    " inoremap 'Ó Ó
+    " inoremap 'Ú Ú
+    " inoremap "ü ü
+    " inoremap "Ü Ü
 endif
 " }}}
 
@@ -388,7 +391,8 @@ nnoremap gt :vsplit<CR>'T
 " }}}
 
 " Ledger {{{
-call SetupCommandAlias("lb", "let g:ledger_winpos = 'R'<CR>:Ledger bal -U")
+call SetupCommandAlias("lb", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos -U")
+call SetupCommandAlias("lc", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos")
 call SetupCommandAlias("lr", "let g:ledger_winpos = 'B'<CR>:Ledger register -U")
 call SetupCommandAlias("lx", "r !ledger -f % xact")
 augroup LedgerGroup
@@ -419,7 +423,8 @@ augroup MarkdownGroup
 augroup END
 
 let g:markdown_enable_spell_checking = 0     " markdown disable spellchecking
-let g:markdown_enable_folding = 1
+let g:markdown_enable_folding = 0
+let g:markdown_enable_conceal = 0
 
 " }}}
 
@@ -447,6 +452,9 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = { "mode": "passive" } 
 let g:syntastic_js_checkers = ['syntastic-javascript-jshint']
+
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi']
 " }}}
 
 " Jellybeans {{{
@@ -533,6 +541,10 @@ autocmd QuickFixCmdPost    l* nested lwindow
 
 autocmd FileType typescript JsPreTmpl html
 autocmd FileType typescript syn clear foldBraces
+" }}}
+
+" Nerdtree {{{
+map <leader>n :NERDTreeToggle<CR>
 " }}}
 
 " }}}

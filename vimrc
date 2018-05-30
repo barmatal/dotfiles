@@ -31,7 +31,6 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle plugin (to keep it updated)
 " Text files plugins {{{
 Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
 Plugin 'barmatal/vim-ledger'            " Ledger files plugin
-" Plugin 'gabrielelana/vim-markdown'      " Markdown files plugin
 Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
 Plugin 'godlygeek/tabular'              " Required for markdown tabulation
 Plugin 'jremmen/vim-ripgrep'            " ripgrep text search
@@ -46,14 +45,14 @@ Plugin 'nanotech/jellybeans.vim'        " Theme
 Plugin 'xolox/vim-misc'        " Required for vim-session
 Plugin 'xolox/vim-session'     " Session management
 Plugin 'ctrlpvim/ctrlp.vim'    " Fast file switching
-Plugin 'kshenoy/vim-signature' " Better marks management in files
+" Plugin 'kshenoy/vim-signature' " Better marks management in files
 Plugin '907th/vim-auto-save'   " Autosave files
 Plugin 'djoshea/vim-autoread'  " Autoread files
-Plugin 'mtth/scratch.vim'      " Scratch file easy creation
-Plugin 'yssl/QFEnter'          " Quick Fix window better management
-Plugin 'qpkorr/vim-bufkill'    " Better buffer/split management
+" Plugin 'mtth/scratch.vim'      " Scratch file easy creation
+" Plugin 'yssl/QFEnter'          " Quick Fix window better management
+" Plugin 'qpkorr/vim-bufkill'    " Better buffer/split management
 Plugin 'airblade/vim-rooter'   " Better pwd management
-Plugin 'itchyny/calendar.vim'  " Calendar functionality
+" Plugin 'itchyny/calendar.vim'  " Calendar functionality
 Plugin 'scrooloose/nerdtree'  " Calendar functionality
 
 " }}}
@@ -64,11 +63,11 @@ Plugin 'tpope/vim-commentary'    " Easily add/remove comments
 Plugin 'ervandew/supertab'       " Better tab autocompletion
 Plugin 'tpope/vim-fugitive'      " Git wrapper
 Plugin 'airblade/vim-gitgutter'  " Git wrapper
-Plugin 'pangloss/vim-javascript' " Javascript syntax improvements
-Plugin 'leafgarland/typescript-vim' " Typeascript syntax improvements
-Plugin 'Quramy/vim-js-pretty-template' " templates syntax improvements
-Plugin 'Quramy/tsuquyomi' " TS syntax improvements
-Plugin 'vim-syntastic/syntastic' " TS syntax improvements
+" Plugin 'pangloss/vim-javascript' " Javascript syntax improvements
+" Plugin 'leafgarland/typescript-vim' " Typeascript syntax improvements
+" Plugin 'Quramy/vim-js-pretty-template' " templates syntax improvements
+" Plugin 'Quramy/tsuquyomi' " TS syntax improvements
+" Plugin 'vim-syntastic/syntastic' " TS syntax improvements
 " }}}
 
 call vundle#end()            " required

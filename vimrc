@@ -31,7 +31,7 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle plugin (to keep it updated)
 " Text files plugins {{{
 Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
 Plugin 'barmatal/vim-ledger'            " Ledger files plugin
-" Plugin 'gabrielelana/vim-markdown'      " Markdown files plugin
+Plugin 'let-modeline.vim' " Extend modeline
 Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
 Plugin 'godlygeek/tabular'              " Required for markdown tabulation
 Plugin 'jremmen/vim-ripgrep'            " ripgrep text search
@@ -153,6 +153,10 @@ nmap <silent> <leader>rr :w<CR>:source $MYVIMRC<CR>
 
 " Format Json files quickly
 com! JSONFormat %!python -m json.tool
+
+" Browse links
+nmap <silent> <Enter> ge
+nmap <silent> <BS> <leader>x
 
 " }}}
 
@@ -394,11 +398,12 @@ nnoremap gt :vsplit<CR>'T
 call SetupCommandAlias("lb", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos -U")
 call SetupCommandAlias("lc", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos")
 call SetupCommandAlias("lr", "let g:ledger_winpos = 'B'<CR>:Ledger register -U")
+call SetupCommandAlias("lo", "let g:ledger_winpos = 'R'<CR>:Ledger bal")
 call SetupCommandAlias("lx", "r !ledger -f % xact")
 augroup LedgerGroup
     autocmd!
     autocmd FileType ledger 
-                \ noremap <buffer> <Leader>lc :call ledger#transaction_state_toggle(line('.'), ' *')<CR>|
+                \ noremap <buffer> <Leader>ls :call ledger#transaction_state_toggle(line('.'), ' *!')<CR>|
                 \ inoremap <buffer> ñ ñ|
                 \ inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>|
                 \ vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>|
@@ -420,11 +425,12 @@ augroup MarkdownGroup
     autocmd FileType markdown 
                 \ inoremap <buffer> ñ ñ|
                 \ noremap <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%:p"<CR>
+                
 augroup END
 
 let g:markdown_enable_spell_checking = 0     " markdown disable spellchecking
 let g:markdown_enable_folding = 0
-let g:markdown_enable_conceal = 0
+set conceallevel=2
 
 " }}}
 
@@ -522,7 +528,7 @@ vnoremap <Leader>vv y:Rg <c-r>0<CR>
 " }}}
 
 " Vim Rooter {{{
-let g:rooter_patterns = ['Rakefile', 'Web.config', '*.sln', '.git/', '.root']
+" let g:rooter_patterns = ['Rakefile', 'Web.config', '*.sln', '.git/', '.root']
 " }}}
 
 " Calendar {{{

@@ -46,15 +46,13 @@ Plugin 'nanotech/jellybeans.vim'        " Theme
 Plugin 'xolox/vim-misc'        " Required for vim-session
 Plugin 'xolox/vim-session'     " Session management
 Plugin 'ctrlpvim/ctrlp.vim'    " Fast file switching
-" Plugin 'kshenoy/vim-signature' " Better marks management in files
 Plugin '907th/vim-auto-save'   " Autosave files
 Plugin 'djoshea/vim-autoread'  " Autoread files
 " Plugin 'mtth/scratch.vim'      " Scratch file easy creation
-" Plugin 'yssl/QFEnter'          " Quick Fix window better management
-" Plugin 'qpkorr/vim-bufkill'    " Better buffer/split management
 Plugin 'airblade/vim-rooter'   " Better pwd management
 " Plugin 'itchyny/calendar.vim'  " Calendar functionality
-Plugin 'scrooloose/nerdtree'  " Calendar functionality
+Plugin 'scrooloose/nerdtree'  " File sidebar functionality
+Plugin 'vimwiki/vimwiki'  " Wiki
 
 " }}}
 
@@ -100,6 +98,7 @@ nnoremap mN ['
 
 " Easy window navigation
 map <leader>w <C-w>
+map <leader>ww <C-w>w
 
 " Smart wrap line navigation
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
@@ -155,8 +154,8 @@ nmap <silent> <leader>rr :w<CR>:source $MYVIMRC<CR>
 com! JSONFormat %!python -m json.tool
 
 " Browse links
-nmap <silent> <Enter> ge
-nmap <silent> <BS> <leader>x
+" nmap <silent> <Enter> ge
+" nmap <silent> <BS> <leader>x
 
 " }}}
 
@@ -239,7 +238,7 @@ endif
 set shortmess=aoOtI
 set lazyredraw
 syntax enable
-let base16colorspace=256 " Access colors present in 256 colorspace
+" let base16colorspace=256 " Access colors present in 256 colorspace
 set novisualbell    " don't beep
 set noerrorbells  " don't beep
 set wildmenu    " better autocomplete of commands
@@ -258,6 +257,9 @@ set ai            " Smart indent for lists
 " Change icon in different modes
 autocmd InsertEnter * set cul
 autocmd InsertLeave * set nocul
+
+" Secure encryption
+set cryptmethod=blowfish2
 " }}}
 
 " Line display configuration {{{
@@ -437,7 +439,7 @@ set conceallevel=2
 " Autosave {{{
 
 function! AutoSaveByFiletype()
-    if &filetype != "ledger" && &filetype != "markdown" && &filetype != "taskpaper"
+    if &filetype != "ledger" && &filetype != "markdown" && &filetype != "taskpaper" && &filetype != "vimwiki"
         let g:auto_save_abort = 1
     endif
 endfunction
@@ -551,6 +553,37 @@ autocmd FileType typescript syn clear foldBraces
 
 " Nerdtree {{{
 map <leader>n :NERDTreeToggle<CR>
+" }}}
+
+" VimWiki {{{
+nmap <Leader>i <Plug>VimwikiIndex
+let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Dropbox\Documentos\Tareas',
+                       \ 'syntax': 'markdown', 'ext': '.md'}]
+
+hi VimwikiHeader1 guifg=#70b950 gui=bold
+hi VimwikiHeader2 guifg=#FF00FF gui=bold
+hi VimwikiHeader3 guifg=#FFFF00 gui=bold
+
+function! VimwikiLinkHandler(link)
+" Use Vim to open external files with the 'vfile:' scheme.  E.g.:
+"   1) [[vfile:~/Code/PythonProject/abc123.py]]
+"   2) [[vfile:./|Wiki Home]]
+let link = a:link
+if link =~# '^vfile:'
+    let link = link[1:]
+else
+    return 0
+endif
+let link_infos = vimwiki#base#resolve_link(link)
+if link_infos.filename == ''
+    echomsg 'Vimwiki Error: Unable to resolve link!'
+    return 0
+else
+    exe 'edit ' . fnameescape(link_infos.filename)
+    return 1
+endif
+endfunction
+
 " }}}
 
 " }}}

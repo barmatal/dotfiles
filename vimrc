@@ -139,9 +139,6 @@ fun! SetupCommandAlias(from, to)
         \ .'? ("'.a:to.'") : ("'.a:from.'"))'
 endfun
 
-call SetupCommandAlias("vi", "VundleInstall")
-call SetupCommandAlias("vc", "VundleClean")
-call SetupCommandAlias("vu", "VundleUpdate")
 " }}}
 
 " Additional functionality {{{
@@ -252,7 +249,6 @@ runtime macros\matchit.vim
                   " Use % to match tags
 
 set backspace=2                " backspace working
-set ai            " Smart indent for lists
 
 " Change icon in different modes
 autocmd InsertEnter * set cul
@@ -266,7 +262,7 @@ set cryptmethod=blowfish2
 
 set rnu         " Display relative line number
 set number      " Display line number
-set nowrap      " disable line wrap
+set wrap      " disable line wrap
 set linebreak   " wrap only whole words
 set scrolloff=3 " Sets the scroll a little before so you have context
 
@@ -286,7 +282,7 @@ set tabstop=4
 " Folding {{{
 set foldenable    " enable folding
 set foldmethod=syntax " enable folding in code
-set foldlevel=1   " Start with 3 level folding
+set foldlevel=3   " Start with 3 level folding
 set foldtext=MyFoldText()
 function! MyFoldText()
   let line = getline(v:foldstart)
@@ -385,6 +381,8 @@ augroup TaskPaperGroup
         \ nmap <buffer> <leader>a <leader>tD|
         \ nmap <buffer> <leader>m <leader>tm|
         \ nmap <buffer> <leader>s <leader>ts|
+        \ nmap <buffer> <leader>z <leader>tp|
+        \ call taskpaper#fold_projects()|
         \ inoremap <buffer> ñ ñ|
         \ setlocal shiftwidth=2 |
         \ setlocal softtabstop=2 |
@@ -392,8 +390,6 @@ augroup TaskPaperGroup
 augroup END
 let g:task_paper_follow_move = 0
 
-" Go to special file (marked with T)
-nnoremap gt :vsplit<CR>'T
 " }}}
 
 " Ledger {{{
@@ -433,6 +429,9 @@ augroup END
 let g:markdown_enable_spell_checking = 0     " markdown disable spellchecking
 let g:markdown_enable_folding = 0
 set conceallevel=2
+
+" Markdown easy remapping
+vnoremap ` c```<CR>```<Esc>P
 
 " }}}
 
@@ -481,6 +480,7 @@ let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
 " Airline {{{
 set laststatus=2  " To make airline work
 let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 " }}}
 
 " Session {{{
@@ -561,8 +561,9 @@ let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Dropbox\Documentos\Tare
                        \ 'syntax': 'markdown', 'ext': '.md'}]
 
 hi VimwikiHeader1 guifg=#70b950 gui=bold
-hi VimwikiHeader2 guifg=#FF00FF gui=bold
-hi VimwikiHeader3 guifg=#FFFF00 gui=bold
+hi VimwikiHeader2 guifg=#D7BA7D gui=bold
+hi VimwikiHeader3 guifg=#C586C0 gui=bold
+hi VimwikiHeader4 guifg=#9CDCFE gui=bold
 
 function! VimwikiLinkHandler(link)
 " Use Vim to open external files with the 'vfile:' scheme.  E.g.:
@@ -583,6 +584,8 @@ else
     return 1
 endif
 endfunction
+
+let g:vimwiki_folding = 'expr'
 
 " }}}
 

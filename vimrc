@@ -52,7 +52,7 @@ Plugin 'djoshea/vim-autoread'  " Autoread files
 Plugin 'airblade/vim-rooter'   " Better pwd management
 " Plugin 'itchyny/calendar.vim'  " Calendar functionality
 Plugin 'scrooloose/nerdtree'  " File sidebar functionality
-Plugin 'vimwiki/vimwiki'  " Wiki
+Plugin 'barmatal/vimwiki'  " Wiki
 
 " }}}
 
@@ -265,6 +265,8 @@ set number      " Display line number
 set wrap      " disable line wrap
 set linebreak   " wrap only whole words
 set scrolloff=3 " Sets the scroll a little before so you have context
+
+set formatoptions=tcqown
 
 " }}}
 

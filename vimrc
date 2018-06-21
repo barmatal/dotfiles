@@ -533,7 +533,7 @@ vnoremap <Leader>vv y:Rg <c-r>0<CR>
 " }}}
 
 " Vim Rooter {{{
-" let g:rooter_patterns = ['Rakefile', 'Web.config', '*.sln', '.git/', '.root']
+let g:rooter_patterns = ['index.md', '.git/']
 " }}}
 
 " Calendar {{{

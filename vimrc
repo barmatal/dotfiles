@@ -194,6 +194,10 @@ nnoremap viÑ vi[
 nnoremap ciÑ ci[
 nnoremap yiÑ yi[
 nnoremap diÑ di[
+
+" Update local directory when entered
+autocmd BufEnter * if &ft !~ '^nerdtree$' | silent! lcd %:p:h | endif
+
 " }}}
 " }}}
 
@@ -401,7 +405,7 @@ let g:task_paper_follow_move = 0
 
 " Ledger {{{
 call SetupCommandAlias("lb", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos -U")
-call SetupCommandAlias("lc", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos")
+call SetupCommandAlias("lc", "let g:ledger_winpos = 'B'<CR>:Ledger bal Comida")
 call SetupCommandAlias("lr", "let g:ledger_winpos = 'B'<CR>:Ledger register -U")
 call SetupCommandAlias("lo", "let g:ledger_winpos = 'R'<CR>:Ledger bal")
 call SetupCommandAlias("lx", "r !ledger -f % xact")
@@ -540,6 +544,8 @@ vnoremap <Leader>vv y:Rg <c-r>0<CR>
 
 " Vim Rooter {{{
 let g:rooter_patterns = ['index.md', '.git/']
+let g:rooter_silent_chdir = 1
+let g:rooter_use_lcd = 1
 " }}}
 
 " Calendar {{{

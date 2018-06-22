@@ -417,6 +417,8 @@ let g:ledger_commodity_before = 0
 let g:ledger_commodity_sep = " "
 let g:ledger_decimal_sep = ","
 let g:ledger_winpos = 'r'
+let g:ledger_extra_options = '--date-format=%Y-%m-%d'
+let g:ledger_fillstring = '    -'
 " }}}
 
 " Markdown {{{

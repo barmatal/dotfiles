@@ -256,6 +256,7 @@ autocmd InsertLeave * set nocul
 
 " Secure encryption
 set cryptmethod=blowfish2
+
 " }}}
 
 " Line display configuration {{{
@@ -534,7 +535,7 @@ vnoremap <Leader>vv y:Rg <c-r>0<CR>
 " }}}
 
 " Vim Rooter {{{
-" let g:rooter_patterns = ['Rakefile', 'Web.config', '*.sln', '.git/', '.root']
+let g:rooter_patterns = ['index.md', '.git/']
 " }}}
 
 " Calendar {{{
@@ -561,8 +562,14 @@ map <leader>n :NERDTreeToggle<CR>
 
 " VimWiki {{{
 nmap <Leader>i <Plug>VimwikiIndex
-let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Dropbox\Documentos\Tareas',
-                       \ 'syntax': 'markdown', 'ext': '.md'}]
+
+if(g:os == "windows")
+    let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Dropbox\Documentos\Tareas',
+                            \ 'syntax': 'markdown', 'ext': '.md'}]
+else
+    let g:vimwiki_list = [{'path': '~/Dropbox/Documentos/Tareas',
+                            \ 'syntax': 'markdown', 'ext': '.md'}]
+endif
 
 hi VimwikiHeader1 guifg=#70b950 gui=bold
 hi VimwikiHeader2 guifg=#D7BA7D gui=bold

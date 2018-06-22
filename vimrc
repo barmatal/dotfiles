@@ -154,6 +154,10 @@ com! JSONFormat %!python -m json.tool
 " nmap <silent> <Enter> ge
 " nmap <silent> <BS> <leader>x
 
+" Folds as text objects
+xnoremap iz :<C-U>silent!normal![zV]z<CR>
+onoremap iz :normal viz<CR>
+
 " }}}
 
 " Compatibility {{{

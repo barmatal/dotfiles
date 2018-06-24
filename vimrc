@@ -248,7 +248,9 @@ set novisualbell    " don't beep
 set noerrorbells  " don't beep
 set wildmenu    " better autocomplete of commands
 set wildmode=longest:list,full
-
+" Autocompletion
+inoremap <s-Tab> <c-n>
+set complete+=k
 " }}}
 
 " Text edition {{{
@@ -419,7 +421,14 @@ augroup LedgerGroup
                 \ setlocal shiftwidth=2 |
                 \ setlocal softtabstop=2 |
                 \ setlocal tabstop=2 |
+                \ inoremap <CR> <Esc>:LedgerAlign<CR>A<CR>|
 augroup END
+
+" Copy latest transaction 
+nmap <Leader>lc mt_W"cy$?<C-r>"$<CR>zcyiz'tpzadd:nohlsearch<CR>
+" Reformat line
+nmap K 03W50i<Space><Esc>050ldw
+vmap K 03W50i<Space><Esc>050ldw
 
 let g:ledger_default_commodity = "€"
 let g:ledger_commodity_before = 0
@@ -545,7 +554,7 @@ vnoremap <Leader>vv y:Rg <c-r>0<CR>
 " Vim Rooter {{{
 let g:rooter_patterns = ['index.md', '.git/']
 let g:rooter_silent_chdir = 1
-let g:rooter_use_lcd = 1
+" let g:rooter_use_lcd = 1
 " }}}
 
 " Calendar {{{

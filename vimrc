@@ -397,6 +397,7 @@ augroup TaskPaperGroup
         \ nmap <buffer> <leader>z <leader>tp|
         \ call taskpaper#fold_projects()|
         \ inoremap <buffer> ñ ñ|
+        \ inoremap <buffer> <CR> <CR>|
         \ setlocal shiftwidth=2 |
         \ setlocal softtabstop=2 |
         \ setlocal tabstop=2

@@ -408,7 +408,7 @@ let g:task_paper_follow_move = 0
 
 " Ledger {{{
 call SetupCommandAlias("lb", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos -U")
-call SetupCommandAlias("lc", "let g:ledger_winpos = 'B'<CR>:Ledger bal Comida")
+call SetupCommandAlias("lc", "let g:ledger_winpos = 'B'<CR>:Ledger bal Comida Ejercicio")
 call SetupCommandAlias("lr", "let g:ledger_winpos = 'B'<CR>:Ledger register -U")
 call SetupCommandAlias("lo", "let g:ledger_winpos = 'R'<CR>:Ledger bal")
 call SetupCommandAlias("lx", "r !ledger -f % xact")

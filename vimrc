@@ -36,7 +36,6 @@ Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
 Plugin 'godlygeek/tabular'              " Required for markdown tabulation
 Plugin 'jremmen/vim-ripgrep'            " ripgrep text search
 " }}}
-
 " Visual improvements {{{
 Plugin 'vim-airline/vim-airline'        " Bottom line information
 Plugin 'nanotech/jellybeans.vim'        " Theme
@@ -83,9 +82,6 @@ let mapleader=" "
 " jj switches mode
 inoremap jj <Esc>
 
-" Fast save mode (Save and close from insert mode)
-inoremap ZZ <Esc>ZZ
-
 " Browse tabs
 nmap <leader>k :bn<cr>
 nmap <leader>j :bp<cr>
@@ -97,7 +93,6 @@ nnoremap mn ]'
 nnoremap mN ['
 
 " Easy window navigation
-map <leader>w <C-w>
 map <leader>ww <C-w>w
 
 " Smart wrap line navigation
@@ -105,7 +100,11 @@ noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " Smart line join
-nnoremap J gJ
+nnoremap H gJ
+
+" Smart navigation
+nnoremap J <C-D>
+nnoremap K <C-U>
 
 " Better g; logic
 nnoremap g, g;
@@ -408,7 +407,7 @@ let g:task_paper_follow_move = 0
 
 " Ledger {{{
 call SetupCommandAlias("lb", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos -U")
-call SetupCommandAlias("lc", "let g:ledger_winpos = 'B'<CR>:Ledger bal Comida Ejercicio")
+call SetupCommandAlias("lc", "let g:ledger_winpos = 'B'<CR>:Ledger bal Comida Ejercicio Metabolismo")
 call SetupCommandAlias("lr", "let g:ledger_winpos = 'B'<CR>:Ledger register -U")
 call SetupCommandAlias("lo", "let g:ledger_winpos = 'R'<CR>:Ledger bal")
 call SetupCommandAlias("lx", "r !ledger -f % xact")
@@ -426,10 +425,10 @@ augroup LedgerGroup
 augroup END
 
 " Copy latest transaction 
-nmap <Leader>lc mt_W"cy$?<C-r>"$<CR>zcyiz'tpzadd:nohlsearch<CR>
+" nmap <Leader>lc mt_W"cy$?<C-r>"$<CR>zcyiz'tpzadd:nohlsearch<CR>
 " Reformat line
-nmap K 03W50i<Space><Esc>050ldw
-vmap K 03W50i<Space><Esc>050ldw
+" nmap K 03W50i<Space><Esc>050ldw
+" vmap K 03W50i<Space><Esc>050ldw
 
 let g:ledger_default_commodity = "€"
 let g:ledger_commodity_before = 0

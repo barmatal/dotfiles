@@ -31,26 +31,25 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle plugin (to keep it updated)
 " Text files plugins {{{
 Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
 Plugin 'barmatal/vim-ledger'            " Ledger files plugin
-Plugin 'let-modeline.vim' " Extend modeline
-Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
-Plugin 'godlygeek/tabular'              " Required for markdown tabulation
-Plugin 'jremmen/vim-ripgrep'            " ripgrep text search
+Plugin 'let-modeline.vim'          " Extend modeline to include local vars
+" Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
+" Plugin 'godlygeek/tabular'              " Required for markdown tabulation
+" Plugin 'jremmen/vim-ripgrep'            " ripgrep text search
 " }}}
+
 " Visual improvements {{{
 Plugin 'vim-airline/vim-airline'        " Bottom line information
 Plugin 'nanotech/jellybeans.vim'        " Theme
 " }}}
 
 " File and projects management {{{
-Plugin 'xolox/vim-misc'        " Required for vim-session
-Plugin 'xolox/vim-session'     " Session management
-Plugin 'ctrlpvim/ctrlp.vim'    " Fast file switching
+" Plugin 'xolox/vim-misc'        " Required for vim-session
+" Plugin 'xolox/vim-session'     " Session management
+" Plugin 'ctrlpvim/ctrlp.vim'    " Fast file switching
 Plugin '907th/vim-auto-save'   " Autosave files
 Plugin 'djoshea/vim-autoread'  " Autoread files
-" Plugin 'mtth/scratch.vim'      " Scratch file easy creation
 Plugin 'airblade/vim-rooter'   " Better pwd management
-" Plugin 'itchyny/calendar.vim'  " Calendar functionality
-Plugin 'scrooloose/nerdtree'  " File sidebar functionality
+" Plugin 'scrooloose/nerdtree'  " File sidebar functionality
 Plugin 'barmatal/vimwiki'  " Wiki
 
 " }}}
@@ -61,11 +60,6 @@ Plugin 'tpope/vim-commentary'    " Easily add/remove comments
 Plugin 'ervandew/supertab'       " Better tab autocompletion
 Plugin 'tpope/vim-fugitive'      " Git wrapper
 Plugin 'airblade/vim-gitgutter'  " Git wrapper
-" Plugin 'pangloss/vim-javascript' " Javascript syntax improvements
-" Plugin 'leafgarland/typescript-vim' " Typeascript syntax improvements
-" Plugin 'Quramy/vim-js-pretty-template' " templates syntax improvements
-" Plugin 'Quramy/tsuquyomi' " TS syntax improvements
-" Plugin 'vim-syntastic/syntastic' " TS syntax improvements
 " }}}
 
 call vundle#end()            " required
@@ -77,7 +71,7 @@ filetype plugin indent on    " required
 " General {{{
 
 " Space is leader
-let mapleader=" "
+let mapleader=' '
 
 " jj switches mode
 inoremap jj <Esc>
@@ -88,9 +82,20 @@ nmap <leader>j :bp<cr>
 nmap <leader>x :bd<cr>
 nmap <leader>X :bd!<cr>
 
+" Helper function to remap command mode aliases
+fun! SetupCommandAlias(from, to)
+  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfun
+
+" Session management
+call SetupCommandAlias("ss", "mks")
+call SetupCommandAlias("so", "source")
+
 " Mark management
-nnoremap mn ]'
-nnoremap mN ['
+" nnoremap mn ]'
+" nnoremap mN ['
 
 " Easy window navigation
 map <leader>ww <C-w>w
@@ -113,14 +118,6 @@ nnoremap g, g;
 noremap <Leader>p "*p
 noremap <Leader>y "*y
 
-" Move lines using alt
-nnoremap <M-j> :m .+1<CR>
-nnoremap <M-k> :m .-2<CR>
-nnoremap <M-l> >>
-nnoremap <M-h> <<
-vnoremap <M-j> :m '>+1<CR>gv
-vnoremap <M-k> :m '<-2<CR>gv
-
 " Clear search
 nmap <silent> <leader>/ :nohlsearch<CR>
 nmap <silent> <leader>Ñ :nohlsearch<CR>
@@ -131,12 +128,6 @@ nnoremap Q @q
 " Easy undo
 nnoremap U <C-r>
 
-" Helper function to remap command mode aliases
-fun! SetupCommandAlias(from, to)
-  exec 'cnoreabbrev <expr> '.a:from
-        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
-        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
-endfun
 
 " }}}
 
@@ -146,14 +137,10 @@ endfun
 nmap <silent> <leader>re :e $MYVIMRC<CR>
 nmap <silent> <leader>rr :w<CR>:source $MYVIMRC<CR>
 
-" Format Json files quickly
-com! JSONFormat %!python -m json.tool
+" Left explorer toggle
+map <leader>n :Lexplore<CR>
 
-" Browse links
-" nmap <silent> <Enter> ge
-" nmap <silent> <BS> <leader>x
-
-" Folds as text objects
+" Folds as text objects (viz selects a fold)
 xnoremap iz :<C-U>silent!normal![zV]z<CR>
 onoremap iz :normal viz<CR>
 
@@ -177,25 +164,8 @@ cnoremap <C-V> <C-r>"
 " Additional functionality {{{
 nnoremap ñ :
 vnoremap ñ :
-nnoremap Ñ /\v
-vnoremap Ñ /\v
-inoremap ñ {
-inoremap Ñ [
-inoremap ç }
-inoremap Ç ]
-
-nnoremap viñ vi{
-nnoremap ciñ ci{
-nnoremap yiñ yi{
-nnoremap diñ di{
-
-nnoremap viÑ vi[
-nnoremap ciÑ ci[
-nnoremap yiÑ yi[
-nnoremap diÑ di[
-
-" Update local directory when entered
-autocmd BufEnter * if &ft !~ '^nerdtree$' | silent! lcd %:p:h | endif
+nnoremap Ñ /
+vnoremap Ñ /
 
 " }}}
 " }}}
@@ -222,19 +192,7 @@ elseif(g:os == "mac")
     set guioptions-=r  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
 elseif (g:os == "terminal")
-    " Fix wrong accented words in terminal
-    " inoremap 'á á
-    " inoremap 'é é
-    " inoremap 'í í
-    " inoremap 'ó ó
-    " inoremap 'ú ú
-    " inoremap 'Á Á
-    " inoremap 'É É
-    " inoremap 'Í Í
-    " inoremap 'Ó Ó
-    " inoremap 'Ú Ú
-    " inoremap "ü ü
-    " inoremap "Ü Ü
+    " Nothing yet
 endif
 " }}}
 
@@ -272,7 +230,7 @@ set cryptmethod=blowfish2
 
 set rnu         " Display relative line number
 set number      " Display line number
-set wrap      " disable line wrap
+set nowrap      " disable line wrap
 set linebreak   " wrap only whole words
 set scrolloff=3 " Sets the scroll a little before so you have context
 
@@ -333,10 +291,8 @@ endfunction
 
 " Files, windows, buffers and splits {{{
 set modelines=2
-" set autochdir
 set encoding=UTF-8
 set hidden        " Improve buffer management
-" set diffopt+=vertical
 filetype on
 filetype indent on
 
@@ -369,8 +325,6 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " Search {{{
 
-nnoremap / /\v
-vnoremap / /\v
 set ignorecase " ignore case when searching
 set smartcase  " ignore case if search pattern is all lowercase, case-sensitive otherwise
 set hlsearch   " highlight search terms
@@ -410,7 +364,7 @@ call SetupCommandAlias("lb", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos P
 call SetupCommandAlias("lc", "let g:ledger_winpos = 'B'<CR>:Ledger bal Comida Ejercicio Metabolismo")
 call SetupCommandAlias("lr", "let g:ledger_winpos = 'B'<CR>:Ledger register -U")
 call SetupCommandAlias("lo", "let g:ledger_winpos = 'R'<CR>:Ledger bal")
-call SetupCommandAlias("lx", "r !ledger -f % xact")
+
 augroup LedgerGroup
     autocmd!
     autocmd FileType ledger 
@@ -421,7 +375,7 @@ augroup LedgerGroup
                 \ setlocal shiftwidth=2 |
                 \ setlocal softtabstop=2 |
                 \ setlocal tabstop=2 |
-                \ inoremap <CR> <Esc>:LedgerAlign<CR>A<CR>|
+                \ inoremap <buffer> <CR> <Esc>:LedgerAlign<CR>A<CR>|
 augroup END
 
 " Copy latest transaction 
@@ -440,20 +394,20 @@ let g:ledger_fillstring = '    -'
 " }}}
 
 " Markdown {{{
-augroup MarkdownGroup
-    autocmd!
-    autocmd FileType markdown 
-                \ inoremap <buffer> ñ ñ|
-                \ noremap <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%:p"<CR>
+" augroup MarkdownGroup
+"     autocmd!
+"     autocmd FileType markdown 
+"                 \ inoremap <buffer> ñ ñ|
+"                 \ noremap <buffer> <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%:p"<CR>
                 
-augroup END
+" augroup END
 
-let g:markdown_enable_spell_checking = 0     " markdown disable spellchecking
-let g:markdown_enable_folding = 0
-set conceallevel=2
+" let g:markdown_enable_spell_checking = 0     " markdown disable spellchecking
+" let g:markdown_enable_folding = 0
+" set conceallevel=2
 
 " Markdown easy remapping
-vnoremap ` c```<CR>```<Esc>P
+" vnoremap ` c```<CR>```<Esc>P
 
 " }}}
 
@@ -471,19 +425,19 @@ let g:auto_save_presave_hook = 'call AutoSaveByFiletype()'
 " }}}
 
 " Syntastic {{{
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = { "mode": "passive" } 
-let g:syntastic_js_checkers = ['syntastic-javascript-jshint']
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_mode_map = { "mode": "passive" } 
+" let g:syntastic_js_checkers = ['syntastic-javascript-jshint']
 
-let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi']
+" let g:tsuquyomi_disable_quickfix = 1
+" let g:syntastic_typescript_checkers = ['tsuquyomi']
 " }}}
 
 " Jellybeans {{{
@@ -491,12 +445,12 @@ colorscheme jellybeans
 " }}}
 
 " Ctrlp {{{
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_root_markers = ['web.config','*.sln']
-let g:ctrlp_by_filename = 1
-let g:ctrlp_working_path_mode = 'rw'
-set grepprg=rg\ --color=never
-let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+" let g:ctrlp_map = '<c-p>'
+" let g:ctrlp_root_markers = ['web.config','*.sln']
+" let g:ctrlp_by_filename = 1
+" let g:ctrlp_working_path_mode = 'rw'
+" set grepprg=rg\ --color=never
+" let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
 " }}}
 
 " Airline {{{
@@ -505,82 +459,26 @@ let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 " }}}
 
-" Session {{{
-call SetupCommandAlias("ss", "SaveSession")
-call SetupCommandAlias("so", "OpenSession")
-call SetupCommandAlias("sd", "DeleteSession")
-let g:session_autoload='no'
-let g:session_autosave='no'
-" }}}
-
 " Fugitive and gitgutter {{{
 call SetupCommandAlias("git", "Git")
-call SetupCommandAlias("gs", "Gstatus")
-call SetupCommandAlias("gpl", "Gpull")
-call SetupCommandAlias("gps", "Gpush")
-call SetupCommandAlias("gl", "Git! log")
-call SetupCommandAlias("gi", "Git! show")
-call SetupCommandAlias("gc", "Git! checkout")
-call SetupCommandAlias("gd", "Gdiff")
-call SetupCommandAlias("gb", "Gblame")
-call SetupCommandAlias("gr", "Gread")
 nnoremap <Leader>gn :GitGutterNextHunk<CR>zO
 nnoremap <Leader>gN :GitGutterPrevHunk<CR>zO
 nnoremap <Leader>gu :GitGutterUndoHunk<CR>
-nnoremap <Leader>gdl :diffget //2<CR>
-nnoremap <Leader>gdr :diffget //3<CR>
-nnoremap <Leader>gdu :diffupdate<CR>
 set diffopt+=vertical
-" }}}
-
-" Scratch {{{
-let g:scratch_height = 50
-let g:scratch_horizontal = 0
-let g:scratch_top = 0
-let g:scratch_insert_autohide = 0
-nnoremap gs :Scratch<CR>
-nnoremap gp :ScratchPreview<CR>
-
-" }}}
-
-" Ripgrep {{{
-call SetupCommandAlias("rg", "Rg -S")
-nnoremap <C-S-f> :Rg -S 
-nnoremap <Leader>vv :Rg <cword><CR>
-vnoremap <Leader>vv y:Rg <c-r>0<CR>
-
 " }}}
 
 " Vim Rooter {{{
 let g:rooter_patterns = ['index.md', '.git/']
 let g:rooter_silent_chdir = 1
+let g:rooter_change_directory_for_non_project_files = 'current'
 " let g:rooter_use_lcd = 1
 " }}}
 
-" Calendar {{{
-let g:calendar_google_calendar = 1
-let g:calendar_views = ['year', 'month', 'week', 'day_4', 'day', 'weekday', 'event', 'agenda']
-let g:calendar_view = "agenda"
-let g:calendar_time_zone = "+0200"
-nnoremap <Leader>c :Calendar<CR>
-" }}}
-
-" Typescript {{{
-let g:typescript_compiler_binary = 'tsc'
-let g:typescript_compiler_options = ''
-autocmd QuickFixCmdPost [^l]* nested cwindow
-autocmd QuickFixCmdPost    l* nested lwindow
-
-autocmd FileType typescript JsPreTmpl html
-autocmd FileType typescript syn clear foldBraces
-" }}}
-
-" Nerdtree {{{
-map <leader>n :NERDTreeToggle<CR>
-" }}}
-
 " VimWiki {{{
-nmap <Leader>i <Plug>VimwikiIndex
+nmap <Leader>ii <Plug>VimwikiIndex
+nmap <Leader>id <Plug>VimwikiDiaryIndex
+nmap <Leader>ig <Plug>VimwikiDiaryGenerateLinks
+nmap <Leader>it <Plug>VimwikiMakeDiaryNote
 
 if(g:os == "windows")
     let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Dropbox\Documentos\Tareas',
@@ -589,6 +487,18 @@ else
     let g:vimwiki_list = [{'path': '~/Dropbox/Documentos/Tareas',
                             \ 'syntax': 'markdown', 'ext': '.md'}]
 endif
+
+autocmd BufNewFile */diary/????-??-??.md call s:new_vimwiki_diary_template()
+
+function! s:new_vimwiki_diary_template()
+  " load diary template
+  if(g:os == "windows")
+    read C:\Users\alfredo.barroso\Dropbox\Documentos\Tareas\diary\diary.tpl
+  else
+    read ~/Dropbox/Documentos/Tareas/diary/diary.tpl
+    exe 'X'
+  endif
+endfunction
 
 hi VimwikiHeader1 guifg=#70b950 gui=bold
 hi VimwikiHeader2 guifg=#D7BA7D gui=bold

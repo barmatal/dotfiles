@@ -43,13 +43,13 @@ Plugin 'nanotech/jellybeans.vim'        " Theme
 " }}}
 
 " File and projects management {{{
-" Plugin 'xolox/vim-misc'        " Required for vim-session
-" Plugin 'xolox/vim-session'     " Session management
+Plugin 'xolox/vim-misc'        " Required for vim-session
+Plugin 'xolox/vim-session'     " Session management
 " Plugin 'ctrlpvim/ctrlp.vim'    " Fast file switching
 Plugin '907th/vim-auto-save'   " Autosave files
 Plugin 'djoshea/vim-autoread'  " Autoread files
 Plugin 'airblade/vim-rooter'   " Better pwd management
-" Plugin 'scrooloose/nerdtree'  " File sidebar functionality
+Plugin 'scrooloose/nerdtree'  " File sidebar functionality
 Plugin 'barmatal/vimwiki'  " Wiki
 
 " }}}
@@ -90,8 +90,8 @@ fun! SetupCommandAlias(from, to)
 endfun
 
 " Session management
-call SetupCommandAlias("ss", "mks")
-call SetupCommandAlias("so", "source")
+call SetupCommandAlias("ss", "mks ~/.vim/sessions/")
+call SetupCommandAlias("so", "source ~/.vim/sessions/")
 
 " Mark management
 " nnoremap mn ]'
@@ -136,9 +136,6 @@ nnoremap U <C-r>
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>re :e $MYVIMRC<CR>
 nmap <silent> <leader>rr :w<CR>:source $MYVIMRC<CR>
-
-" Left explorer toggle
-map <leader>n :Lexplore<CR>
 
 " Folds as text objects (viz selects a fold)
 xnoremap iz :<C-U>silent!normal![zV]z<CR>
@@ -459,6 +456,18 @@ let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 " }}}
 
+" Session {{{	
+call SetupCommandAlias("ss", "SaveSession")	
+call SetupCommandAlias("so", "OpenSession")	
+call SetupCommandAlias("sd", "DeleteSession")	
+let g:session_autoload='no'	
+let g:session_autosave='no'	
+" }}}
+
+" Nerdtree {{{	
+map <leader>n :NERDTreeToggle<CR>	
+" }}}
+
 " Fugitive and gitgutter {{{
 call SetupCommandAlias("git", "Git")
 nnoremap <Leader>gn :GitGutterNextHunk<CR>zO
@@ -470,8 +479,9 @@ set diffopt+=vertical
 " Vim Rooter {{{
 let g:rooter_patterns = ['index.md', '.git/']
 let g:rooter_silent_chdir = 1
-let g:rooter_change_directory_for_non_project_files = 'current'
-" let g:rooter_use_lcd = 1
+let g:rooter_change_directory_for_non_project_files = ''
+" let g:rooter_resolve_links = 1
+" let g:rooter_manual_only = 1
 " }}}
 
 " VimWiki {{{
@@ -479,6 +489,7 @@ nmap <Leader>ii <Plug>VimwikiIndex
 nmap <Leader>id <Plug>VimwikiDiaryIndex
 nmap <Leader>ig <Plug>VimwikiDiaryGenerateLinks
 nmap <Leader>it <Plug>VimwikiMakeDiaryNote
+nmap <Leader>iy <Plug>VimwikiMakeYesterdayDiaryNote
 
 if(g:os == "windows")
     let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Dropbox\Documentos\Tareas',
@@ -488,7 +499,10 @@ else
                             \ 'syntax': 'markdown', 'ext': '.md'}]
 endif
 
-autocmd BufNewFile */diary/????-??-??.md call s:new_vimwiki_diary_template()
+augroup VimWikiGroup
+    autocmd!
+    autocmd BufNewFile */diary/????-??-??.md call s:new_vimwiki_diary_template()
+augroup END
 
 function! s:new_vimwiki_diary_template()
   " load diary template

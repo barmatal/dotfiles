@@ -466,6 +466,7 @@ let g:session_autosave='no'
 
 " Nerdtree {{{	
 map <leader>n :NERDTreeToggle<CR>	
+let NERDTreeMinimalUI=1
 " }}}
 
 " Fugitive and gitgutter {{{

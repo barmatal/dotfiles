@@ -31,8 +31,8 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle plugin (to keep it updated)
 " Text files plugins {{{
 Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
 Plugin 'barmatal/vim-ledger'            " Ledger files plugin
-Plugin 'let-modeline.vim'          " Extend modeline to include local vars
-Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
+" Plugin 'let-modeline.vim'          " Extend modeline to include local vars
+" Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
 " Plugin 'godlygeek/tabular'              " Required for markdown tabulation
 " Plugin 'jremmen/vim-ripgrep'            " ripgrep text search
 " }}}
@@ -227,7 +227,7 @@ set cryptmethod=blowfish2
 
 set rnu         " Display relative line number
 set number      " Display line number
-set nowrap      " disable line wrap
+set wrap      " disable line wrap
 set linebreak   " wrap only whole words
 set scrolloff=3 " Sets the scroll a little before so you have context
 
@@ -358,9 +358,20 @@ let g:task_paper_follow_move = 0
 
 " Ledger {{{
 call SetupCommandAlias("lb", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos -U")
-call SetupCommandAlias("lc", "let g:ledger_winpos = 'B'<CR>:Ledger bal Comida Ejercicio Metabolismo")
+call SetupCommandAlias("lc", "let g:ledger_winpos = 'B'<CR>:Ledger bal -X 'kc' Comida Ejercicio Metabolismo")
 call SetupCommandAlias("lr", "let g:ledger_winpos = 'B'<CR>:Ledger register -U")
 call SetupCommandAlias("lo", "let g:ledger_winpos = 'R'<CR>:Ledger bal")
+
+" Special commodity for calorie counting file
+function! SetCommodity()
+    if expand('%:t') == 'cal.txt'
+        echo 'cal'
+        let g:ledger_default_commodity="kc"
+    else
+        echo 'money'
+        let g:ledger_default_commodity="€"
+    endif
+endfunction
 
 augroup LedgerGroup
     autocmd!
@@ -372,7 +383,8 @@ augroup LedgerGroup
                 \ setlocal shiftwidth=2 |
                 \ setlocal softtabstop=2 |
                 \ setlocal tabstop=2 |
-                \ inoremap <buffer> <CR> <Esc>:LedgerAlign<CR>A<CR>|
+                \ inoremap <buffer> <CR> <Esc>:LedgerAlign<CR>A<CR> |
+                \ call SetCommodity()
 augroup END
 
 " Copy latest transaction 
@@ -380,8 +392,7 @@ augroup END
 " Reformat line
 " nmap K 03W50i<Space><Esc>050ldw
 " vmap K 03W50i<Space><Esc>050ldw
-
-let g:ledger_default_commodity = "€"
+let g:ledger_default_commodity="€"
 let g:ledger_commodity_before = 0
 let g:ledger_commodity_sep = " "
 let g:ledger_decimal_sep = ","
@@ -466,6 +477,10 @@ let g:session_autosave='no'
 
 " Nerdtree {{{	
 map <leader>n :NERDTreeToggle<CR>	
+let NERDTreeMinimalUI=1
+
+let NERDTreeMapUpdir = 'h'
+let NERDTreeMapChangeRoot = 'l'
 " }}}
 
 " Fugitive and gitgutter {{{
@@ -486,6 +501,7 @@ let g:rooter_change_directory_for_non_project_files = ''
 
 " VimWiki {{{
 nmap <Leader>ii <Plug>VimwikiIndex
+nmap <Leader>iw 2<Plug>VimwikiIndex
 nmap <Leader>id <Plug>VimwikiDiaryIndex
 nmap <Leader>ig <Plug>VimwikiDiaryGenerateLinks
 nmap <Leader>it <Plug>VimwikiMakeDiaryNote
@@ -493,9 +509,13 @@ nmap <Leader>iy <Plug>VimwikiMakeYesterdayDiaryNote
 
 if(g:os == "windows")
     let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Dropbox\Documentos\Tareas',
+                            \ 'syntax': 'markdown', 'ext': '.md'},
+                            \ {'path': 'C:\Users\alfredo.barroso\Dropbox\Documentos\Wiki',
                             \ 'syntax': 'markdown', 'ext': '.md'}]
 else
     let g:vimwiki_list = [{'path': '~/Dropbox/Documentos/Tareas',
+                            \ 'syntax': 'markdown', 'ext': '.md'},
+                            \ {'path': '~/Dropbox/Documentos/Wiki',
                             \ 'syntax': 'markdown', 'ext': '.md'}]
 endif
 
@@ -514,10 +534,10 @@ function! s:new_vimwiki_diary_template()
   endif
 endfunction
 
-hi VimwikiHeader1 guifg=#70b950 gui=bold
-hi VimwikiHeader2 guifg=#D7BA7D gui=bold
-hi VimwikiHeader3 guifg=#C586C0 gui=bold
-hi VimwikiHeader4 guifg=#9CDCFE gui=bold
+hi VimwikiHeader1 gui=bold cterm=bold term=bold ctermfg=71 guifg=#70b950
+hi VimwikiHeader2 gui=bold cterm=bold term=bold ctermfg=167 guifg=#d75f5f
+hi VimwikiHeader3 gui=bold cterm=bold term=bold ctermfg=91 guifg=#8700af
+hi VimwikiHeader4 gui=bold cterm=bold term=bold ctermfg=33 guifg=#0087ff
 
 function! VimwikiLinkHandler(link)
 " Use Vim to open external files with the 'vfile:' scheme.  E.g.:

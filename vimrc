@@ -32,7 +32,7 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle plugin (to keep it updated)
 Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
 Plugin 'barmatal/vim-ledger'            " Ledger files plugin
 Plugin 'let-modeline.vim'          " Extend modeline to include local vars
-" Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
+Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
 " Plugin 'godlygeek/tabular'              " Required for markdown tabulation
 " Plugin 'jremmen/vim-ripgrep'            " ripgrep text search
 " }}}
@@ -183,7 +183,7 @@ if(g:os == "windows")
     set guioptions-=L  "remove left-hand scroll bar
 elseif(g:os == "mac")
     " Full screen
-    set fu
+    " set fu
     " Font settings
     set guifont=Menlo\ Regular:h18
     set guioptions-=r  "remove right-hand scroll bar

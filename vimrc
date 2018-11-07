@@ -105,10 +105,10 @@ noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " Smart line join
-nnoremap H gJ
+nnoremap J gJ
 
 " Smart navigation
-nnoremap J <C-D>
+nnoremap H <C-D>
 nnoremap K <C-U>
 
 " Better g; logic
@@ -391,6 +391,7 @@ let g:ledger_fillstring = '    -'
 " }}}
 
 " Markdown {{{
+noremap <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%:p"<CR>
 " augroup MarkdownGroup
 "     autocmd!
 "     autocmd FileType markdown 
@@ -480,23 +481,27 @@ set diffopt+=vertical
 " Vim Rooter {{{
 let g:rooter_patterns = ['index.md', '.git/']
 let g:rooter_silent_chdir = 1
-let g:rooter_change_directory_for_non_project_files = ''
-" let g:rooter_resolve_links = 1
-" let g:rooter_manual_only = 1
+let g:rooter_change_directory_for_non_project_files = 'current'
+
+let g:rooter_resolve_links = 1
+let g:rooter_manual_only = 0
 " }}}
 
 " VimWiki {{{
 nmap <Leader>ii <Plug>VimwikiIndex
+nmap <Leader>io 2<Plug>VimwikiIndex
 nmap <Leader>id <Plug>VimwikiDiaryIndex
 nmap <Leader>ig <Plug>VimwikiDiaryGenerateLinks
 nmap <Leader>it <Plug>VimwikiMakeDiaryNote
 nmap <Leader>iy <Plug>VimwikiMakeYesterdayDiaryNote
 
 if(g:os == "windows")
-    let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Dropbox\Documentos\Tareas',
-                            \ 'syntax': 'markdown', 'ext': '.md'}]
+    let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Nextcloud\Tareas',
+                            \ 'syntax': 'markdown', 'ext': '.md'},
+                            \ {'path': 'C:\Users\alfredo.barroso\Nextcloud\Wiki',
+                            \ 'syntax': 'markdown', 'ext': '.md', 'index': 'home'}]
 else
-    let g:vimwiki_list = [{'path': '~/Dropbox/Documentos/Tareas',
+    let g:vimwiki_list = [{'path': '~/Nextcloud/Tareas',
                             \ 'syntax': 'markdown', 'ext': '.md'}]
 endif
 
@@ -508,9 +513,9 @@ augroup END
 function! s:new_vimwiki_diary_template()
   " load diary template
   if(g:os == "windows")
-    read C:\Users\alfredo.barroso\Dropbox\Documentos\Tareas\diary\diary.tpl
+    read C:\Users\alfredo.barroso\Nextcloud\Tareas\diary\diary.tpl
   else
-    read ~/Dropbox/Documentos/Tareas/diary/diary.tpl
+    read ~/Nextcloud/Tareas/diary/diary.tpl
     exe 'X'
   endif
 endfunction

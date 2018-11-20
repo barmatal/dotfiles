@@ -494,8 +494,7 @@ set diffopt+=vertical
 
 " Vim Rooter {{{
 let g:rooter_patterns = ['index.md', '.git/']
-let g:rooter_silent_chdir = 1
-let g:rooter_change_directory_for_non_project_files = 'current'
+let g:rooter_silent_chdir = 0
 
 let g:rooter_resolve_links = 1
 let g:rooter_manual_only = 0
@@ -512,11 +511,13 @@ nmap <Leader>iy <Plug>VimwikiMakeYesterdayDiaryNote
 if(g:os == "windows")
     let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Nextcloud\Tareas',
                             \ 'syntax': 'markdown', 'ext': '.md'},
-                            \ {'path': 'C:\Users\alfredo.barroso\Nextcloud\Wiki',
+                            \ {'path': 'C:\Users\alfredo.barroso\wiki',
                             \ 'syntax': 'markdown', 'ext': '.md', 'index': 'home'}]
 else
     let g:vimwiki_list = [{'path': '~/Nextcloud/Tareas',
-                            \ 'syntax': 'markdown', 'ext': '.md'}]
+                            \ 'syntax': 'markdown', 'ext': '.md'},
+                            \ {'path': '~/wiki',
+                            \ 'syntax': 'markdown', 'ext': '.md', 'index': 'home'}]
 endif
 
 augroup VimWikiGroup

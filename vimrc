@@ -383,7 +383,7 @@ augroup LedgerGroup
                 \ setlocal shiftwidth=2 |
                 \ setlocal softtabstop=2 |
                 \ setlocal tabstop=2 |
-                \ inoremap <buffer> <CR> <Esc>:LedgerAlign<CR>A<CR> |
+                \ inoremap <buffer> <CR> <Esc>:LedgerAlign<CR>A<CR>|
                 \ call SetCommodity()
 augroup END
 

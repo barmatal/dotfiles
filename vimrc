@@ -7,9 +7,9 @@ if !exists("g:os")
     if has("win64") || has("win32") || has("win16")
         let g:os = "windows"
     elseif has("python")
-        let g:os = "mac"
+        let g:os = "unix"
     else
-        let g:os = "terminal"
+        let g:os = "ios"
     endif
 endif
 
@@ -181,14 +181,14 @@ if(g:os == "windows")
     set guioptions-=T  "remove toolbar
     set guioptions-=r  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
-elseif(g:os == "mac")
+elseif(g:os == "unix")
     " Full screen
     " set fu
     " Font settings
     set guifont=Menlo\ Regular:h18
     set guioptions-=r  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
-elseif (g:os == "terminal")
+elseif (g:os == "ios")
     " Nothing yet
 endif
 " }}}

@@ -6,7 +6,7 @@ filetype off            " required
 if !exists("g:os")
     if has("win64") || has("win32") || has("win16")
         let g:os = "windows"
-    elseif has("gui_running")
+    elseif has("python")
         let g:os = "mac"
     else
         let g:os = "terminal"
@@ -496,7 +496,7 @@ set diffopt+=vertical
 let g:rooter_patterns = ['index.md', '.git/']
 let g:rooter_silent_chdir = 0
 
-let g:rooter_resolve_links = 1
+let g:rooter_resolve_links = 0
 let g:rooter_manual_only = 0
 " }}}
 
@@ -504,9 +504,10 @@ let g:rooter_manual_only = 0
 nmap <Leader>ii <Plug>VimwikiIndex
 nmap <Leader>io 2<Plug>VimwikiIndex
 nmap <Leader>id <Plug>VimwikiDiaryIndex
-nmap <Leader>ig <Plug>VimwikiDiaryGenerateLinks
 nmap <Leader>it <Plug>VimwikiMakeDiaryNote
 nmap <Leader>iy <Plug>VimwikiMakeYesterdayDiaryNote
+nmap <Leader>if :VWS 
+nmap <Leader>in :lopen<CR>
 
 if(g:os == "windows")
     let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Nextcloud\Tareas',

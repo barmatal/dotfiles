@@ -467,6 +467,9 @@ colorscheme jellybeans
 set laststatus=2  " To make airline work
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
+if(g:os == "ios")
+    let g:airline_extensions = ['tabline']
+endif
 " }}}
 
 " Session {{{	
@@ -516,7 +519,7 @@ if(g:os == "windows")
                             \ 'syntax': 'markdown', 'ext': '.md'},
                             \ {'path': 'C:\Users\alfredo.barroso\wiki',
                             \ 'syntax': 'markdown', 'ext': '.md', 'index': 'home'}]
-else
+elseif(g:os == "unix")
     let g:vimwiki_list = [{'path': '~/Nextcloud/Tareas',
                             \ 'syntax': 'markdown', 'ext': '.md'},
                             \ {'path': '~/wiki',

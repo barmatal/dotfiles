@@ -567,6 +567,7 @@ endif
 endfunction
 
 let g:vimwiki_folding = 'expr'
+let g:vimwiki_ext2syntax = {'.md': 'markdown'}
 
 " }}}
 

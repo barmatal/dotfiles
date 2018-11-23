@@ -50,7 +50,7 @@ Plugin '907th/vim-auto-save'   " Autosave files
 Plugin 'djoshea/vim-autoread'  " Autoread files
 Plugin 'airblade/vim-rooter'   " Better pwd management
 Plugin 'scrooloose/nerdtree'  " File sidebar functionality
-Plugin 'barmatal/vimwiki'  " Wiki
+Plugin 'vimwiki/vimwiki'  " Wiki
 
 " }}}
 

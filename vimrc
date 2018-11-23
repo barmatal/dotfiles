@@ -30,7 +30,7 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle plugin (to keep it updated)
 
 " Text files plugins {{{
 Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
-Plugin 'barmatal/vim-ledger'            " Ledger files plugin
+Plugin 'ledger/vim-ledger'            " Ledger files plugin
 " Plugin 'let-modeline.vim'          " Extend modeline to include local vars
 " Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
 " Plugin 'godlygeek/tabular'              " Required for markdown tabulation
@@ -397,6 +397,7 @@ let g:ledger_commodity_before = 0
 let g:ledger_commodity_sep = " "
 let g:ledger_decimal_sep = ","
 let g:ledger_winpos = 'r'
+let g:ledger_date_format = '%Y-%m-%d'
 let g:ledger_extra_options = '--date-format=%Y-%m-%d'
 let g:ledger_fillstring = '    -'
 " }}}

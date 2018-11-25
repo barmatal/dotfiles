@@ -486,6 +486,7 @@ let NERDTreeMinimalUI=1
 
 let NERDTreeMapUpdir = 'h'
 let NERDTreeMapChangeRoot = 'l'
+let NERDTreeShowLineNumbers=1
 " }}}
 
 " Fugitive and gitgutter {{{

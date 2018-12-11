@@ -508,28 +508,38 @@ let g:rooter_manual_only = 0
 
 " VimWiki {{{
 nmap <Leader>ii <Plug>VimwikiIndex
-nmap <Leader>io 2<Plug>VimwikiIndex
+nmap <Leader>oo 2<Plug>VimwikiIndex
 nmap <Leader>id <Plug>VimwikiDiaryIndex
+nmap <Leader>od 2<Plug>VimwikiDiaryIndex
 nmap <Leader>it <Plug>VimwikiMakeDiaryNote
+nmap <Leader>ot 2<Plug>VimwikiMakeDiaryNote
 nmap <Leader>iy <Plug>VimwikiMakeYesterdayDiaryNote
+nmap <Leader>oy 2<Plug>VimwikiMakeYesterdayDiaryNote
 nmap <Leader>if :VWS 
 nmap <Leader>in :lopen<CR>
 
 if(g:os == "windows")
     let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Nextcloud\Tareas',
-                            \ 'syntax': 'markdown', 'ext': '.md'},
+                            \ 'syntax': 'markdown', 'ext': '.md', 'diary_header': 'Diario privado'},
                             \ {'path': 'C:\Users\alfredo.barroso\wiki',
-                            \ 'syntax': 'markdown', 'ext': '.md', 'index': 'home'}]
+                            \ 'syntax': 'markdown', 'ext': '.md', 'index': 'home', 'diary_header': 'Diario público'}]
 elseif(g:os == "unix")
     let g:vimwiki_list = [{'path': '~/Nextcloud/Tareas',
-                            \ 'syntax': 'markdown', 'ext': '.md'},
+                            \ 'syntax': 'markdown', 'ext': '.md', 'diary_header': 'Diario privado'},
                             \ {'path': '~/wiki',
-                            \ 'syntax': 'markdown', 'ext': '.md', 'index': 'home'}]
+                            \ 'syntax': 'markdown', 'ext': '.md', 'index': 'home', 'diary_header': 'Diario público'}]
 endif
 
+let g:vimwiki_diary_months = {
+      \ 1: 'Enero', 2: 'Febrero', 3: 'Marzo',
+      \ 4: 'Abril', 5: 'Mayo', 6: 'Junio',
+      \ 7: 'Julio', 8: 'Agosto', 9: 'Septiembre',
+      \ 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+      \ }
 augroup VimWikiGroup
     autocmd!
     autocmd BufNewFile */diary/????-??-??.md call s:new_vimwiki_diary_template()
+    autocmd BufEnter diary.md :VimwikiDiaryGenerateLinks
 augroup END
 
 function! s:new_vimwiki_diary_template()

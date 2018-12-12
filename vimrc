@@ -40,6 +40,7 @@ Plugin 'ledger/vim-ledger'            " Ledger files plugin
 " Visual improvements {{{
 Plugin 'vim-airline/vim-airline'        " Bottom line information
 Plugin 'nanotech/jellybeans.vim'        " Theme
+Plugin 'mattn/calendar-vim'             " Calendar
 " }}}
 
 " File and projects management {{{
@@ -332,6 +333,14 @@ set foldopen=search
 
 " }}}
 
+" Calendar {{{
+
+let g:calendar_monday = 1
+let g:calendar_wruler = 'D  L  M  X  J  V  S '
+let g:calendar_mruler = 'Ene,Feb,Mar,Apr,May,Jun,Jul,Ago,Sep,Oct,Nov,Dec'
+
+" }}}
+
 " }}}
 
 " Plugin specific configuration {{{
@@ -538,7 +547,7 @@ let g:vimwiki_diary_months = {
       \ }
 augroup VimWikiGroup
     autocmd!
-    autocmd BufNewFile */diary/????-??-??.md call s:new_vimwiki_diary_template()
+    " autocmd BufNewFile */diary/????-??-??.md call s:new_vimwiki_diary_template()
     autocmd BufEnter diary.md :VimwikiDiaryGenerateLinks
 augroup END
 

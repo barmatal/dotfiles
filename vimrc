@@ -530,7 +530,7 @@ nmap <Leader>in :lopen<CR>
 let g:vimwiki_list = [{'path': '~/Nextcloud/Tareas',
                         \ 'syntax': 'markdown', 'ext': '.md', 'diary_header': 'Diario privado'},
                         \ {'path': '~/wiki',
-                        \ 'syntax': 'markdown', 'ext': '.md', 'index': 'home', 'diary_header': 'Diario público'}]
+                        \ 'syntax': 'markdown', 'ext': '.md', 'index': 'Home', 'diary_header': 'Diario público'}]
 
 let g:vimwiki_diary_months = {
       \ 1: 'Enero', 2: 'Febrero', 3: 'Marzo',

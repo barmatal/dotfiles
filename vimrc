@@ -527,17 +527,10 @@ nmap <Leader>oy 2<Plug>VimwikiMakeYesterdayDiaryNote
 nmap <Leader>if :VWS 
 nmap <Leader>in :lopen<CR>
 
-if(g:os == "windows")
-    let g:vimwiki_list = [{'path': 'C:\Users\alfredo.barroso\Nextcloud\Tareas',
-                            \ 'syntax': 'markdown', 'ext': '.md', 'diary_header': 'Diario privado'},
-                            \ {'path': 'C:\Users\alfredo.barroso\wiki',
-                            \ 'syntax': 'markdown', 'ext': '.md', 'index': 'home', 'diary_header': 'Diario público'}]
-elseif(g:os == "unix")
-    let g:vimwiki_list = [{'path': '~/Nextcloud/Tareas',
-                            \ 'syntax': 'markdown', 'ext': '.md', 'diary_header': 'Diario privado'},
-                            \ {'path': '~/wiki',
-                            \ 'syntax': 'markdown', 'ext': '.md', 'index': 'home', 'diary_header': 'Diario público'}]
-endif
+let g:vimwiki_list = [{'path': '~/Nextcloud/Tareas',
+                        \ 'syntax': 'markdown', 'ext': '.md', 'diary_header': 'Diario privado'},
+                        \ {'path': '~/wiki',
+                        \ 'syntax': 'markdown', 'ext': '.md', 'index': 'home', 'diary_header': 'Diario público'}]
 
 let g:vimwiki_diary_months = {
       \ 1: 'Enero', 2: 'Febrero', 3: 'Marzo',
@@ -545,6 +538,7 @@ let g:vimwiki_diary_months = {
       \ 7: 'Julio', 8: 'Agosto', 9: 'Septiembre',
       \ 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
       \ }
+
 augroup VimWikiGroup
     autocmd!
     " autocmd BufNewFile */diary/????-??-??.md call s:new_vimwiki_diary_template()
@@ -567,23 +561,24 @@ hi VimwikiHeader3 gui=bold cterm=bold term=bold ctermfg=91 guifg=#8700af
 hi VimwikiHeader4 gui=bold cterm=bold term=bold ctermfg=33 guifg=#0087ff
 
 function! VimwikiLinkHandler(link)
-" Use Vim to open external files with the 'vfile:' scheme.  E.g.:
-"   1) [[vfile:~/Code/PythonProject/abc123.py]]
-"   2) [[vfile:./|Wiki Home]]
-let link = a:link
-if link =~# '^vfile:'
-    let link = link[1:]
-else
-    return 0
-endif
-let link_infos = vimwiki#base#resolve_link(link)
-if link_infos.filename == ''
-    echomsg 'Vimwiki Error: Unable to resolve link!'
-    return 0
-else
-    exe 'edit ' . fnameescape(link_infos.filename)
-    return 1
-endif
+    " Use Vim to open external files with the 'vfile:' scheme.  E.g.:
+    "   1) [[vfile:~/Code/PythonProject/abc123.py]]
+    "   2) [[vfile:./|Wiki Home]]
+    let link = a:link
+    if link =~# '^vfile:'
+        let link = link[1:]
+    else
+        return 0
+    endif
+    let link_infos = vimwiki#base#resolve_link(link)
+    if link_infos.filename == ''
+        echomsg 'Vimwiki Error: Unable to resolve link!'
+        return 0
+    else
+        exe 'edit ' . fnameescape(link_infos.filename)
+        lcd %:p:h
+        return 1
+    endif
 endfunction
 
 let g:vimwiki_folding = 'expr'

@@ -31,21 +31,14 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle plugin (to keep it updated)
 " Text files plugins {{{
 Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
 Plugin 'ledger/vim-ledger'            " Ledger files plugin
-" Plugin 'let-modeline.vim'          " Extend modeline to include local vars
-" Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
-" Plugin 'godlygeek/tabular'              " Required for markdown tabulation
-" Plugin 'jremmen/vim-ripgrep'            " ripgrep text search
 " }}}
 
 " Visual improvements {{{
 Plugin 'vim-airline/vim-airline'        " Bottom line information
 Plugin 'nanotech/jellybeans.vim'        " Theme
-Plugin 'mattn/calendar-vim'             " Calendar
 " }}}
 
 " File and projects management {{{
-Plugin 'xolox/vim-misc'        " Required for vim-session
-Plugin 'xolox/vim-session'     " Session management
 " Plugin 'ctrlpvim/ctrlp.vim'    " Fast file switching
 Plugin '907th/vim-auto-save'   " Autosave files
 Plugin 'djoshea/vim-autoread'  " Autoread files

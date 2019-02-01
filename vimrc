@@ -34,22 +34,15 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle plugin (to keep it updated)
 Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
 Plugin 'ledger/vim-ledger'            " Ledger files plugin
 Plugin 'sheerun/vim-polyglot'            " ripgrep text search
-" Plugin 'let-modeline.vim'          " Extend modeline to include local vars
-" Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
-" Plugin 'godlygeek/tabular'              " Required for markdown tabulation
-" Plugin 'jremmen/vim-ripgrep'            " ripgrep text search
 " }}}
 
 " Visual improvements {{{
 Plugin 'vim-airline/vim-airline'        " Bottom line information
 Plugin 'nanotech/jellybeans.vim'        " Theme
 Plugin 'tomasiser/vim-code-dark'
-Plugin 'mattn/calendar-vim'             " Calendar
 " }}}
 
 " File and projects management {{{
-Plugin 'xolox/vim-misc'        " Required for vim-session
-Plugin 'xolox/vim-session'     " Session management
 Plugin 'ctrlpvim/ctrlp.vim'    " Fast file switching
 Plugin '907th/vim-auto-save'   " Autosave files
 Plugin 'djoshea/vim-autoread'  " Autoread files
@@ -94,14 +87,6 @@ fun! SetupCommandAlias(from, to)
         \ .'? ("'.a:to.'") : ("'.a:from.'"))'
 endfun
 
-" Session management
-call SetupCommandAlias("ss", "mks ~/.vim/sessions/")
-call SetupCommandAlias("so", "source ~/.vim/sessions/")
-
-" Mark management
-" nnoremap mn ]'
-" nnoremap mN ['
-
 " Easy window navigation
 map <leader>ww <C-w>w
 
@@ -111,10 +96,6 @@ noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " Smart line join
 nnoremap J gJ
-
-" Smart navigation
-nnoremap H <C-D>
-nnoremap K <C-U>
 
 " Better g; logic
 nnoremap g, g;
@@ -152,10 +133,6 @@ command! FormatJSON %!python -m json.tool
 " }}}
 
 " Compatibility {{{
-
-"Control-S Save
-nnoremap <silent> <C-s> :w<CR>
-inoremap <silent> <C-s> <ESC>:w<CR>a
 
 " CTRL-C Copy
 vnoremap <C-C> "+y
@@ -205,7 +182,6 @@ endif
 set shortmess=aoOtI
 set lazyredraw
 syntax enable
-" let base16colorspace=256 " Access colors present in 256 colorspace
 set novisualbell    " don't beep
 set noerrorbells  " don't beep
 set wildmenu    " better autocomplete of commands
@@ -340,14 +316,6 @@ set foldopen=search
 
 " }}}
 
-" Calendar {{{
-
-let g:calendar_monday = 1
-let g:calendar_wruler = 'D  L  M  X  J  V  S '
-let g:calendar_mruler = 'Ene,Feb,Mar,Apr,May,Jun,Jul,Ago,Sep,Oct,Nov,Dec'
-
-" }}}
-
 " }}}
 
 " Plugin specific configuration {{{
@@ -418,25 +386,9 @@ let g:ledger_fillstring = '    -'
 
 " Markdown {{{
 noremap <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%:p"<CR>
-" augroup MarkdownGroup
-"     autocmd!
-"     autocmd FileType markdown 
-"                 \ inoremap <buffer> ñ ñ|
-"                 \ noremap <buffer> <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%:p"<CR>
-                
-" augroup END
-
-" let g:markdown_enable_spell_checking = 0     " markdown disable spellchecking
-" let g:markdown_enable_folding = 0
-" set conceallevel=2
-
-" Markdown easy remapping
-" vnoremap ` c```<CR>```<Esc>P
-
 " }}}
 
 " Autosave {{{
-
 function! AutoSaveByFiletype()
     if &filetype != "ledger" && &filetype != "markdown" && &filetype != "taskpaper" && &filetype != "vimwiki"
         let g:auto_save_abort = 1
@@ -448,23 +400,7 @@ let g:auto_save = 1
 let g:auto_save_presave_hook = 'call AutoSaveByFiletype()'
 " }}}
 
-" Syntastic {{{
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 0
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_mode_map = { "mode": "passive" } 
-" let g:syntastic_js_checkers = ['syntastic-javascript-jshint']
-
-" let g:tsuquyomi_disable_quickfix = 1
-" let g:syntastic_typescript_checkers = ['tsuquyomi']
-" }}}
-
-" Jellybeans {{{
+" Color scheme {{{
 colorscheme jellybeans
 " }}}
 
@@ -485,14 +421,6 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 if(g:os == "ios")
     let g:airline_extensions = ['tabline']
 endif
-" }}}
-
-" Session {{{	
-call SetupCommandAlias("ss", "SaveSession")	
-call SetupCommandAlias("so", "OpenSession")	
-call SetupCommandAlias("sd", "DeleteSession")	
-let g:session_autoload='no'	
-let g:session_autosave='no'	
 " }}}
 
 " Nerdtree {{{	

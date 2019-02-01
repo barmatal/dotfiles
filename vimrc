@@ -6,8 +6,10 @@ filetype off            " required
 if !exists("g:os")
     if has("win64") || has("win32") || has("win16")
         let g:os = "windows"
-    elseif has("python")
-        let g:os = "unix"
+    elseif has("osx")
+        let g:os = "osx"
+    elseif has("python") || has("python3")
+        let g:os = "linux"
     else
         let g:os = "ios"
     endif
@@ -545,19 +547,8 @@ let g:vimwiki_diary_months = {
 
 augroup VimWikiGroup
     autocmd!
-    " autocmd BufNewFile */diary/????-??-??.md call s:new_vimwiki_diary_template()
     autocmd BufEnter diary.md :VimwikiDiaryGenerateLinks
 augroup END
-
-function! s:new_vimwiki_diary_template()
-  " load diary template
-  if(g:os == "windows")
-    read C:\Users\alfredo.barroso\Nextcloud\Tareas\diary\diary.tpl
-  else
-    read ~/Nextcloud/Tareas/diary/diary.tpl
-    exe 'X'
-  endif
-endfunction
 
 hi VimwikiHeader1 gui=bold cterm=bold term=bold ctermfg=71 guifg=#70b950
 hi VimwikiHeader2 gui=bold cterm=bold term=bold ctermfg=167 guifg=#d75f5f

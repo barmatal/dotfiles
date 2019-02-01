@@ -31,6 +31,7 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle plugin (to keep it updated)
 " Text files plugins {{{
 Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
 Plugin 'ledger/vim-ledger'            " Ledger files plugin
+Plugin 'sheerun/vim-polyglot'            " ripgrep text search
 " Plugin 'let-modeline.vim'          " Extend modeline to include local vars
 " Plugin 'plasticboy/vim-markdown'      " Markdown files plugin
 " Plugin 'godlygeek/tabular'              " Required for markdown tabulation
@@ -40,13 +41,14 @@ Plugin 'ledger/vim-ledger'            " Ledger files plugin
 " Visual improvements {{{
 Plugin 'vim-airline/vim-airline'        " Bottom line information
 Plugin 'nanotech/jellybeans.vim'        " Theme
+Plugin 'tomasiser/vim-code-dark'
 Plugin 'mattn/calendar-vim'             " Calendar
 " }}}
 
 " File and projects management {{{
 Plugin 'xolox/vim-misc'        " Required for vim-session
 Plugin 'xolox/vim-session'     " Session management
-" Plugin 'ctrlpvim/ctrlp.vim'    " Fast file switching
+Plugin 'ctrlpvim/ctrlp.vim'    " Fast file switching
 Plugin '907th/vim-auto-save'   " Autosave files
 Plugin 'djoshea/vim-autoread'  " Autoread files
 Plugin 'airblade/vim-rooter'   " Better pwd management
@@ -142,6 +144,9 @@ nmap <silent> <leader>rr :w<CR>:source $MYVIMRC<CR>
 xnoremap iz :<C-U>silent!normal![zV]z<CR>
 onoremap iz :normal viz<CR>
 
+" json formatting
+command! FormatJSON %!python -m json.tool
+
 " }}}
 
 " Compatibility {{{
@@ -228,7 +233,7 @@ set cryptmethod=blowfish2
 
 set rnu         " Display relative line number
 set number      " Display line number
-set wrap      " disable line wrap
+set nowrap      " disable line wrap
 set linebreak   " wrap only whole words
 set scrolloff=3 " Sets the scroll a little before so you have context
 
@@ -374,10 +379,8 @@ call SetupCommandAlias("lo", "let g:ledger_winpos = 'R'<CR>:Ledger bal")
 " Special commodity for calorie counting file
 function! SetCommodity()
     if expand('%:t') == 'cal.txt'
-        echo 'cal'
         let g:ledger_default_commodity="kc"
     else
-        echo 'money'
         let g:ledger_default_commodity="€"
     endif
 endfunction
@@ -464,12 +467,13 @@ colorscheme jellybeans
 " }}}
 
 " Ctrlp {{{
-" let g:ctrlp_map = '<c-p>'
-" let g:ctrlp_root_markers = ['web.config','*.sln']
-" let g:ctrlp_by_filename = 1
-" let g:ctrlp_working_path_mode = 'rw'
-" set grepprg=rg\ --color=never
-" let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_root_markers = ['web.config','*.sln', '.git']
+let g:ctrlp_by_filename = 1
+let g:ctrlp_working_path_mode = 'rw'
+set grepprg=rg\ --color=never
+let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+let g:ctrlp_match_window = 'top,order:ttb,min:1,max:10,results:10'
 " }}}
 
 " Airline {{{

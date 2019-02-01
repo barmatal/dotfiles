@@ -374,10 +374,8 @@ call SetupCommandAlias("lo", "let g:ledger_winpos = 'R'<CR>:Ledger bal")
 " Special commodity for calorie counting file
 function! SetCommodity()
     if expand('%:t') == 'cal.txt'
-        echo 'cal'
         let g:ledger_default_commodity="kc"
     else
-        echo 'money'
         let g:ledger_default_commodity="€"
     endif
 endfunction

@@ -48,7 +48,10 @@ Plugin '907th/vim-auto-save'   " Autosave files
 Plugin 'djoshea/vim-autoread'  " Autoread files
 Plugin 'airblade/vim-rooter'   " Better pwd management
 Plugin 'scrooloose/nerdtree'  " File sidebar functionality
-Plugin 'vimwiki/vimwiki'  " Wiki
+" Install dev branch for vimwiki manually until extension for links are 
+" supported
+" git clone --branch=dev https://github.com/vimwiki/vimwiki.git ~/.vim/pack/plugins/start/vimwiki
+" Plugin 'vimwiki/vimwiki'  " Wiki
 
 " }}}
 
@@ -166,7 +169,7 @@ if(g:os == "windows")
     set guioptions-=T  "remove toolbar
     set guioptions-=r  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
-elseif(g:os == "unix")
+elseif(g:os == "osx")
     " Full screen
     " set fu
     " Font settings
@@ -475,8 +478,8 @@ let g:vimwiki_diary_months = {
 
 augroup VimWikiGroup
     autocmd!
-    autocmd BufEnter diary.md :VimwikiDiaryGenerateLinks|
-        \ nmap <buffer> <leader>d <Plug>VimwikiToggleListItem
+    autocmd filetype vimwiki
+        \ nmap <buffer> <leader>d <C-Space>
 augroup END
 
 hi VimwikiHeader1 gui=bold cterm=bold term=bold ctermfg=71 guifg=#70b950
@@ -506,8 +509,9 @@ function! VimwikiLinkHandler(link)
 endfunction
 
 let g:vimwiki_listsyms = ' .oOx'
-let g:vimwiki_folding = 'expr'
+let g:vimwiki_folding = 'list'
 let g:vimwiki_ext2syntax = {'.md': 'markdown'}
+let g:vimwiki_markdown_link_ext = 1
 
 " }}}
 

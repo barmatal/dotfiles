@@ -48,9 +48,9 @@ Plugin '907th/vim-auto-save'   " Autosave files
 Plugin 'djoshea/vim-autoread'  " Autoread files
 Plugin 'airblade/vim-rooter'   " Better pwd management
 Plugin 'scrooloose/nerdtree'  " File sidebar functionality
-" Install dev branch for vimwiki manually until extension for links are 
-" supported
-" git clone --branch=dev https://github.com/vimwiki/vimwiki.git ~/.vim/pack/plugins/start/vimwiki
+" Install dev branch for vimwiki manually until extension for links are supported
+" Manual installation on Mac: git clone --branch=dev https://github.com/vimwiki/vimwiki.git ~/.vim/pack/plugins/start/vimwiki
+" Manual installation on Windows: git clone --branch=dev https://github.com/vimwiki/vimwiki.git $HOME/vimfiles/pack/plugins/start/vimwiki
 " Plugin 'vimwiki/vimwiki'  " Wiki
 
 " }}}

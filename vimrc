@@ -475,7 +475,8 @@ let g:vimwiki_diary_months = {
 
 augroup VimWikiGroup
     autocmd!
-    autocmd BufEnter diary.md :VimwikiDiaryGenerateLinks
+    autocmd BufEnter diary.md :VimwikiDiaryGenerateLinks|
+        \ nmap <buffer> <leader>d <Plug>VimwikiToggleListItem
 augroup END
 
 hi VimwikiHeader1 gui=bold cterm=bold term=bold ctermfg=71 guifg=#70b950
@@ -504,6 +505,7 @@ function! VimwikiLinkHandler(link)
     endif
 endfunction
 
+let g:vimwiki_listsyms = ' .oOx'
 let g:vimwiki_folding = 'expr'
 let g:vimwiki_ext2syntax = {'.md': 'markdown'}
 

@@ -214,7 +214,7 @@ set cryptmethod=blowfish2
 
 set rnu         " Display relative line number
 set number      " Display line number
-set nowrap      " disable line wrap
+set wrap      " disable line wrap
 set linebreak   " wrap only whole words
 set scrolloff=3 " Sets the scroll a little before so you have context
 
@@ -464,7 +464,7 @@ nmap <Leader>oy 2<Plug>VimwikiMakeYesterdayDiaryNote
 nmap <Leader>if :VWS 
 nmap <Leader>in :lopen<CR>
 
-let g:vimwiki_list = [{'path': '~/Nextcloud/Wiki',
+let g:vimwiki_list = [{'path': '~/Sync/Wiki',
                         \ 'syntax': 'markdown', 'ext': '.md', 'diary_header': 'Diario', 'diary_index': 'index'}]
                         " \ {'path': '~/wiki',
                         " \ 'syntax': 'markdown', 'ext': '.md', 'index': 'Home', 'diary_header': 'Diario público'}]
@@ -509,7 +509,7 @@ function! VimwikiLinkHandler(link)
 endfunction
 
 let g:vimwiki_listsyms = ' .oOx'
-let g:vimwiki_folding = 'list'
+let g:vimwiki_folding = 'expr'
 let g:vimwiki_ext2syntax = {'.md': 'markdown'}
 let g:vimwiki_markdown_link_ext = 1
 

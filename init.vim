@@ -402,7 +402,7 @@ if !exists('g:vscode')
                 \ {'d': '~\Nextcloud\Config\DevScripts'},
                 \ {'i': '~\Nextcloud\Wiki\index.md'},
                 \ {'t': '~\Nextcloud\Wiki\Temp.md'},
-                \ {'r': '~\Nextcloud\Config\vimrc'},
+                \ {'r': '~\AppData\Local\nvim\init.vim'},
                 \ {'l': '~\Nextcloud\Wiki\ledger.txt'},
                 \ {'c': '~\Nextcloud\Wiki\ledger-credit.txt'},
                 \ ]

@@ -1,0 +1,24 @@
+{
+  "coc.source.around.enable": false,
+  "coc.source.buffer.enable": false,
+  "coc.preferences.formatOnSaveFiletypes": ["json"],
+  "coc.preferences.extensionUpdateCheck": "daily",
+  "codeLens.enable": true,
+  "diagnostic.virtualText": true,
+  "list.normalMappings": {
+    "<C-c>": "do:exit"
+  },
+  "list.insertMappings": {
+    "<C-c>": "do:exit"
+  },
+  "suggest.floatEnable": true,
+  "suggest.noselect": false,
+  "suggest.minTriggerInputLength": 2,
+  "snippets.userSnippetsDirectory": "~/Nextcloud/Config/Snippets",
+  "snippets.extends": {
+    "javascript": ["javascript", "javascript-jasmine-arrow"],
+    "typescript": ["javascript", "javascript-jasmine-arrow"],
+    "vimwiki": ["vimwiki"],
+    "ledger": []
+  }
+}

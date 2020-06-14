@@ -1,5 +1,4 @@
-" Prerequisites {{{
-" vim:foldmethod=marker:foldlevel=0
+" Optimized based on https://github.com/ChristianChiarulli/nvim
 
 " Space is leader
 let mapleader=' '
@@ -7,13 +6,6 @@ set nocompatible        " be iMproved, required
 syntax enable
 filetype plugin indent on
 let g:which_key_map =  {}
-
-" Set options for neovim gui
-" if exists('g:GuiLoaded')
-    call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
-    call rpcnotify(0, 'Gui', 'Font', 'Cascadia Mono:h11', 1)
-    call rpcnotify(0, 'Gui', 'Option', 'Popupmenu', 0)
-" endif
 
 " Helper function to remap command mode aliases
 fun! SetupCommandAlias(from, to)
@@ -533,6 +525,10 @@ if !exists('g:vscode')
     " }}}
 
     " Nerdtree {{{	
+    " after a re-source, fix syntax matching issues (concealing brackets):
+    if exists('g:loaded_webdevicons')
+      call webdevicons#refresh()
+    endif
     function! NERDTreeToggleAndFind()
         if (exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1)
             execute ':NERDTreeClose'

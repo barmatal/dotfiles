@@ -16,6 +16,7 @@
               \ inoremap <buffer> <CR> <Esc>:LedgerAlign<CR>A<CR>
     augroup END
 
+    highlight LedgerNegativeNumber guifg='#eF5F70'
     let g:ledger_default_commodity="€"
     let g:ledger_commodity_before = 0
     let g:ledger_commodity_sep = " "

@@ -10,6 +10,11 @@
         \ 'i' : 'insert-image',
         \ }
 
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+
     let g:vimwiki_list = [{'path': '~/Nextcloud/Wiki',
                 \ 'syntax': 'markdown', 'ext': '.md', 'diary_header': 'Diario', 'diary_index': 'index', 'auto_toc': 1}]
 

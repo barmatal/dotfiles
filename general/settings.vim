@@ -64,9 +64,9 @@ set copyindent    " copy the previous indentation on autoindenting
 set expandtab
 
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
-" set shiftwidth=4
-" set tabstop=4
-" set softtabstop=4
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
 " Exception for typescript and javascript
 " autocmd FileType typescript setlocal shiftwidth=2 softtabstop=2 tabstop=2
 " autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2

@@ -1,87 +1,19 @@
-" Detect system {{{
-set nocompatible        " be iMproved, required
-filetype off            " required
-
-" TODO: Detect when SSH
-if !exists("g:os")
-    if has("win64") || has("win32") || has("win16")
-        let g:os = "windows"
-    elseif has("osx")
-        let g:os = "osx"
-    elseif has("python") || has("python3")
-        let g:os = "linux"
-    else
-        let g:os = "ios"
-    endif
-endif
-
-" }}}
-
-" Vundle configuration {{{
-if(g:os == "windows")
-    set rtp+=$HOME\.vim\bundle\Vundle.vim
-    call vundle#begin('$HOME\vimfiles\bundle')
-else
-    set rtp+=~/.vim/bundle/Vundle.vim
-    call vundle#begin()
-endif
-
-" Basic plugins {{{
-Plugin 'VundleVim/Vundle.vim'           " Vundle plugin (to keep it updated)
-" }}}
-
-" Text files plugins {{{
-Plugin 'davidoc/taskpaper.vim'          " Taskpaper files plugin
-Plugin 'ledger/vim-ledger'            " Ledger files plugin
-Plugin 'sheerun/vim-polyglot'            " ripgrep text search
-" }}}
-
-" Visual improvements {{{
-Plugin 'vim-airline/vim-airline'        " Bottom line information
-Plugin 'nanotech/jellybeans.vim'        " Theme
-Plugin 'tomasiser/vim-code-dark'
-" }}}
-
-" File and projects management {{{
-Plugin 'ctrlpvim/ctrlp.vim'    " Fast file switching
-Plugin '907th/vim-auto-save'   " Autosave files
-Plugin 'djoshea/vim-autoread'  " Autoread files
-Plugin 'airblade/vim-rooter'   " Better pwd management
-Plugin 'scrooloose/nerdtree'  " File sidebar functionality
-" Install dev branch for vimwiki manually until extension for links are supported
-" Manual installation on Mac: git clone --branch=dev https://github.com/vimwiki/vimwiki.git ~/.vim/pack/plugins/start/vimwiki
-" Manual installation on Windows: git clone --branch=dev https://github.com/vimwiki/vimwiki.git $HOME/vimfiles/pack/plugins/start/vimwiki
-" Plugin 'vimwiki/vimwiki'  " Wiki
-
-" }}}
-
-" Programming plugins {{{
-Plugin 'tpope/vim-surround'      " Surround with brackets, parenthesis, etc
-Plugin 'tpope/vim-commentary'    " Easily add/remove comments
-Plugin 'ervandew/supertab'       " Better tab autocompletion
-Plugin 'tpope/vim-fugitive'      " Git wrapper
-Plugin 'airblade/vim-gitgutter'  " Git wrapper
-" }}}
-
-call vundle#end()            " required
-filetype plugin indent on    " required
-" }}}
-
-" Remappings {{{
-
-" General {{{
+" Prerequisites {{{
+" vim:foldmethod=marker:foldlevel=0
 
 " Space is leader
 let mapleader=' '
+set nocompatible        " be iMproved, required
+syntax enable
+filetype plugin indent on
+let g:which_key_map =  {}
 
-" jj switches mode
-inoremap jj <Esc>
-
-" Browse tabs
-nmap <leader>k :bn<cr>
-nmap <leader>j :bp<cr>
-nmap <leader>x :bd<cr>
-nmap <leader>X :bd!<cr>
+" Set options for neovim gui
+" if exists('g:GuiLoaded')
+    call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
+    call rpcnotify(0, 'Gui', 'Font', 'Cascadia Mono:h11', 1)
+    call rpcnotify(0, 'Gui', 'Option', 'Popupmenu', 0)
+" endif
 
 " Helper function to remap command mode aliases
 fun! SetupCommandAlias(from, to)
@@ -90,12 +22,123 @@ fun! SetupCommandAlias(from, to)
         \ .'? ("'.a:to.'") : ("'.a:from.'"))'
 endfun
 
-" Easy window navigation
-map <leader>ww <C-w>w
+" }}}
 
-" Smart wrap line navigation
-noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
-noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+" Remappings {{{
+
+" General {{{
+
+" jj switches mode
+inoremap jj <Esc>
+
+" ñ as command mode
+nnoremap ñ :
+vnoremap ñ :
+nnoremap Ñ /
+vnoremap Ñ /
+
+" CTRL-V Paste
+" inoremap <C-V> <ESC>p
+" nnoremap <C-V> p
+cnoremap <C-V> <C-r>+
+tnoremap <C-V> <C-\><C-n>pa
+
+" ABM test function for string
+
+fun! SmartPaste()
+    if len(@+) == 0
+        :call mdip#MarkdownClipboardImage()<CR>
+    elseif match(@+, "^http") == 0
+        :echom "link"
+        normal "+pviWS)i[
+    else
+        :echom "text"
+        normal! "+p
+    endif
+endfun
+
+nnoremap <c-v> :call SmartPaste()<cr>
+inoremap <c-v> <esc>:call SmartPaste()<cr>
+
+" Paste from non-volatile register
+nnoremap <leader>p "0p
+vnoremap <leader>p "0p
+let g:which_key_map.p = 'paste-unmodified'
+
+if !exists('g:vscode') 
+    " Browse tabs
+    nmap <leader>k :bn<cr>
+    nmap <leader>j :bp<cr>
+    nmap <leader>x :bp\|bd #<cr>
+    nmap <leader>X :bd!<cr>
+    nmap <leader>c :close<cr>
+    nmap <leader>b :e #<cr>
+
+    let g:which_key_map.k = 'next-buffer'
+    let g:which_key_map.j = 'previous-buffer'
+    let g:which_key_map.x = 'close-buffer'
+    let g:which_key_map.X = 'force-close-buffer'
+    let g:which_key_map.c = 'close-window'
+    let g:which_key_map.b = 'reopen-buffer'
+    " Smart wrap line navigation
+    noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+    noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+else 
+    " Browse tabs
+    nmap <leader>x :call VSCodeCall('workbench.action.closeActiveEditor')<CR>
+    nmap <leader>k :call VSCodeCall('workbench.action.nextEditor')<CR>
+    nmap <leader>j :call VSCodeCall('workbench.action.previousEditor')<CR>
+    nmap <leader>h :call VSCodeCall('editor.action.showHover')<CR>
+    " Smart wrap line navigation
+    nmap j gj
+    nmap k gk
+    " keep ctrl-p funcntionality
+    nmap <c-p> :call VSCodeNotify('workbench.action.quickOpen')<CR>
+    imap <c-p> :call VSCodeNotify('workbench.action.quickOpen')<CR>
+    vmap <c-p> :call VSCodeNotify('workbench.action.quickOpen')<CR>
+    " Toggle sidebar
+    nmap <leader>n :call VSCodeNotify('workbench.action.toggleSidebar')<CR>
+    vmap <leader>n :call VSCodeNotify('workbench.action.toggleSidebar')<CR>
+endif
+
+
+" Easy window navigation
+nnoremap <leader>ww <C-w>w
+nnoremap <leader>wo :only<cr>
+nnoremap <leader>wv :vs<cr>
+nnoremap <leader>ws :split<cr>
+nnoremap <leader>wl 5<c-w><
+nnoremap <leader>wh 5<c-w>>
+nnoremap <leader>wj 5<c-w>+
+nnoremap <leader>wk 5<c-w>-
+nnoremap <leader>wu <c-w>=
+let g:which_key_map.w = {
+    \ 'name' : '+window',
+    \ 't' : 'which_key_ignore',
+    \ 'w' : 'toggle-window',
+    \ 'o' : 'close-others',
+    \ 'v' : 'vertical-split',
+    \ 's' : 'horizontal-split',
+    \ 'l' : 'smaller-vertical',
+    \ 'h' : 'bigger-vertical',
+    \ 'j' : 'bigger-horizontal',
+    \ 'k' : 'smaller-horizontal',
+    \ 'u' : 'undo-resize',
+    \ }
+
+" Easy tab navigation
+nnoremap <leader>tn :tabnew<cr>:Startify<cr>
+nnoremap <leader>tx :tabclose<cr>
+nnoremap <leader>tk :tabnext<cr>
+nnoremap <leader>tj :tabnext<cr>
+
+let g:which_key_map.t = {
+    \ 'name' : '+tabs',
+    \ 'n' : 'tab-new',
+    \ 'x' : 'tab-close',
+    \ 'j' : 'tab-previous',
+    \ 'k' : 'tab-next',
+    \ }
 
 " Smart line join
 nnoremap J gJ
@@ -103,13 +146,9 @@ nnoremap J gJ
 " Better g; logic
 nnoremap g, g;
 
-" Easy copy paste to clipboard
-noremap <Leader>p "*p
-noremap <Leader>y "*y
-
 " Clear search
 nmap <silent> <leader>/ :nohlsearch<CR>
-nmap <silent> <leader>Ñ :nohlsearch<CR>
+let g:which_key_map['/'] = 'clear-search'
 
 " Quick macro execute
 nnoremap Q @q
@@ -117,96 +156,43 @@ nnoremap Q @q
 " Easy undo
 nnoremap U <C-r>
 
-
 " }}}
 
 " Additional functionality {{{
+set omnifunc=syntaxcomplete#Complete
 
-" Quickly edit/reload the vimrc file
-nmap <silent> <leader>re :e $MYVIMRC<CR>
+" Go to last edited line
+nmap ge '.
+
+inoremap <A-ñ> ~
 nmap <silent> <leader>rr :w<CR>:source $MYVIMRC<CR>
-
-" Folds as text objects (viz selects a fold)
-xnoremap iz :<C-U>silent!normal![zV]z<CR>
-onoremap iz :normal viz<CR>
-
-" json formatting
-command! FormatJSON %!python -m json.tool
+nnoremap <C-s> :%s//gIc<Left><Left><Left><Left>
 
 " }}}
 
-" Compatibility {{{
-
-" CTRL-C Copy
-vnoremap <C-C> "+y
-
-" CTRL-V Paste
-inoremap <C-V>       <ESC>"+gpa
-nnoremap <C-V>       "+gp
-cnoremap <C-V> <C-r>"
-" }}}
-
-" Additional functionality {{{
-nnoremap ñ :
-vnoremap ñ :
-nnoremap Ñ /
-vnoremap Ñ /
-
-" }}}
 " }}}
 
 " Vim options {{{
-
-" OS Specific configuration {{{
-if(g:os == "windows")
-    " Full screen
-    au GUIEnter * simalt ~x
-    " Font settings
-    set guifont=Consolas:h11:cANSI
-    " remove gui options
-    set guioptions-=m
-    set guioptions-=M
-    set guioptions-=T  "remove toolbar
-    set guioptions-=r  "remove right-hand scroll bar
-    set guioptions-=L  "remove left-hand scroll bar
-elseif(g:os == "osx")
-    " Full screen
-    " set fu
-    " Font settings
-    set guifont=Menlo\ Regular:h18
-    set guioptions-=r  "remove right-hand scroll bar
-    set guioptions-=L  "remove left-hand scroll bar
-elseif (g:os == "ios")
-    " Nothing yet
-endif
-" }}}
-
 " User Interface {{{
+set signcolumn=yes
 set shortmess=aoOtI
 set lazyredraw
-syntax enable
 set novisualbell    " don't beep
 set noerrorbells  " don't beep
 set wildmenu    " better autocomplete of commands
 set wildmode=longest:list,full
-" Autocompletion
-inoremap <s-Tab> <c-n>
 set complete+=k
+set mouse=a
 " }}}
 
 " Text edition {{{
 set showmatch     " set show matching parenthesis
-runtime macros\matchit.vim
-                  " Use % to match tags
-
 set backspace=2                " backspace working
+set clipboard+=unnamedplus
 
 " Change icon in different modes
 autocmd InsertEnter * set cul
 autocmd InsertLeave * set nocul
-
-" Secure encryption
-set cryptmethod=blowfish2
 
 " }}}
 
@@ -214,10 +200,9 @@ set cryptmethod=blowfish2
 
 set rnu         " Display relative line number
 set number      " Display line number
-set wrap      " disable line wrap
+set nowrap        " Enable line wrap
 set linebreak   " wrap only whole words
 set scrolloff=3 " Sets the scroll a little before so you have context
-
 set formatoptions=tcqown
 
 " }}}
@@ -228,67 +213,36 @@ set copyindent    " copy the previous indentation on autoindenting
 set expandtab
 
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
+" set shiftwidth=4
+" set tabstop=4
+" set softtabstop=4
+" Exception for typescript and javascript
+" autocmd FileType typescript setlocal shiftwidth=2 softtabstop=2 tabstop=2
+" autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2
+" autocmd FileType ledger setlocal shiftwidth=2 softtabstop=2 tabstop=2
+" set et
 " }}}
 
 " Folding {{{
 set foldenable    " enable folding
 set foldmethod=syntax " enable folding in code
-set foldlevel=3   " Start with 3 level folding
-set foldtext=MyFoldText()
-function! MyFoldText()
-  let line = getline(v:foldstart)
-  if match( line, '^[ \t]*\(\/\*\|\/\/\)[*/\\]*[ \t]*$' ) == 0
-    let initial = substitute( line, '^\([ \t]\)*\(\/\*\|\/\/\)\(.*\)', '\1\2', '' )
-    let linenum = v:foldstart + 1
-    while linenum < v:foldend
-      let line = getline( linenum )
-      let comment_content = substitute( line, '^\([ \t\/\*]*\)\(.*\)$', '\2', 'g' )
-      if comment_content != ''
-        break
-      endif
-      let linenum = linenum + 1
-    endwhile
-    let sub = initial . ' ' . comment_content
-  else
-    let sub = line
-    let startbrace = substitute( line, '^.*{[ \t]*$', '{', 'g')
-    if startbrace == '{'
-      let line = getline(v:foldend)
-      let endbrace = substitute( line, '^[ \t]*}\(.*\)$', '}', 'g')
-      if endbrace == '}'
-        let sub = sub.substitute( line, '^[ \t]*}\(.*\)$', '...}\1', 'g')
-      endif
-    endif
-  endif
-  let n = v:foldend - v:foldstart + 1
-  let info = " " . n . " lines"
-  let sub = sub . "                                                                                                                                            "
-  let num_w = getwinvar( 0, '&number' ) * getwinvar( 0, '&numberwidth' )
-  let fold_w = getwinvar( 0, '&foldcolumn' )
-  let sub = strpart( sub, 0, winwidth(0) - strlen( info ) - num_w - fold_w - 1 )
-  return sub . info
-endfunction
+set foldlevel=5   " Start with 3 level folding
+
 " }}}
 
 " Files, windows, buffers and splits {{{
 set modelines=2
 set encoding=UTF-8
 set hidden        " Improve buffer management
-filetype on
-filetype indent on
 
-set nobackup    " no backup
+set nobackup nowritebackup    " no backup
 set noswapfile    " no swap file
 
-set splitbelow
-set splitright
+set splitbelow splitright
 
 " Autoread file
 set autoread
-au CursorHold * checktime
+" au CursorHold * checktime
 
 " Do not add end of line to documents
 set noeol
@@ -297,18 +251,9 @@ set nofixeol
 " Find in subfolders (when you know the name of the file)
 set path+=**
 
-" netrw options
-let g:netrw_banner=0        " disable annoying banner
-let g:netrw_browse_split=4  " open in prior window
-let g:netrw_altv=1          " open splits to the right
-let g:netrw_liststyle=3     " tree view
-let g:netrw_winsize = 25    " 25% of the screen
-let g:netrw_list_hide=netrw_gitignore#Hide()
-let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 " }}}
 
 " Search {{{
-
 set ignorecase " ignore case when searching
 set smartcase  " ignore case if search pattern is all lowercase, case-sensitive otherwise
 set hlsearch   " highlight search terms
@@ -321,201 +266,456 @@ set foldopen=search
 
 " }}}
 
-" Plugin specific configuration {{{
+" Plug configuration {{{
 
-" Taskpaper {{{
-augroup TaskPaperGroup
-    autocmd!
-    autocmd filetype taskpaper
-        \ nmap <buffer> <leader>d <leader>td|
-        \ nmap <buffer> <leader>a <leader>tD|
-        \ nmap <buffer> <leader>m <leader>tm|
-        \ nmap <buffer> <leader>s <leader>ts|
-        \ nmap <buffer> <leader>z <leader>tp|
-        \ call taskpaper#fold_projects()|
-        \ inoremap <buffer> ñ ñ|
-        \ inoremap <buffer> <CR> <CR>|
-        \ setlocal shiftwidth=2 |
-        \ setlocal softtabstop=2 |
-        \ setlocal tabstop=2
-augroup END
-let g:task_paper_follow_move = 0
+call plug#begin('~/.vim/plugged')
 
-" }}}
+if !exists('g:vscode') 
+  " Plug 'liuchengxu/vista.vim'
+    Plug 'tpope/vim-sleuth'
+    Plug 'tpope/vim-speeddating'
+    Plug 'junegunn/vim-peekaboo'
+    Plug 'alvan/vim-closetag'
+    Plug 'unblevable/quick-scope'
+    Plug 'liuchengxu/vim-which-key'
+    Plug 'gryf/wombat256grf'
+    Plug 'rakr/vim-one'
+    Plug 'nanotech/jellybeans.vim'
+    Plug 'morhetz/gruvbox'
+    Plug 'tomasiser/vim-code-dark'
+    Plug 'psliwka/vim-smoothie'
+    Plug 'machakann/vim-highlightedyank'
+    Plug 'ledger/vim-ledger', { 'tag': 'v1.2.0' }            " Ledger files plugin
+    Plug 'sheerun/vim-polyglot'            " Open different formats
+    Plug 'mhinz/vim-startify'
+    Plug 'kassio/neoterm'
+    Plug 'vim-airline/vim-airline'        " Bottom line information
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'vimwiki/vimwiki'
+    Plug 'ferrine/md-img-paste.vim'
+    Plug '907th/vim-auto-save'   " Autosave files
+    Plug 'airblade/vim-rooter'
+    Plug 'scrooloose/nerdtree'  " File sidebar functionality
+    Plug 'ryanoasis/vim-devicons'
+    Plug 'vwxyutarooo/nerdtree-devicons-syntax'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+    Plug 'tpope/vim-fugitive'      " Git wrapper
+    Plug 'airblade/vim-gitgutter'  " Git wrapper
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'APZelos/blamer.nvim'
+    Plug 'honza/vim-snippets'
+endif
+    " Plugs for VSCode {{{
+    Plug 'tpope/vim-surround'      " Surround with brackets, parenthesis, etc
+    Plug 'tpope/vim-commentary'    " Easily add/remove comments
+    " }}}
+call plug#end()              " required
 
-" Ledger {{{
-call SetupCommandAlias("lb", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos -U")
-call SetupCommandAlias("lc", "let g:ledger_winpos = 'B'<CR>:Ledger bal -X 'kc' Comida Ejercicio Metabolismo")
-call SetupCommandAlias("lr", "let g:ledger_winpos = 'B'<CR>:Ledger register -U")
-call SetupCommandAlias("lo", "let g:ledger_winpos = 'R'<CR>:Ledger bal")
+if !exists('g:vscode') 
+    " Colorschemes {{{
+    set background=dark
+    " colorscheme one
+    " colorscheme gruvbox
+    " colorscheme wombat256grf
+    " colorscheme jellybeans
+    colorscheme codedark
+    hi Folded guifg=#a0a8b0 guibg=#384048 gui=italic
+    hi CursorLine guibg=#384048
+    " hi IncSearch guibg=yellow ctermbg=green term=underline  
+    " }}}
 
-" Special commodity for calorie counting file
-function! SetCommodity()
-    if expand('%:t') == 'cal.txt'
-        let g:ledger_default_commodity="kc"
-    else
-        let g:ledger_default_commodity="€"
-    endif
-endfunction
+    " Which Key {{{
+    call which_key#register('<Space>', "g:which_key_map")
+    set timeoutlen=500
+    nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+    nnoremap <leader>ri :PlugInstall<CR>
+    nnoremap <leader>rc :PlugClean<CR>
+    nnoremap <leader>rf :CocConfig<CR>
 
-augroup LedgerGroup
-    autocmd!
-    autocmd FileType ledger 
-                \ noremap <buffer> <Leader>ls :call ledger#transaction_state_toggle(line('.'), ' *!')<CR>|
-                \ inoremap <buffer> ñ ñ|
-                \ inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>|
-                \ vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>|
-                \ setlocal shiftwidth=2 |
-                \ setlocal softtabstop=2 |
-                \ setlocal tabstop=2 |
-                \ inoremap <buffer> <CR> <Esc>:LedgerAlign<CR>A<CR>|
-                \ call SetCommodity()
-augroup END
+    let g:which_key_map.r = {
+        \ 'name' : '+vimrc',
+        \ 'r' : 'source-vimrc',
+        \ 'i' : 'plug-install',
+        \ 'c' : 'plug-clean',
+        \ 'f' : 'coc-config',
+        \ }
+    " }}}
 
-" Copy latest transaction 
-" nmap <Leader>lc mt_W"cy$?<C-r>"$<CR>zcyiz'tpzadd:nohlsearch<CR>
-" Reformat line
-" nmap K 03W50i<Space><Esc>050ldw
-" vmap K 03W50i<Space><Esc>050ldw
-let g:ledger_default_commodity="€"
-let g:ledger_commodity_before = 0
-let g:ledger_commodity_sep = " "
-let g:ledger_decimal_sep = ","
-let g:ledger_winpos = 'r'
-let g:ledger_date_format = '%Y-%m-%d'
-let g:ledger_extra_options = '--date-format=%Y-%m-%d'
-let g:ledger_fillstring = '    -'
-" }}}
+    " Quickscope {{{
+    let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+    highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+    highlight QuickScopeSecondary guifg='#eF5F70' gui=underline ctermfg=81 cterm=underline
+    let g:qs_max_chars=150
+    " }}}
 
-" Markdown {{{
-noremap <F5> :!start C:\Program Files (x86)\Google\Chrome\Application\chrome.exe "%:p"<CR>
-" }}}
+    " Airline {{{
+    set laststatus=2  " To make airline work
+    let g:airline#extensions#tabline#enabled=1
+    let g:airline#extensions#tabline#show_buffers = 1
+    let g:airline#extensions#tabline#show_tabs = 0
+    let g:airline#extensions#tabline#formatter = 'unique_tail'
+    let g:airline_theme='dark'
+    " }}}
 
-" Autosave {{{
-function! AutoSaveByFiletype()
-    if &filetype != "ledger" && &filetype != "markdown" && &filetype != "taskpaper" && &filetype != "vimwiki"
-        let g:auto_save_abort = 1
-    endif
-endfunction
+    " Highlighted yank {{{
+    let g:highlightedyank_highlight_duration = 300
+    " }}}
 
-let g:auto_save_in_insert_mode = 0          " Do not autosave in insert mode
-let g:auto_save = 1
-let g:auto_save_presave_hook = 'call AutoSaveByFiletype()'
-" }}}
+    " Ledger {{{
+    call SetupCommandAlias("lb", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos -U")
+    call SetupCommandAlias("lc", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos")
+    call SetupCommandAlias("lr", "let g:ledger_winpos = 'B'<CR>:Ledger register -U")
 
-" Color scheme {{{
-colorscheme jellybeans
-" }}}
+    augroup LedgerGroup
+        autocmd!
+        autocmd FileType ledger 
+                    \ noremap <buffer> <Leader>ls :call ledger#transaction_state_toggle(line('.'), ' *')<CR>|
+                    \ inoremap <buffer> ñ ñ|
+                    \ inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>|
+                    \ vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>|
+                    \ inoremap <buffer> <CR> <Esc>:LedgerAlign<CR>A<CR>
+    augroup END
 
-" Ctrlp {{{
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_root_markers = ['web.config','*.sln', '.git']
-let g:ctrlp_by_filename = 1
-let g:ctrlp_working_path_mode = 'rw'
-set grepprg=rg\ --color=never
-let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-let g:ctrlp_match_window = 'top,order:ttb,min:1,max:10,results:10'
-" }}}
+    let g:ledger_default_commodity="€"
+    let g:ledger_commodity_before = 0
+    let g:ledger_commodity_sep = " "
+    let g:ledger_decimal_sep = ","
+    let g:ledger_winpos = 'r'
+    let g:ledger_date_format = '%Y-%m-%d'
+    let g:ledger_extra_options = '--date-format=%Y-%m-%d'
+    let g:ledger_fillstring = '    -'
+    " }}}
 
-" Airline {{{
-set laststatus=2  " To make airline work
-let g:airline#extensions#tabline#enabled=1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-if(g:os == "ios")
-    let g:airline_extensions = ['tabline']
+    " Polyglot {{{
+    let g:polyglot_disabled = ['markdown']
+    let g:markdown_fenced_languages = ['javascript', 'cs']
+    " }}}
+
+    " Startify {{{
+    hi StartifyFile gui=bold cterm=bold term=bold ctermfg=167 guifg=#f4a261
+
+    nmap <leader>s :Startify<cr>
+    let g:which_key_map.s = 'startify'
+
+    let g:startify_bookmarks = [
+                \ {'d': '~\Nextcloud\Config\DevScripts'},
+                \ {'i': '~\Nextcloud\Wiki\index.md'},
+                \ {'t': '~\Nextcloud\Wiki\Temp.md'},
+                \ {'r': '~\Nextcloud\Config\vimrc'},
+                \ {'l': '~\Nextcloud\Wiki\ledger.txt'},
+                \ {'c': '~\Nextcloud\Wiki\ledger-credit.txt'},
+                \ ]
+
+    let g:startify_lists = [
+                \ { 'type': 'sessions',  'header': ['   Sessions']       },
+                \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+                \ { 'type': 'commands',  'header': ['   Bookmarks']       },
+                \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+                \ { 'type': 'files',     'header': ['   MRU']            },
+                \ ]
+
+    let g:startify_commands = [
+                \ ]
+    let g:startify_change_to_dir = 0
+    let g:startify_session_persistence = 1
+
+    let g:startify_skiplist = [
+                \ '\vimrc',
+                \ 'eval.txt',
+                \ '.git\',
+                \ '.vim\',
+                \ '\nvim\runtime',
+                \ ]
+    let g:startify_custom_indices = ['a', 'b', 'e', 'g']
+
+    let g:ascii = [
+                \ '        __',
+                \ '.--.--.|__|.--------.',
+                \ '|  |  ||  ||        |',
+                \ ' \___/ |__||__|__|__|',
+                \ ''
+                \]
+
+    let g:startify_custom_header =
+                \ 'startify#pad(g:ascii + startify#fortune#boxed())'
+
+    let g:startify_relative_path = 1
+    " }}}
+
+    " Neoterm {{{
+    let g:neoterm_default_mod='botright'
+    let g:neoterm_autoinsert=1
+
+    nmap <c-ñ> :Ttoggle<cr>
+    tnoremap <c-ñ> <C-\><C-n>:Ttoggle<cr>
+    tnoremap <c-j> <C-\><C-n>:Tprevious<cr>i
+    tnoremap <c-k> <C-\><C-n>:Tnext<cr>i
+    tnoremap <c-n> <C-\><C-n>:Ttoggle<cr>:Tnew<cr>
+    tnoremap <c-x> <C-\><C-n>:Tclose!<cr>
+    tnoremap jj <C-\><C-n>
+    au TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>
+    au TermOpen * setlocal nobuflisted
+    " }}}
+
+    " VimWiki {{{
+    nmap <Leader>id <Plug>VimwikiDiaryIndex
+    nmap <Leader>it <Plug>VimwikiMakeDiaryNote
+    nmap <Leader>iy <Plug>VimwikiMakeYesterdayDiaryNote
+    let g:which_key_map.i = {
+        \ 'name' : '+vimwiki',
+        \ 'd' : 'open-diary',
+        \ 't' : 'open-today',
+        \ 'y' : 'open-yesterday',
+        \ 'i' : 'insert-image',
+        \ }
+
+    let g:vimwiki_list = [{'path': '~/Nextcloud/Wiki',
+                \ 'syntax': 'markdown', 'ext': '.md', 'diary_header': 'Diario', 'diary_index': 'index', 'auto_toc': 1}]
+
+    let g:vimwiki_diary_months = {
+                \ 1: 'Enero', 2: 'Febrero', 3: 'Marzo',
+                \ 4: 'Abril', 5: 'Mayo', 6: 'Junio',
+                \ 7: 'Julio', 8: 'Agosto', 9: 'Septiembre',
+                \ 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+                \ }
+
+    augroup VimWikiGroup
+        autocmd!
+        autocmd filetype vimwiki
+                    \ nmap <buffer> <leader>d <C-Space>|
+                    \ setlocal fdm=expr|
+                    \ noremap <buffer> <F5> :exec 'silent !start chrome "%:p"'<CR>|
+                        \ inoremap <buffer> <silent> <expr> <TAB>
+                        \ pumvisible() ? coc#_select_confirm() :
+                        \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+                        \ <SID>check_back_space() ? "\<C-r>=vimwiki#tbl#kbd_tab()\<CR>" :
+                        \ coc#refresh()|
+                    \ inoremap <buffer> <expr> <s-tab> vimwiki#tbl#kbd_shift_tab()
+    augroup END
+    " Header colors
+    hi VimwikiHeader1 gui=bold cterm=bold term=bold ctermfg=71 guifg=#6EBB49
+    hi VimwikiHeader2 gui=bold cterm=bold term=bold ctermfg=167 guifg=#f4a261
+    hi VimwikiHeader3 gui=bold cterm=bold term=bold ctermfg=33 guifg=#d75f5f
+    hi VimwikiHeader4 gui=bold cterm=bold term=bold ctermfg=91 guifg=#8700af
+    hi VimwikiHeader5 gui=bold cterm=bold term=bold ctermfg=91 guifg=#5f0f40
+    hi VimwikiLink gui=underline guifg=#569CD6
+
+    let g:vimwiki_listsyms = ' .oOx'
+    let g:vimwiki_folding = 'expr'
+    let g:vimwiki_ext2syntax = {'.md': 'markdown'}
+    let g:vimwiki_markdown_link_ext = 1
+    let g:vimwiki_hl_cb_checked = 1
+    let g:vimwiki_table_mappings = 0
+    " }}}
+
+    " md-img-paste {{{
+    nmap <silent> <leader>ii :call mdip#MarkdownClipboardImage()<CR>
+    let g:mdip_imgdir = 'images'
+    " }}}
+
+    " Autosave {{{
+    function! AutoSaveByFiletype()
+        if &filetype != "ledger" && &filetype != "markdown" && &filetype != "taskpaper" && &filetype != "vimwiki"
+            let g:auto_save_abort = 1
+        endif
+    endfunction
+
+    let g:auto_save_in_insert_mode = 0          " Do not autosave in insert mode
+    let g:auto_save = 1
+    let g:auto_save_presave_hook = 'call AutoSaveByFiletype()'
+    " }}}
+
+    " Rooter {{{
+    let g:rooter_change_directory_for_non_project_files = 'current'
+    let g:rooter_patterns = ['*.sln', 'package.json', 'gradle/', '.git/', 'index.md']
+    let g:rooter_silent_chdir = 1
+    " }}}
+
+    " Nerdtree {{{	
+    function! NERDTreeToggleAndFind()
+        if (exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1)
+            execute ':NERDTreeClose'
+        else
+            execute ':NERDTreeFind'
+        endif
+    endfunction
+    map <leader>n :call NERDTreeToggleAndFind()<CR>
+    let g:which_key_map.n = 'nerdtree-toggle'
+    let NERDTreeMinimalUI=1
+    let NERDTreeMapUpdir = 'h'
+    let NERDTreeMapChangeRoot = 'l'
+    let NERDTreeShowLineNumbers=1
+    let g:NERDTreeIndicatorMapCustom = {
+                \ "Modified"  : "✹",
+                \ "Staged"    : "✚",
+                \ "Untracked" : "✭",
+                \ "Renamed"   : "➜",
+                \ "Unmerged"  : "═",
+                \ "Deleted"   : "✖",
+                \ "Dirty"     : "✗",
+                \ "Clean"     : "✔︎",
+                \ 'Ignored'   : '☒',
+                \ "Unknown"   : "?"
+                \ }
+    let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols = {} " needed
+    let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*\.spec.ts$'] = ''
+    let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*\.feature$'] = ''
+    " }}}
+
+    " FZF {{{
+    let $FZF_DEFAULT_OPTS = '--multi --reverse'
+    let $FZF_DEFAULT_OPTS= $FZF_DEFAULT_OPTS . ' --color fg:188,bg:233,hl:103,fg+:222,bg+:234,hl+:104'
+    let $FZF_DEFAULT_OPTS= $FZF_DEFAULT_OPTS . ' --color info:183,prompt:110,spinner:107,pointer:167,marker:215'
+    let $FZF_DEFAULT_OPTS= $FZF_DEFAULT_OPTS . " --bind 'change:top,F2:toggle-preview',ctrl-j:down,ctrl-k:up"
+    " let $BAT_THEME = 'base16'
+    " command! -bang -nargs=* Find call fzf#vim#grep('rg  --color always '.shellescape(<q-args>), 1, {'options': ['--color', 'hl:9,hl+:14']}, <bang>0)
+    command! -bang -nargs=* Rg
+                \ call fzf#vim#grep(
+                \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+                \   fzf#vim#with_preview({'options': ['--color', 'fg:188,bg:233,hl:103,fg+:222,bg+:234,hl+:104,info:183,prompt:110,spinner:107,pointer:167,marker:215']}), <bang>0)
+    " Remap ctrl-p to Files or GFiles
+    nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':Files' : ':GFiles')."\<cr>"
+    nnoremap <C-f> :Rg<cr>
+    vnoremap <C-f> y:Rg <C-R>=escape(@",'/\')<CR><CR>
+    "Floating Window
+    let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+    function! FloatingFZF()
+        let buf = nvim_create_buf(v:false, v:true)
+        call setbufvar(buf, '&signcolumn', 'no')
+
+        let width = float2nr(&columns * 0.9)
+        let height = float2nr(&lines * 0.8)
+        let opts = { 'relative': 'editor',
+                    \ 'row': (&lines - height) / 2,
+                    \ 'col': (&columns - width) / 2,
+                    \ 'width': width,
+                    \ 'height': height,
+                    \ 'style': 'minimal'
+                    \}
+
+        call nvim_open_win(buf, v:true, opts)
+    endfunction
+
+    " Git branch mgmt
+    fun! s:change_branch(e)
+        let res = system("git checkout --track " . a:e)
+        :e!
+        :AirlineRefresh
+        :echom "Changed branch to" . a:e
+    endfun
+
+    command! Gbranch call fzf#run(
+                \ {
+                \ 'source': 'git branch -a',
+                \ 'sink': function('<sid>change_branch'),
+                \ 'options': '-m',
+                \ 'down': '20%',
+                \ })
+
+    au FileType fzf silent! tunmap <Esc>
+
+    " }}}
+
+    " Fugitive, gitgutter and blamer {{{
+    set diffopt+=vertical
+    let g:gitgutter_override_sign_column_highlight = 1
+    let g:gitgutter_async=1
+    let g:gitgutter_diff_args = '-w'
+    " Test new color config
+    highlight GitGutterAdd guifg=#009900 ctermfg=Green
+    highlight GitGutterChange guifg=#bbbb00 ctermfg=Yellow
+    highlight GitGutterDelete guifg=#ff2222 ctermfg=Red
+
+    let g:gitgutter_enabled = 1
+    let g:gitgutter_map_keys = 0
+    let g:gitgutter_highlight_linenrs = 1
+    highlight SignColumn guibg=bg
+    " Update sign column every quarter second
+    set updatetime=1000
+
+    " Blamer
+    let g:blamer_enabled = 1
+    let g:blamer_show_in_visual_modes = 0
+    highlight Blamer guifg=darkgrey
+
+    " Jump between hunks
+    nmap <Leader>gj <Plug>(GitGutterNextHunk)
+    nmap <Leader>gk <Plug>(GitGutterPrevHunk)
+    nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
+    nmap <Leader>gu <Plug>(GitGutterUndoHunk)
+    nmap <Leader>gs :Gstatus<cr>
+    nmap <Leader>gl :Gpull<cr>
+    nmap <Leader>gh :Gpush<cr>
+    nmap <Leader>gb :Gbranch<cr>
+    nmap <Leader>gm :BlamerToggle<cr>
+    let g:which_key_map.g = {
+        \ 'name' : '+git',
+        \ 'k' : 'previous-hunk',
+        \ 'j' : 'next-hunk',
+        \ 's' : 'status',
+        \ 'l' : 'pull',
+        \ 'h' : 'push',
+        \ 'b' : 'branch',
+        \ 'u' : 'undo',
+        \ 'p' : 'preview',
+        \ 'm' : 'blamer',
+        \ }
+    " }}}
+
+    " COC {{{
+    set pyxversion=3
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gr <Plug>(coc-references)
+    nmap <silent> ge <Plug>(coc-diagnostic-next)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gf <Plug>(coc-codeaction-line)
+    vmap <silent> gf <Plug>(coc-codeaction-selected)
+
+    " Symbol renaming.
+    nmap <f2> <Plug>(coc-rename)
+    " Find symbol of current document.
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+    function! s:show_documentation()
+        if (index(['vim','help'], &filetype) >= 0)
+            execute 'h '.expand('<cword>')
+        else
+            call CocAction('doHover')
+        endif
+    endfunction
+
+    " inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
+    inoremap <expr> <c-j> pumvisible() ? "\<C-n>" : "\<C-j>u\<CR>"
+    inoremap <expr> <c-k> pumvisible() ? "\<C-p>" : "\<C-k>u\<c-CR>"
+
+    inoremap <silent><expr> <TAB>
+                \ pumvisible() ? coc#_select_confirm() :
+                \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+                \ <SID>check_back_space() ? "\<TAB>" :
+                \ coc#refresh()
+
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+
+    " let g:coc_snippet_next = '<tab>'
+    let g:coc_global_extensions = [
+                \ 'coc-tsserver',
+                \ 'coc-tslint',
+                \ 'coc-snippets',
+                \ 'coc-pairs',
+                \ 'coc-html',
+                \ 'coc-css',
+                \ 'coc-prettier',
+                \ 'coc-json',
+                \ 'coc-angular',
+                \ 'coc-java'
+                \ ]
+
+    let g:coc_sources_disable_map = {
+                \ 'ledger': ['snippets', 'snippets-source']
+                \ }
+    " }}}
 endif
 " }}}
-
-" Nerdtree {{{	
-map <leader>n :NERDTreeToggle<CR>	
-let NERDTreeMinimalUI=1
-
-let NERDTreeMapUpdir = 'h'
-let NERDTreeMapChangeRoot = 'l'
-let NERDTreeShowLineNumbers=1
-" }}}
-
-" Fugitive and gitgutter {{{
-call SetupCommandAlias("git", "Git")
-nnoremap <Leader>gn :GitGutterNextHunk<CR>zO
-nnoremap <Leader>gN :GitGutterPrevHunk<CR>zO
-nnoremap <Leader>gu :GitGutterUndoHunk<CR>
-set diffopt+=vertical
-" }}}
-
-" Vim Rooter {{{
-let g:rooter_patterns = ['index.md', '.git/']
-let g:rooter_silent_chdir = 0
-let g:rooter_use_lcd = 1
-
-let g:rooter_resolve_links = 0
-let g:rooter_manual_only = 0
-" }}}
-
-" VimWiki {{{
-nmap <Leader>ii <Plug>VimwikiIndex
-nmap <Leader>oo 2<Plug>VimwikiIndex
-nmap <Leader>id <Plug>VimwikiDiaryIndex
-nmap <Leader>od 2<Plug>VimwikiDiaryIndex
-nmap <Leader>it <Plug>VimwikiMakeDiaryNote
-nmap <Leader>ot 2<Plug>VimwikiMakeDiaryNote
-nmap <Leader>iy <Plug>VimwikiMakeYesterdayDiaryNote
-nmap <Leader>oy 2<Plug>VimwikiMakeYesterdayDiaryNote
-nmap <Leader>if :VWS 
-nmap <Leader>in :lopen<CR>
-
-let g:vimwiki_list = [{'path': '~/Sync/Wiki',
-                        \ 'syntax': 'markdown', 'ext': '.md', 'diary_header': 'Diario', 'diary_index': 'index'}]
-                        " \ {'path': '~/wiki',
-                        " \ 'syntax': 'markdown', 'ext': '.md', 'index': 'Home', 'diary_header': 'Diario público'}]
-
-let g:vimwiki_diary_months = {
-      \ 1: 'Enero', 2: 'Febrero', 3: 'Marzo',
-      \ 4: 'Abril', 5: 'Mayo', 6: 'Junio',
-      \ 7: 'Julio', 8: 'Agosto', 9: 'Septiembre',
-      \ 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
-      \ }
-
-augroup VimWikiGroup
-    autocmd!
-    autocmd filetype vimwiki
-        \ nmap <buffer> <leader>d <C-Space>
-augroup END
-
-hi VimwikiHeader1 gui=bold cterm=bold term=bold ctermfg=71 guifg=#70b950
-hi VimwikiHeader2 gui=bold cterm=bold term=bold ctermfg=167 guifg=#d75f5f
-hi VimwikiHeader3 gui=bold cterm=bold term=bold ctermfg=91 guifg=#8700af
-hi VimwikiHeader4 gui=bold cterm=bold term=bold ctermfg=33 guifg=#0087ff
-
-function! VimwikiLinkHandler(link)
-    " Use Vim to open external files with the 'vfile:' scheme.  E.g.:
-    "   1) [[vfile:~/Code/PythonProject/abc123.py]]
-    "   2) [[vfile:./|Wiki Home]]
-    let link = a:link
-    if link =~# '^vfile:'
-        let link = link[1:]
-    else
-        return 0
-    endif
-    let link_infos = vimwiki#base#resolve_link(link)
-    if link_infos.filename == ''
-        echomsg 'Vimwiki Error: Unable to resolve link!'
-        return 0
-    else
-        exe 'edit ' . fnameescape(link_infos.filename)
-        lcd %:p:h
-        return 1
-    endif
-endfunction
-
-let g:vimwiki_listsyms = ' .oOx'
-let g:vimwiki_folding = 'expr'
-let g:vimwiki_ext2syntax = {'.md': 'markdown'}
-let g:vimwiki_markdown_link_ext = 1
-
-" }}}
-
-" }}}
-
-" Format vimrc file with folds
-" vim:foldmethod=marker:foldlevel=0

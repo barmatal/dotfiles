@@ -1,5 +1,6 @@
 " Optimized based on https://github.com/ChristianChiarulli/nvim
 
+" Prerequisites {{{
 " Space is leader
 let mapleader=' '
 set nocompatible        " be iMproved, required
@@ -13,6 +14,13 @@ fun! SetupCommandAlias(from, to)
         \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
         \ .'? ("'.a:to.'") : ("'.a:from.'"))'
 endfun
+
+augroup vimrc
+  autocmd!
+  autocmd FileType vim 
+        \ setlocal foldmethod=marker|
+        \ setlocal foldlevel=0
+augroup END
 
 " }}}
 
@@ -220,6 +228,8 @@ set foldenable    " enable folding
 set foldmethod=syntax " enable folding in code
 set foldlevel=5   " Start with 3 level folding
 
+setlocal foldmethod=marker
+setlocal foldlevel=0
 " }}}
 
 " Files, windows, buffers and splits {{{
@@ -362,11 +372,13 @@ if !exists('g:vscode')
     augroup LedgerGroup
         autocmd!
         autocmd FileType ledger 
-                    \ noremap <buffer> <Leader>ls :call ledger#transaction_state_toggle(line('.'), ' *')<CR>|
-                    \ inoremap <buffer> ñ ñ|
-                    \ inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>|
-                    \ vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>|
-                    \ inoremap <buffer> <CR> <Esc>:LedgerAlign<CR>A<CR>
+              \ setlocal foldmethod=marker|
+              \ setlocal foldlevel=0|
+              \ noremap <buffer> <Leader>ls :call ledger#transaction_state_toggle(line('.'), ' *')<CR>|
+              \ inoremap <buffer> ñ ñ|
+              \ inoremap <silent> <buffer> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>|
+              \ vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>|
+              \ inoremap <buffer> <CR> <Esc>:LedgerAlign<CR>A<CR>
     augroup END
 
     let g:ledger_default_commodity="€"

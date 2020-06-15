@@ -14,7 +14,7 @@
   "suggest.floatEnable": true,
   "suggest.noselect": false,
   "suggest.minTriggerInputLength": 2,
-  "snippets.userSnippetsDirectory": "~/Nextcloud/Config/Snippets",
+  "snippets.userSnippetsDirectory": "./snippets",
   "snippets.extends": {
     "javascript": ["javascript", "javascript-jasmine-arrow"],
     "typescript": ["javascript", "javascript-jasmine-arrow"],

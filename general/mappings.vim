@@ -1,6 +1,3 @@
-
-" Remappings {{{
-
 " General {{{
 
 " jj switches mode
@@ -16,18 +13,15 @@ vnoremap Ñ /
 " inoremap <C-V> <ESC>p
 " nnoremap <C-V> p
 cnoremap <C-V> <C-r>+
-tnoremap <C-V> <C-\><C-n>pa
-
+au TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>
 " ABM test function for string
 
 fun! SmartPaste()
     if len(@+) == 0
         :call mdip#MarkdownClipboardImage()<CR>
     elseif match(@+, "^http") == 0
-        :echom "link"
         normal "+pviWS)i[
     else
-        :echom "text"
         normal! "+p
     endif
 endfun
@@ -142,7 +136,4 @@ nmap ge '.
 inoremap <A-ñ> ~
 nmap <silent> <leader>rr :w<CR>:source $MYVIMRC<CR>
 nnoremap <C-s> :%s//gIc<Left><Left><Left><Left>
-
-" }}}
-
 " }}}

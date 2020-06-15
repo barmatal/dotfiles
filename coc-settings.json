@@ -14,7 +14,7 @@
   "suggest.floatEnable": true,
   "suggest.noselect": false,
   "suggest.minTriggerInputLength": 2,
-  "snippets.userSnippetsDirectory": "./snippets",
+  "snippets.userSnippetsDirectory": "~/AppData/Local/nvim/snippets",
   "snippets.extends": {
     "javascript": ["javascript", "javascript-jasmine-arrow"],
     "typescript": ["javascript", "javascript-jasmine-arrow"],
@@ -22,3 +22,4 @@
     "ledger": []
   }
 }
+

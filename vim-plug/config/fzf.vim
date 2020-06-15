@@ -1,9 +1,8 @@
 
-    " FZF {{{
     let $FZF_DEFAULT_OPTS = '--multi --reverse'
     let $FZF_DEFAULT_OPTS= $FZF_DEFAULT_OPTS . ' --color fg:188,bg:233,hl:103,fg+:222,bg+:234,hl+:104'
     let $FZF_DEFAULT_OPTS= $FZF_DEFAULT_OPTS . ' --color info:183,prompt:110,spinner:107,pointer:167,marker:215'
-    let $FZF_DEFAULT_OPTS= $FZF_DEFAULT_OPTS . " --bind 'change:top,F2:toggle-preview',ctrl-j:down,ctrl-k:up"
+    let $FZF_DEFAULT_OPTS= $FZF_DEFAULT_OPTS . " --bind 'change:top,F2:toggle-preview'"
     " let $BAT_THEME = 'base16'
     " command! -bang -nargs=* Find call fzf#vim#grep('rg  --color always '.shellescape(<q-args>), 1, {'options': ['--color', 'hl:9,hl+:14']}, <bang>0)
     command! -bang -nargs=* Rg
@@ -34,21 +33,40 @@
     endfunction
 
     " Git branch mgmt
-    fun! s:change_branch(e)
-        let res = system("git checkout --track " . a:e)
-        :e!
-        :AirlineRefresh
-        :echom "Changed branch to" . a:e
-    endfun
+    " fun! s:change_branch(e)
+    "     let res = system("git checkout --track " . a:e)
+    "     :e!
+    "     :AirlineRefresh
+    "     :echom "Changed branch to" . a:e
+    " endfun
 
-    command! Gbranch call fzf#run(
-                \ {
-                \ 'source': 'git branch -a',
-                \ 'sink': function('<sid>change_branch'),
-                \ 'options': '-m',
-                \ 'down': '20%',
-                \ })
+    " command! Gbranch call fzf#run(
+    "             \ {
+    "             \ 'source': 'git branch -a',
+    "             \ 'sink': function('<sid>change_branch'),
+    "             \ 'options': '-m',
+    "             \ 'down': '20%',
+    "             \ })
 
-    au FileType fzf silent! tunmap <Esc>
+    " au FileType fzf silent! map <Esc> <c-q>
 
-    " }}}
+  au FileType fzf tunmap <buffer> <Esc>
+  au FileType fzf tmap <buffer> <c-j> <down>
+  au FileType fzf tmap <buffer> <c-k> <up>
+function! s:open_branch_fzf(line)
+  let l:parser = split(a:line)
+  let l:branch = l:parser[0]
+  if l:branch ==? '*'
+    let l:branch = l:parser[1]
+  endif
+  execute '!git checkout ' . l:branch
+endfunction
+
+command! -bang -nargs=0 Gbranch
+  \ call fzf#vim#grep(
+  \   'git branch -a', 0,
+  \   {
+  \     'sink': function('s:open_branch_fzf')
+  \   },
+  \   <bang>0
+  \ )

@@ -20,12 +20,12 @@ if !exists('g:vscode')
     source $LOCALAPPDATA\nvim\vim-plug\config\polyglot.vim
     source $LOCALAPPDATA\nvim\vim-plug\config\startify.vim
     source $LOCALAPPDATA\nvim\vim-plug\config\neoterm.vim
-    source $LOCALAPPDATA\nvim\vim-plug\config\fzf.vim
-    source $LOCALAPPDATA\nvim\vim-plug\config\coc.vim
     source $LOCALAPPDATA\nvim\vim-plug\config\vimwiki.vim
     source $LOCALAPPDATA\nvim\vim-plug\config\md-img-paste.vim
     source $LOCALAPPDATA\nvim\vim-plug\config\autosave.vim
     source $LOCALAPPDATA\nvim\vim-plug\config\rooter.vim
     source $LOCALAPPDATA\nvim\vim-plug\config\nerdtree.vim
     source $LOCALAPPDATA\nvim\vim-plug\config\git.vim
+    source $LOCALAPPDATA\nvim\vim-plug\config\fzf.vim
+    source $LOCALAPPDATA\nvim\vim-plug\config\coc.vim
 endif

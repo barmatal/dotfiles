@@ -1,4 +1,3 @@
-    " VimWiki {{{
     nmap <Leader>id <Plug>VimwikiDiaryIndex
     nmap <Leader>it <Plug>VimwikiMakeDiaryNote
     nmap <Leader>iy <Plug>VimwikiMakeYesterdayDiaryNote

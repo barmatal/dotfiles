@@ -16,10 +16,17 @@
   "suggest.minTriggerInputLength": 2,
   "snippets.userSnippetsDirectory": "~/AppData/Local/nvim/snippets",
   "snippets.extends": {
-    "javascript": ["javascript", "javascript-jasmine-arrow"],
-    "typescript": ["javascript", "javascript-jasmine-arrow"],
+    "javascript": [
+      "javascript",
+      "javascript-jasmine-arrow",
+      "javascript-jsdoc"
+    ],
+    "typescript": [
+      "javascript",
+      "javascript-jasmine-arrow",
+      "javascript-jsdoc"
+    ],
     "vimwiki": ["vimwiki"],
     "ledger": []
   }
 }
-

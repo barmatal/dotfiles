@@ -50,7 +50,7 @@
 
     " au FileType fzf silent! map <Esc> <c-q>
 
-  au FileType fzf tunmap <buffer> <Esc>
+  au FileType fzf silent! tunmap <buffer> <Esc>
   au FileType fzf tmap <buffer> <c-j> <down>
   au FileType fzf tmap <buffer> <c-k> <up>
 function! s:open_branch_fzf(line)

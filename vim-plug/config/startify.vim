@@ -1,5 +1,3 @@
-
-    " Startify {{{
     hi StartifyFile gui=bold cterm=bold term=bold ctermfg=167 guifg=#f4a261
 
     nmap <leader>s :Startify<cr>
@@ -33,6 +31,7 @@
                 \ '.git\',
                 \ '.vim\',
                 \ '\nvim\runtime',
+                \ '\Local\Temp',
                 \ ]
     let g:startify_custom_indices = ['a', 'b', 'e', 'g']
 
@@ -48,4 +47,3 @@
                 \ 'startify#pad(g:ascii + startify#fortune#boxed())'
 
     let g:startify_relative_path = 1
-    " }}}

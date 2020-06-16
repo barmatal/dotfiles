@@ -49,11 +49,10 @@ if !exists('g:vscode')
   Plug 'tpope/vim-fugitive'                     " Git wrapper
   Plug 'airblade/vim-gitgutter'                 " Git wrapper
   Plug 'APZelos/blamer.nvim'                    " Inline blame
-
   Plug 'neoclide/coc.nvim',{'branch': 'release'} " Autocompletion and snippets
   Plug 'honza/vim-snippets'
   " }}}
 
 endif
 
-call plug#end()              " required
+call plug#end()

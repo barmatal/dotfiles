@@ -1,42 +1,59 @@
 call plug#begin('~/.vim/plugged')
 
+" Common plugins (neovim + VSCode) {{{
+Plug 'tpope/vim-surround'                       " Surround with brackets, parenthesis, etc
+Plug 'tpope/vim-commentary'                     " Easily add/remove comments
+" }}}
+
+" Plugins excluded from VSCode
 if !exists('g:vscode') 
-  " Plug 'liuchengxu/vista.vim'
-    Plug 'tpope/vim-sleuth'
-    Plug 'tpope/vim-speeddating'
-    Plug 'junegunn/vim-peekaboo'
-    Plug 'alvan/vim-closetag'
-    Plug 'unblevable/quick-scope'
-    Plug 'liuchengxu/vim-which-key'
-    Plug 'gryf/wombat256grf'
-    Plug 'rakr/vim-one'
-    Plug 'nanotech/jellybeans.vim'
-    Plug 'morhetz/gruvbox'
-    Plug 'tomasiser/vim-code-dark'
-    Plug 'psliwka/vim-smoothie'
-    Plug 'machakann/vim-highlightedyank'
-    Plug 'ledger/vim-ledger', { 'tag': 'v1.2.0' }            " Ledger files plugin
-    Plug 'sheerun/vim-polyglot'            " Open different formats
-    Plug 'mhinz/vim-startify'
-    Plug 'kassio/neoterm'
-    Plug 'vim-airline/vim-airline'        " Bottom line information
-    Plug 'vim-airline/vim-airline-themes'
-    Plug 'vimwiki/vimwiki'
-    Plug 'ferrine/md-img-paste.vim'
-    Plug '907th/vim-auto-save'   " Autosave files
-    Plug 'airblade/vim-rooter'
-    Plug 'scrooloose/nerdtree'  " File sidebar functionality
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'vwxyutarooo/nerdtree-devicons-syntax'
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
-    Plug 'tpope/vim-fugitive'      " Git wrapper
-    Plug 'airblade/vim-gitgutter'  " Git wrapper
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'APZelos/blamer.nvim'
-    Plug 'honza/vim-snippets'
+
+  " Colorschemes {{{
+  Plug 'gryf/wombat256grf'
+  Plug 'rakr/vim-one'
+  Plug 'nanotech/jellybeans.vim'
+  Plug 'morhetz/gruvbox'
+  Plug 'tomasiser/vim-code-dark'
+  " }}}
+
+  " Filetypes {{{
+  Plug 'tpope/vim-sleuth'                       " Automatically set tab config per filetype
+  Plug 'ledger/vim-ledger', { 'tag': 'v1.2.0' }                         " Ledger files plugin
+  Plug 'sheerun/vim-polyglot'                   " Open different formats
+  Plug 'vimwiki/vimwiki'                        " Vimwiki and markdown filetype
+  Plug 'ferrine/md-img-paste.vim'
+  " }}}
+
+  " Additional functionality {{{
+  Plug 'junegunn/vim-peekaboo'                  " Check register content automatically
+  Plug 'tpope/vim-speeddating'                  " Quick increase/decrease dates
+  Plug 'unblevable/quick-scope'                 " Visual help for horizontal moving
+  Plug 'liuchengxu/vim-which-key'               " Visual mappings helper
+  Plug 'psliwka/vim-smoothie'                   " Smooth scrolling
+  Plug 'machakann/vim-highlightedyank'          " Highlight yanked text
+  Plug 'kassio/neoterm'                         " Better terminal handling
+  Plug 'mhinz/vim-startify'                     " Better start buffer
+  Plug 'vim-airline/vim-airline'                " Visual airline
+  Plug 'vim-airline/vim-airline-themes'
+  Plug '907th/vim-auto-save'                    " Auto-save some filetypes
+  " }}}
+  
+  " Programming {{{
+  Plug 'alvan/vim-closetag'                     " Close HTML tags automatically
+  Plug 'scrooloose/nerdtree'                    " File sidebar functionality
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'vwxyutarooo/nerdtree-devicons-syntax'
+  Plug 'airblade/vim-rooter'                    " Automatically set up root directory
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'                       " Fuzzy Search
+  Plug 'tpope/vim-fugitive'                     " Git wrapper
+  Plug 'airblade/vim-gitgutter'                 " Git wrapper
+  Plug 'APZelos/blamer.nvim'                    " Inline blame
+
+  Plug 'neoclide/coc.nvim',{'branch': 'release'} " Autocompletion and snippets
+  Plug 'honza/vim-snippets'
+  " }}}
+
 endif
-    " Plugs for VSCode
-    Plug 'tpope/vim-surround'      " Surround with brackets, parenthesis, etc
-    Plug 'tpope/vim-commentary'    " Easily add/remove comments
+
 call plug#end()              " required

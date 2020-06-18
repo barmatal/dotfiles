@@ -29,7 +29,9 @@ set lazyredraw
 set novisualbell    " don't beep
 set noerrorbells  " don't beep
 set wildmenu    " better autocomplete of commands
-set wildmode=longest:list,full
+" set wildmode=longest:list,full
+set wildmode=full
+set wildoptions+=pum
 set complete+=k
 set mouse=a
 " }}}

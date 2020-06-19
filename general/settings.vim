@@ -84,6 +84,7 @@ setlocal foldlevel=0
 " }}}
 
 " Files, windows, buffers and splits {{{
+let loaded_matchit = 1
 set modelines=2
 set encoding=UTF-8
 set hidden        " Improve buffer management

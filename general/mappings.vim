@@ -10,24 +10,10 @@ nnoremap Ñ /
 vnoremap Ñ /
 
 " CTRL-V Paste
-" inoremap <C-V> <ESC>p
-" nnoremap <C-V> p
+inoremap <C-V> <ESC>p
+nnoremap <C-V> p
 cnoremap <C-V> <C-r>+
 au TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>
-" ABM test function for string
-
-fun! SmartPaste()
-    if len(@+) == 0
-        :call mdip#MarkdownClipboardImage()<CR>
-    elseif match(@+, "^http") == 0
-        normal "+pviWS)i[
-    else
-        normal! "+p
-    endif
-endfun
-
-nnoremap <c-v> :call SmartPaste()<cr>
-inoremap <c-v> <esc>:call SmartPaste()<cr>
 
 " Paste from non-volatile register
 nnoremap <leader>p "0p

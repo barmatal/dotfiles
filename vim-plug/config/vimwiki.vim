@@ -3,6 +3,17 @@ function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+fun! SmartPaste()
+    if len(@+) == 0
+        :call mdip#MarkdownClipboardImage()<CR>
+    elseif match(@+, "^http") == 0
+        normal "+pviWS)i[
+    else
+        normal! "+p
+    endif
+endfun
+
 " }}}
 
 " Mappings {{{
@@ -44,6 +55,8 @@ augroup VimWikiGroup
                 \ nmap <buffer> <leader>d <C-Space>|
                 \ setlocal fdm=expr|
                 \ noremap <buffer> <F5> :exec 'silent !start chrome "%:p"'<CR>|
+                \ nnoremap <buffer> <c-v> :call SmartPaste()<cr>|
+                \ inoremap <buffer> <c-v> <esc>:call SmartPaste()<cr>|
                 \ inoremap <buffer> <silent> <expr> <TAB>
                 \ pumvisible() ? coc#_select_confirm() :
                 \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
@@ -61,4 +74,3 @@ hi VimwikiHeader4 gui=bold cterm=bold term=bold ctermfg=91 guifg=#8700af
 hi VimwikiHeader5 gui=bold cterm=bold term=bold ctermfg=91 guifg=#5f0f40
 hi VimwikiLink gui=underline guifg=#569CD6
 " }}}
-

@@ -40,15 +40,16 @@ if !exists('g:vscode')
   
   " Programming {{{
   Plug 'alvan/vim-closetag'                     " Close HTML tags automatically
-  Plug 'scrooloose/nerdtree'                    " File sidebar functionality
+  Plug 'scrooloose/nerdtree' , { 'on':  'NERDTreeFind' }                   " File sidebar functionality
   Plug 'ryanoasis/vim-devicons'
-  Plug 'vwxyutarooo/nerdtree-devicons-syntax'
+  Plug 'vwxyutarooo/nerdtree-devicons-syntax', { 'on':  'NERDTreeFind' }
   Plug 'airblade/vim-rooter'                    " Automatically set up root directory
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'                       " Fuzzy Search
   Plug 'tpope/vim-fugitive'                     " Git wrapper
-  Plug 'airblade/vim-gitgutter'                 " Git wrapper
-  Plug 'APZelos/blamer.nvim'                    " Inline blame
+  " Plug 'airblade/vim-gitgutter'                 " Git wrapper
+  Plug 'mhinz/vim-signify'
+  Plug 'APZelos/blamer.nvim', { 'on':  'BlamerToggle' }                    " Inline blame
   Plug 'neoclide/coc.nvim',{'branch': 'release'} " Autocompletion and snippets
   Plug 'honza/vim-snippets'
   " }}}

@@ -22,12 +22,12 @@ let g:which_key_map.p = 'paste-unmodified'
 
 if !exists('g:vscode') 
     " Browse tabs
-    nmap <leader>k :bn<cr>
-    nmap <leader>j :bp<cr>
-    nmap <leader>x :bp\|bd #<cr>
-    nmap <leader>X :bd!<cr>
-    nmap <leader>c :close<cr>
-    nmap <leader>b :e #<cr>
+    nmap <silent> <leader>k :bn<cr>
+    nmap <silent> <leader>j :bp<cr>
+    nmap <silent> <leader>x :bp\|bd #<cr>
+    nmap <silent> <leader>X :bd!<cr>
+    nmap <silent> <leader>c :close<cr>
+    nmap <silent> <leader>b :e #<cr>
 
     let g:which_key_map.k = 'next-buffer'
     let g:which_key_map.j = 'previous-buffer'

@@ -44,9 +44,6 @@ else
     nmap <leader>k :call VSCodeCall('workbench.action.nextEditor')<CR>
     nmap <leader>j :call VSCodeCall('workbench.action.previousEditor')<CR>
     nmap <leader>h :call VSCodeCall('editor.action.showHover')<CR>
-    " Smart wrap line navigation
-    nmap j gj
-    nmap k gk
     " keep ctrl-p funcntionality
     nmap <c-p> :call VSCodeNotify('workbench.action.quickOpen')<CR>
     imap <c-p> :call VSCodeNotify('workbench.action.quickOpen')<CR>
@@ -95,9 +92,6 @@ let g:which_key_map.t = {
     \ 'k' : 'tab-next',
     \ }
 
-" Smart line join
-nnoremap J gJ
-
 " Better g; logic
 nnoremap g, g;
 
@@ -119,7 +113,6 @@ set omnifunc=syntaxcomplete#Complete
 " Go to last edited line
 nmap ge '.
 
-inoremap <A-ñ> ~
 nmap <silent> <leader>rr :w<CR>:source $MYVIMRC<CR>
 nnoremap <C-s> :%s//gIc<Left><Left><Left><Left>
 

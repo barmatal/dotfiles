@@ -9,10 +9,10 @@ Plug 'tpope/vim-commentary'                     " Easily add/remove comments
 if !exists('g:vscode') 
 
   " Colorschemes {{{
-  Plug 'gryf/wombat256grf'
-  Plug 'rakr/vim-one'
-  Plug 'nanotech/jellybeans.vim'
-  Plug 'morhetz/gruvbox'
+  " Plug 'gryf/wombat256grf'
+  " Plug 'rakr/vim-one'
+  " Plug 'nanotech/jellybeans.vim'
+  " Plug 'morhetz/gruvbox'
   Plug 'tomasiser/vim-code-dark'
   " }}}
 
@@ -26,7 +26,6 @@ if !exists('g:vscode')
 
   " Additional functionality {{{
   Plug 'junegunn/vim-peekaboo'                  " Check register content automatically
-  Plug 'tpope/vim-speeddating'                  " Quick increase/decrease dates
   Plug 'unblevable/quick-scope'                 " Visual help for horizontal moving
   Plug 'liuchengxu/vim-which-key'               " Visual mappings helper
   Plug 'psliwka/vim-smoothie'                   " Smooth scrolling
@@ -47,11 +46,10 @@ if !exists('g:vscode')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'                       " Fuzzy Search
   Plug 'tpope/vim-fugitive'                     " Git wrapper
-  " Plug 'airblade/vim-gitgutter'                 " Git wrapper
   Plug 'mhinz/vim-signify'
   Plug 'APZelos/blamer.nvim', { 'on':  'BlamerToggle' }                    " Inline blame
+  Plug 'barmatal/vim-snippets'
   Plug 'neoclide/coc.nvim',{'branch': 'release'} " Autocompletion and snippets
-  Plug 'honza/vim-snippets'
   " }}}
 
 endif

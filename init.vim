@@ -5,7 +5,6 @@
 "/___/_/ /_/_/\__(_)___/_/_/ /_/ /_/
 "
 " Optimized based on https://github.com/ChristianChiarulli/nvim
-let loaded_matchit = 1
 
 source $LOCALAPPDATA\nvim\vim-plug\plugins.vim
 source $LOCALAPPDATA\nvim\general\settings.vim

@@ -52,6 +52,7 @@ let g:vimwiki_table_mappings = 0
 augroup VimWikiGroup
     autocmd!
     autocmd filetype vimwiki
+                \ setlocal isk+=*|
                 \ nmap <buffer> <leader>d <C-Space>|
                 \ setlocal fdm=expr|
                 \ noremap <buffer> <F5> :exec 'silent !start chrome "%:p"'<CR>|

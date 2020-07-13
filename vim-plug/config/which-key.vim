@@ -1,5 +1,5 @@
 call which_key#register('<Space>', "g:which_key_map")
-set timeoutlen=500
+set timeoutlen=1000
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 nnoremap <leader>ri :PlugInstall<CR>
 nnoremap <leader>rc :PlugClean<CR>

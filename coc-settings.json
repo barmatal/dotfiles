@@ -1,5 +1,5 @@
 {
-  "snippets.ultisnips.enable": true,
+  "snippets.ultisnips.enable": false,
   "snippets.snipmate.enable": true,
   "coc.source.around.enable": false,
   "coc.source.buffer.enable": false,

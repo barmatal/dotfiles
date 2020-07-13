@@ -49,6 +49,7 @@ if !exists('g:vscode')
   Plug 'mhinz/vim-signify'
   Plug 'APZelos/blamer.nvim', { 'on':  'BlamerToggle' }                    " Inline blame
   Plug 'barmatal/vim-snippets'
+  Plug 'SirVer/ultisnips'
   Plug 'neoclide/coc.nvim',{'branch': 'release'} " Autocompletion and snippets
   " }}}
 

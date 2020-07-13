@@ -78,8 +78,9 @@ let g:coc_snippet_next = '<tab>'
 let g:coc_global_extensions = [
             \ 'coc-tsserver',
             \ 'coc-tslint',
-            \ 'coc-snippets',
             \ 'coc-pairs',
+            \ 'coc-ultisnips',
+            \ 'coc-snippets',
             \ 'coc-html',
             \ 'coc-css',
             \ 'coc-prettier',

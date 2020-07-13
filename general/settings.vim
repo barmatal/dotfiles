@@ -6,6 +6,10 @@ syntax enable
 filetype plugin indent on
 let g:which_key_map =  {}
 
+" Python versions
+let g:python_host_prog='C:/Python27/python.exe'
+let g:python3_host_prog='C:/Python38/python.exe'
+
 " Helper function to remap command mode aliases
 fun! SetupCommandAlias(from, to)
   exec 'cnoreabbrev <expr> '.a:from

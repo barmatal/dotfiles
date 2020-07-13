@@ -75,12 +75,13 @@ let g:which_key_map.a = {
 " Settings {{{
 set pyxversion=3
 let g:coc_snippet_next = '<tab>'
+let g:UltiSnipsExpandTrigger="<cr>"
 let g:coc_global_extensions = [
             \ 'coc-tsserver',
             \ 'coc-tslint',
             \ 'coc-pairs',
-            \ 'coc-ultisnips',
             \ 'coc-snippets',
+            \ 'coc-ultisnips',
             \ 'coc-html',
             \ 'coc-css',
             \ 'coc-prettier',

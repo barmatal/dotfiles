@@ -28,4 +28,5 @@ if !exists('g:vscode')
     source $LOCALAPPDATA\nvim\vim-plug\config\git.vim
     source $LOCALAPPDATA\nvim\vim-plug\config\fzf.vim
     source $LOCALAPPDATA\nvim\vim-plug\config\coc.vim
+    source $LOCALAPPDATA\nvim\vim-plug\config\dotoo.vim
 endif

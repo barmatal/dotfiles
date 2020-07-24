@@ -2,6 +2,11 @@
 call SetupCommandAlias("lb", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos -U")
 call SetupCommandAlias("lc", "let g:ledger_winpos = 'R'<CR>:Ledger bal Activos Pasivos")
 call SetupCommandAlias("lr", "let g:ledger_winpos = 'B'<CR>:Ledger register -U")
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 " }}}
 
 " Autocommand {{{

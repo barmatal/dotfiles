@@ -57,6 +57,7 @@ nmap <leader>af  <Plug>(coc-fix-current)
 nmap <leader>ap :call CocAction('format')<cr>
 nmap <leader>ao :call CocAction('runCommand', 'editor.action.organizeImport')
 nnoremap <silent> <leader>ac  :<C-u>CocList commands<cr>
+nnoremap <silent> <leader>as :UltiSnipsEdit!<cr>
 
 " WhichKey
 let g:which_key_map.a = {
@@ -67,6 +68,7 @@ let g:which_key_map.a = {
             \ 'k' : 'prev-diagnostic',
             \ 'f' : 'fix-current-line',
             \ 'p' : 'pretty',
+            \ 's' : 'snippets',
             \ 'o' : 'organize-imports',
             \ 'c' : 'commands',
             \ }
@@ -75,7 +77,7 @@ let g:which_key_map.a = {
 " Settings {{{
 set pyxversion=3
 let g:coc_snippet_next = '<tab>'
-let g:UltiSnipsExpandTrigger="<cr>"
+let g:UltiSnipsExpandTrigger="<c-l>"
 let g:coc_global_extensions = [
             \ 'coc-tsserver',
             \ 'coc-tslint',

@@ -109,6 +109,9 @@ set nofixeol
 " Find in subfolders (when you know the name of the file)
 set path+=**
 
+" Avoid letting netrw window opened by default
+let g:netrw_fastbrowse = 0
+
 " }}}
 
 " Search {{{

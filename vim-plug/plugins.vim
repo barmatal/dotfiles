@@ -22,6 +22,7 @@ if !exists('g:vscode')
   Plug 'sheerun/vim-polyglot'                   " Open different formats
   Plug 'vimwiki/vimwiki'                        " Vimwiki and markdown filetype
   Plug 'ferrine/md-img-paste.vim'
+  Plug 'dhruvasagar/vim-dotoo'
   " }}}
 
   " Additional functionality {{{

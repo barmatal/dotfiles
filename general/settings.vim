@@ -1,6 +1,7 @@
 " Prerequisites {{{
 " Space is leader
 let mapleader=' '
+let maplocalleader=','
 set nocompatible        " be iMproved, required
 syntax enable
 filetype plugin indent on
@@ -100,7 +101,7 @@ set splitbelow splitright
 
 " Autoread file
 set autoread
-" au CursorHold * checktime
+au CursorHold * checktime
 
 " Do not add end of line to documents
 set noeol

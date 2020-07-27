@@ -1,6 +1,6 @@
 " Helper functions
 function! AutoSaveByFiletype()
-    if &filetype != "ledger" && &filetype != "markdown" && &filetype != "taskpaper" && &filetype != "vimwiki"
+    if &filetype != "ledger" && &filetype != "dotoo" && &filetype != "vimwiki"
         let g:auto_save_abort = 1
     endif
 endfunction

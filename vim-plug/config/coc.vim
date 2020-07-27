@@ -77,7 +77,11 @@ let g:which_key_map.a = {
 " Settings {{{
 set pyxversion=3
 let g:coc_snippet_next = '<tab>'
+<<<<<<< HEAD
 let g:UltiSnipsExpandTrigger="<c-l>"
+=======
+let g:UltiSnipsExpandTrigger="<c-space>"
+>>>>>>> 13308d9ee30a4222376c823f3c767ec872976827
 let g:coc_global_extensions = [
             \ 'coc-tsserver',
             \ 'coc-tslint',

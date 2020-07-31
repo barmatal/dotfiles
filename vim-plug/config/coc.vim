@@ -14,18 +14,18 @@
 " " }}}
 
 " " Mappings {{{
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gr <Plug>(coc-references)
-" nmap <silent> ge <Plug>(coc-diagnostic-next)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> ga <Plug>(coc-codeaction-line)
-" vmap <silent> ga <Plug>(coc-codeaction-selected)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> ge <Plug>(coc-diagnostic-next)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> ga <Plug>(coc-codeaction-line)
+vmap <silent> ga <Plug>(coc-codeaction-selected)
 " " Symbol renaming.
-" nmap <f2> <Plug>(coc-rename)
+nmap <f2> <Plug>(coc-rename)
 " " Find symbol of current document.
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-" " inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
+" inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
 " inoremap <expr> <c-j> pumvisible() ? "\<C-n>" : "\<C-j>u\<CR>"
 " inoremap <expr> <c-k> pumvisible() ? "\<C-p>" : "\<C-k>u\<c-CR>"
 

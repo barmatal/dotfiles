@@ -115,6 +115,7 @@ nmap ge '.
 
 nmap <silent> <leader>rr :w<CR>:source $MYVIMRC<CR>
 nnoremap <C-s> :%s//gIc<Left><Left><Left><Left>
+vnoremap <C-s> :s/\%V/gIc<Left><Left><Left><Left>
 
 " Better navigation on command autocomplete
 cmap <c-j> <c-n>

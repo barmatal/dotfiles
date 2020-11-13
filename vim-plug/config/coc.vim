@@ -1,33 +1,33 @@
-" Helper functions {{{
-function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    else
-        call CocAction('doHover')
-    endif
-endfunction
+" " Helper functions {{{
+" function! s:show_documentation()
+"     if (index(['vim','help'], &filetype) >= 0)
+"         execute 'h '.expand('<cword>')
+"     else
+"         call CocAction('doHover')
+"     endif
+" endfunction
 
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-" }}}
+" function! s:check_back_space() abort
+"     let col = col('.') - 1
+"     return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+" " }}}
 
-" Mappings {{{
+" " Mappings {{{
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> ge <Plug>(coc-diagnostic-next)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> ga <Plug>(coc-codeaction-line)
 vmap <silent> ga <Plug>(coc-codeaction-selected)
-" Symbol renaming.
+" " Symbol renaming.
 nmap <f2> <Plug>(coc-rename)
-" Find symbol of current document.
+" " Find symbol of current document.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
-inoremap <expr> <c-j> pumvisible() ? "\<C-n>" : "\<C-j>u\<CR>"
-inoremap <expr> <c-k> pumvisible() ? "\<C-p>" : "\<C-k>u\<c-CR>"
+" inoremap <expr> <c-j> pumvisible() ? "\<C-n>" : "\<C-j>u\<CR>"
+" inoremap <expr> <c-k> pumvisible() ? "\<C-p>" : "\<C-k>u\<c-CR>"
 
 inoremap <silent><expr> <TAB>
             \ pumvisible() ? coc#_select_confirm() :
@@ -57,6 +57,7 @@ nmap <leader>af  <Plug>(coc-fix-current)
 nmap <leader>ap :call CocAction('format')<cr>
 nmap <leader>ao :call CocAction('runCommand', 'editor.action.organizeImport')
 nnoremap <silent> <leader>ac  :<C-u>CocList commands<cr>
+nnoremap <silent> <leader>as :UltiSnipsEdit!<cr>
 
 " WhichKey
 let g:which_key_map.a = {
@@ -67,6 +68,7 @@ let g:which_key_map.a = {
             \ 'k' : 'prev-diagnostic',
             \ 'f' : 'fix-current-line',
             \ 'p' : 'pretty',
+            \ 's' : 'snippets',
             \ 'o' : 'organize-imports',
             \ 'c' : 'commands',
             \ }

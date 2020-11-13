@@ -5,7 +5,7 @@ let g:which_key_map.s = 'startify'
 " Settings
 let g:startify_fortune_use_unicode = 1
 let g:startify_bookmarks = [
-                        \ {'d': '~\Nextcloud\Config\DevScripts'},
+                        \ {'p': '~\Nextcloud\Config\DevScripts\pr-create.bat'},
                         \ {'i': '~\Nextcloud\Wiki\index.md'},
                         \ {'t': '~\Nextcloud\Wiki\Temp.md'},
                         \ {'r': '~\AppData\Local\nvim\init.vim'},

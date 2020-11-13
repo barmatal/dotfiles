@@ -6,6 +6,7 @@
 "
 " Optimized based on https://github.com/ChristianChiarulli/nvim
 
+
 source $LOCALAPPDATA\nvim\vim-plug\plugins.vim
 source $LOCALAPPDATA\nvim\general\settings.vim
 source $LOCALAPPDATA\nvim\general\mappings.vim

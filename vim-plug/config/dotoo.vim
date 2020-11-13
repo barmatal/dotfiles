@@ -3,7 +3,9 @@ autocmd BufNewFile,BufRead,BufEnter *.org setf dotoo
 augroup DoTooGroup
                 autocmd!
                 autocmd filetype dotoo
-                                \ setlocal noautoindent nocindent nosmartindent indentexpr=
+                                \ setlocal isk+=-|
+                                \ setlocal noautoindent nocindent nosmartindent indentexpr=|
+                                \ nmap <buffer> <silent> <leader>d cit
 augroup END
 " }}}
 
@@ -11,13 +13,11 @@ augroup END
 let g:dotoo#agenda#warning_days = '3d'
 let g:dotoo#agenda#files = ['~/Nextcloud/Org/*.org']
 let g:dotoo#time#time_ago_short = 0
-let g:dotoo#capture#refile = 'C:\Users\barma\Nextcloud\Org\_Inbox.org'
+let g:dotoo#capture#refile = expand("~/Nextcloud/Org/_Inbox.org")
 let g:dotoo#parser#todo_keywords = [
                                 \ 'TODO',
                                 \ 'NEXT',
                                 \ 'WAITING',
-                                \ 'PHONE',
-                                \ 'MEETING',
                                 \ '|',
                                 \ 'CANCELLED',
                                 \ 'DONE']
@@ -55,4 +55,11 @@ let g:dotoo#capture#templates = {
 
 let g:dotoo#capture#clock = 0
 let g:dotoo_headline_shade_leading_stars = 1
+" }}}
+
+" Mappings {{{1 "
+
+" Quick capture todo
+nmap <leader><leader> gCt
+
 " }}}
